@@ -31,5 +31,11 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.pdb
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.genruntimeconfig.cache
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/ref/HotelWebAPI.dll
-/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
-/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/DAL.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/DTOs.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/EntityLayer.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Service.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/EntityLayer.pdb
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/DAL.pdb
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Service.pdb
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/DTOs.pdb

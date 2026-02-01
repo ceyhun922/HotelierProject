@@ -1,11 +1,62 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "DAL/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/DAL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DAL.dll": {}
+        }
+      },
+      "DTOs/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/DTOs.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DTOs.dll": {}
+        }
+      },
+      "EntityLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/EntityLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EntityLayer.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "DAL/1.0.0": {
+      "type": "project",
+      "path": "../DAL/DAL.csproj",
+      "msbuildProject": "../DAL/DAL.csproj"
+    },
+    "DTOs/1.0.0": {
+      "type": "project",
+      "path": "../DTOs/DTOs.csproj",
+      "msbuildProject": "../DTOs/DTOs.csproj"
+    },
+    "EntityLayer/1.0.0": {
+      "type": "project",
+      "path": "../EntityLayer/EntityLayer.csproj",
+      "msbuildProject": "../EntityLayer/EntityLayer.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "DAL >= 1.0.0",
+      "DTOs >= 1.0.0",
+      "EntityLayer >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "/Users/ceyhunyusif/.nuget/packages/": {}
@@ -32,7 +83,17 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/ceyhunyusif/Documents/Hotelier/DAL/DAL.csproj": {
+              "projectPath": "/Users/ceyhunyusif/Documents/Hotelier/DAL/DAL.csproj"
+            },
+            "/Users/ceyhunyusif/Documents/Hotelier/DTOs/DTOs.csproj": {
+              "projectPath": "/Users/ceyhunyusif/Documents/Hotelier/DTOs/DTOs.csproj"
+            },
+            "/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/EntityLayer.csproj": {
+              "projectPath": "/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/EntityLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

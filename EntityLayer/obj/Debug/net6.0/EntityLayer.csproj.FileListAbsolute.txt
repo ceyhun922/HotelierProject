@@ -1,0 +1,12 @@
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/bin/Debug/net6.0/EntityLayer.deps.json
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/bin/Debug/net6.0/EntityLayer.dll
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/bin/Debug/net6.0/EntityLayer.pdb
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.AssemblyInfoInputs.cache
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.AssemblyInfo.cs
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.csproj.CoreCompileInputs.cache
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.sourcelink.json
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.dll
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/refint/EntityLayer.dll
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/EntityLayer.pdb
+/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/obj/Debug/net6.0/ref/EntityLayer.dll
