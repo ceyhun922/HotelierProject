@@ -734,6 +734,16 @@
             "rid": "win"
           }
         }
+      },
+      "EntityLayer/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/EntityLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EntityLayer.dll": {}
+        }
       }
     }
   },
@@ -1898,10 +1908,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "EntityLayer/1.0.0": {
+      "type": "project",
+      "path": "../EntityLayer/EntityLayer.csproj",
+      "msbuildProject": "../EntityLayer/EntityLayer.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "EntityLayer >= 1.0.0",
       "Microsoft.EntityFrameworkCore >= 6.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.0"
     ]
@@ -1931,7 +1947,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/EntityLayer.csproj": {
+              "projectPath": "/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/EntityLayer.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

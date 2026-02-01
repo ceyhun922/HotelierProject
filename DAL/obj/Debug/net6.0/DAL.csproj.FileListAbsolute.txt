@@ -11,3 +11,6 @@
 /Users/ceyhunyusif/Documents/Hotelier/DAL/obj/Debug/net6.0/DAL.pdb
 /Users/ceyhunyusif/Documents/Hotelier/DAL/obj/Debug/net6.0/ref/DAL.dll
 /Users/ceyhunyusif/Documents/Hotelier/DAL/obj/Debug/net6.0/DAL.csproj.AssemblyReference.cache
+/Users/ceyhunyusif/Documents/Hotelier/DAL/bin/Debug/net6.0/EntityLayer.dll
+/Users/ceyhunyusif/Documents/Hotelier/DAL/bin/Debug/net6.0/EntityLayer.pdb
+/Users/ceyhunyusif/Documents/Hotelier/DAL/obj/Debug/net6.0/DAL.csproj.Up2Date
