@@ -22,7 +22,7 @@ namespace DAL.GenericRepository
 
         public async Task<List<T>> GetAllFilterAsync(Expression<Func<T, bool>> filter)
         {
-            return  _context.Set<T>().ToList();
+            return  _context.Set<T>().Where(filter).ToList();
         }
 
         public async Task<T> GetByIdAsync(int id)

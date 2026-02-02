@@ -21,7 +21,7 @@ namespace HotelWebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.About", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.About", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +46,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Abouts");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.AboutImage", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.AboutImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,7 +67,32 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("AboutImages");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Contact", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Charge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Charges");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -113,7 +138,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Room", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,32 +175,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Service", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Slider", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,7 +200,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Staff", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Staff", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -234,7 +234,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Staffs");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Testimonial", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Testimonial", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,9 +262,9 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Testimonials");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.AboutImage", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.AboutImage", b =>
                 {
-                    b.HasOne("Hotelier.EntityLayer.Concrete.About", "About")
+                    b.HasOne("EntityLayer.Concrete.About", "About")
                         .WithMany()
                         .HasForeignKey("AboutId")
                         .OnDelete(DeleteBehavior.Cascade)

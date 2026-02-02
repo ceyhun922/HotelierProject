@@ -1,4 +1,5 @@
-using Hotelier.EntityLayer.Concrete;
+
+using EntityLayer.Concrete;
 
 namespace Hotelier.DAL.Abstract
 {

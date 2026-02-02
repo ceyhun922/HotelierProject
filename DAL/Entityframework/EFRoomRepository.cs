@@ -1,7 +1,7 @@
 using DAL.GenericRepository;
 using Hotelier.DAL.Abstract;
 using Hotelier.DAL.Concrete;
-using Hotelier.EntityLayer.Concrete;
+using EntityLayer.Concrete;
 
 namespace DAL.Entityframework
 {

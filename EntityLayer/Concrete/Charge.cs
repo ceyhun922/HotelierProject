@@ -1,6 +1,6 @@
-namespace Hotelier.EntityLayer.Concrete
+namespace EntityLayer.Concrete
 {
-    public class Service
+    public class Charge
     {
         public int Id { get; set; }
         public string? Icon { get; set; }

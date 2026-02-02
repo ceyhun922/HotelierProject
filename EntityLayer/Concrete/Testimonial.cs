@@ -1,4 +1,4 @@
-namespace Hotelier.EntityLayer.Concrete
+namespace EntityLayer.Concrete
 {
     public class Testimonial
     {

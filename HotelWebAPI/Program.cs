@@ -1,3 +1,6 @@
+using DAL.Entityframework;
+using DAL.GenericRepository;
+using Hotelier.DAL.Abstract;
 using Hotelier.DAL.Concrete;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +15,7 @@ builder.Services.AddDbContext<ApiContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), t=>t.MigrationsAssembly("HotelWebAPI"));
 });
+
 
 var app = builder.Build();
 
