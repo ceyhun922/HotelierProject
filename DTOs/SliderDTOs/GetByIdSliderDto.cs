@@ -1,6 +1,6 @@
 namespace DTOs.SliderDTOs
 {
-    partial class GetByIdSliderDto
+    public class GetByIdSliderDto
     {
         public int Id { get; set; }
         public string? ImageUrl { get; set; }

@@ -1,6 +1,6 @@
 namespace DTOs.AboutImageDTOs
 {
-    public class UpdateAboutImage
+    public class UpdateAboutImageDto
     {
         public int Id { get; set; }
         public string? AboutImageUrl { get; set; }

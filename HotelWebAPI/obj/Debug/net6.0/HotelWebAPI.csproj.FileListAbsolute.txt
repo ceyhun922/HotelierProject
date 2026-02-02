@@ -72,3 +72,15 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.pdb
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.genruntimeconfig.cache
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/ref/HotelWebAPI.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/AutoMapper.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Bcl.HashCode.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Bcl.TimeProvider.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Extensions.Options.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Extensions.Primitives.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/System.Diagnostics.DiagnosticSource.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/System.Runtime.CompilerServices.Unsafe.dll
