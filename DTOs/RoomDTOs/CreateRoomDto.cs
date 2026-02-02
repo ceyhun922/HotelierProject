@@ -2,7 +2,7 @@ namespace DTOs.RoomDTOs
 {
     public class CreateRoomDto
     {
-        public string? Type { get; set; }
+        public int RoomTypeId { get; set; }
         public string? Price { get; set; }
         public int BedCount { get; set; }
         public int BathCount { get; set; }

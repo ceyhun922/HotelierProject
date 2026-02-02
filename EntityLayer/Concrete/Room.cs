@@ -3,7 +3,6 @@ namespace EntityLayer.Concrete
     public class Room
     {
         public int Id { get; set; }
-        public string? Type { get; set; }
         public string? Price { get; set; }
         public int BedCount { get; set; }
         public int BathCount { get; set; }
@@ -11,6 +10,11 @@ namespace EntityLayer.Concrete
         public string? Description { get; set; }
         public string? ImageUrl {get;set;}
         public bool Status { get; set; } = false;
+
+        public int RoomTypeId { get; set; }
+
+        public RoomType? RoomType {get;set;}
+
 
     }
 }

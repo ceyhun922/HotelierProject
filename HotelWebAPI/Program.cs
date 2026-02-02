@@ -5,6 +5,7 @@ using DAL.GenericRepository;
 using Hotelier.DAL.Abstract;
 using Hotelier.DAL.Concrete;
 using Microsoft.EntityFrameworkCore;
+using Service.Abstract;
 using Service.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IRoomDal, EFRoomRepository>();
 builder.Services.AddScoped<ISliderDal, EFSliderRepository>();
 builder.Services.AddScoped<IStaffDal, EFStaffRepository>();
 builder.Services.AddScoped<ITestimonialDal, EFTestimonialRepository>();
+builder.Services.AddScoped<IRoomTypeDal, EFRoomTypeRepository>();
 
 builder.Services.AddScoped<IAboutService , AboutManager>();
 builder.Services.AddScoped<IAboutImageService , AboutImageManager>();
@@ -37,7 +39,9 @@ builder.Services.AddScoped<IRoomService , RoomManager>();
 builder.Services.AddScoped<ISliderService , SliderManager>();
 builder.Services.AddScoped<IStafService , StaffManager>();
 builder.Services.AddScoped<ITestimonialService , TestimonialManager>();
+builder.Services.AddScoped<IRoomTypeService , RoomTypeManager>();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

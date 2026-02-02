@@ -164,15 +164,40 @@ namespace HotelWebAPI.Migrations
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Rooms");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rooms");
+                    b.ToTable("RoomTypes");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Slider", b =>
@@ -271,6 +296,22 @@ namespace HotelWebAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("About");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.RoomType", "RoomType")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }
