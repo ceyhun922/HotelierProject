@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class TestimonialManager : IGenericService<Testimonial>
+    public class TestimonialManager : ITestimonialService
     {
         private readonly ITestimonialDal _testimonialDal;
 

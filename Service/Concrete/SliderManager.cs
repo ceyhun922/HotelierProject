@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class SliderManager : IGenericService<Slider>
+    public class SliderManager : ISliderService
     {
         private readonly ISliderDal _sliderDal;
 
@@ -41,7 +40,7 @@ namespace Service.Concrete
 
         public async Task UpdateServiceAsync(Slider t)
         {
-            await _SliderDal.UpdateAsync(t);
+            await _sliderDal.UpdateAsync(t);
         }
     }
 }

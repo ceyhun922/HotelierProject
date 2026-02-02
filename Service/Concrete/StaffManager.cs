@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class StaffManager : IGenericService<Staff>
+    public class StaffManager : IStafService
     {
         public readonly IStaffDal _staffDal;
 

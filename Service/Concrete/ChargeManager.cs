@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using DAL.Abstract;
 using EntityLayer.Concrete;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class ChargeManager : IGenericService<Charge>
+    public class ChargeManager : IChargeService
     {
         private readonly IChargeDal _chargeDal;
 

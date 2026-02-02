@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class AboutImageManager : IGenericService<AboutImage>
+    public class AboutImageManager : IAboutImageService
     {
 
         private readonly IAboutImageDal _aboutImageDal;

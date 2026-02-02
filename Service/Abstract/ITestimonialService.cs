@@ -1,6 +1,7 @@
+
 using EntityLayer.Concrete;
 
-namespace Service.Abstract
+namespace Service.Concrete
 {
     public interface ITestimonialService : IGenericService<Testimonial>
     {

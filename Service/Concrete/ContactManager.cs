@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class ContactManager : IGenericService<Contact>
+    public class ContactManager : IContactService
     {
          private readonly IContactDal _contactDal;
 

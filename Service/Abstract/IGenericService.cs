@@ -1,6 +1,8 @@
+
+
 using System.Linq.Expressions;
 
-namespace Service.Abstract
+namespace Service.Concrete
 {
     public interface IGenericService<T> 
     {

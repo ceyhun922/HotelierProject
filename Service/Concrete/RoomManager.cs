@@ -1,11 +1,10 @@
 using System.Linq.Expressions;
 using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
-using Service.Abstract;
 
 namespace Service.Concrete
 {
-    public class RoomManager : IGenericService<Room>
+    public class RoomManager : IRoomService
     {
         private readonly IRoomDal _roomDal;
 
