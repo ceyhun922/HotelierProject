@@ -8,7 +8,7 @@ namespace EntityLayer.Concrete
         public string? Description { get; set; }
         public bool Status { get; set; } = false;
 
-        List<AboutImage>? AboutImages {get;set;}
+        public List<AboutImage>? AboutImages {get;set;}
 
     }
 }

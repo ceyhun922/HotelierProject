@@ -29,7 +29,6 @@ namespace HotelWebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-
         public async Task<IActionResult> GetByIdAbout(int id)
         {
             var value = await _aboutService.GetByIdAsync(id);
@@ -58,6 +57,10 @@ namespace HotelWebAPI.Controllers
         public async Task<IActionResult> CreateAbout(CreateAboutDto dto)
         {
             var mapper =_mapper.Map<About>(dto);
+
+            mapper.AboutImages = dto.AboutImageUrls?
+            .Select(url => new AboutImage { AboutImageUrl = url })
+            .ToList();
 
             await _aboutService.InsertServiceAsync(mapper);
 

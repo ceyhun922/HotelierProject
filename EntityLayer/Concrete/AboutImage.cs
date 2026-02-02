@@ -9,6 +9,6 @@ namespace EntityLayer.Concrete
         public string? AboutImageUrl { get; set; }
 
         public int AboutId {get;set;}
-        public About About {get;set;}
+        public About? About {get;set;}
     }
 }
