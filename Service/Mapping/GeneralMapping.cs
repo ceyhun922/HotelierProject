@@ -6,6 +6,7 @@ using DTOs.ChargeDTOs;
 using DTOs.ContactDTOs;
 using DTOs.FooterDTOs;
 using DTOs.RoomDTOs;
+using DTOs.RoomTypeDTOs;
 using DTOs.SliderDTOs;
 using DTOs.StaffDTOs;
 using DTOs.TestimonialDTOs;
@@ -47,6 +48,11 @@ namespace Service.Mapping
             CreateMap<Room, CreateRoomDto>().ReverseMap();
             CreateMap<Room, GetByIdRoomDto>().ReverseMap();
             CreateMap<Room, UpdateRoomDto>().ReverseMap();
+            //RoomType
+            CreateMap<RoomType, ResultRoomTypeDto>().ReverseMap();
+            CreateMap<RoomType, CreateRoomTypeDto>().ReverseMap();
+            CreateMap<RoomType, GetByIdRoomTypeDto>().ReverseMap();
+            CreateMap<RoomType, UpdateRoomTypeDto>().ReverseMap();
             //Slider
             CreateMap<Slider, ResultSliderDto>().ReverseMap();
             CreateMap<Slider, CreateSliderDto>().ReverseMap();
