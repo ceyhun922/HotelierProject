@@ -66,7 +66,7 @@ namespace HotelWebAPI.Controllers
             return Ok(new {message ="Güncellendi"});
         }
 
-        [HttpDelete("delete-tstimonial")]
+        [HttpDelete("delete-testimonial")]
         public async Task<IActionResult> DeleteTestimonial(int id)
         {
             var entity =await _testimonialService.GetByIdAsync(id);

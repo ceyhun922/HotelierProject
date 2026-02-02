@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{C36971E7-1E3D-4F20-A6B4-A3FDB6C939D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelUI", "HotelUI\HotelUI.csproj", "{3D117FE8-9B0B-4CB4-AEEB-CBCBAC19686B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,16 @@ Global
 		{C36971E7-1E3D-4F20-A6B4-A3FDB6C939D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C36971E7-1E3D-4F20-A6B4-A3FDB6C939D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C36971E7-1E3D-4F20-A6B4-A3FDB6C939D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85E4BD37-0392-4E38-B339-23C95A968395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85E4BD37-0392-4E38-B339-23C95A968395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85E4BD37-0392-4E38-B339-23C95A968395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85E4BD37-0392-4E38-B339-23C95A968395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D117FE8-9B0B-4CB4-AEEB-CBCBAC19686B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D117FE8-9B0B-4CB4-AEEB-CBCBAC19686B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D117FE8-9B0B-4CB4-AEEB-CBCBAC19686B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D117FE8-9B0B-4CB4-AEEB-CBCBAC19686B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{85E4BD37-0392-4E38-B339-23C95A968395} = {E53C2B1B-5F03-456B-A974-B5F43D60FA19}
 	EndGlobalSection
 EndGlobal
