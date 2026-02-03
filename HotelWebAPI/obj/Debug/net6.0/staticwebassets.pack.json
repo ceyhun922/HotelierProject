@@ -1,0 +1,49 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/237bc431-1a20-4d00-9779-997bc382beec.jpg",
+      "PackagePath": "staticwebassets/images/237bc431-1a20-4d00-9779-997bc382beec.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/62d99af8-1679-45bc-8f59-dbc20cf440b8.jpg",
+      "PackagePath": "staticwebassets/images/62d99af8-1679-45bc-8f59-dbc20cf440b8.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/6394277e-466d-417f-8c3b-7969cc5f7d97.jpg",
+      "PackagePath": "staticwebassets/images/6394277e-466d-417f-8c3b-7969cc5f7d97.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/7b23f4b4-b120-4e7c-85dd-14cbf9e5ceb9.jpg",
+      "PackagePath": "staticwebassets/images/7b23f4b4-b120-4e7c-85dd-14cbf9e5ceb9.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/959a7dfd-4d4a-4721-8579-a96ac587fae5.jpg",
+      "PackagePath": "staticwebassets/images/959a7dfd-4d4a-4721-8579-a96ac587fae5.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg",
+      "PackagePath": "staticwebassets/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg",
+      "PackagePath": "staticwebassets/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.HotelWebAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.build.HotelWebAPI.props",
+      "PackagePath": "build\\HotelWebAPI.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.buildMultiTargeting.HotelWebAPI.props",
+      "PackagePath": "buildMultiTargeting\\HotelWebAPI.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.HotelWebAPI.props",
+      "PackagePath": "buildTransitive\\HotelWebAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

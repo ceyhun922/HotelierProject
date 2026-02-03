@@ -1,0 +1,16 @@
+@{
+    Layout ="_Layout";
+}
+
+<form action="UploadFile" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="">
+    <button type="submit">Ekle</button>
+</form>
+
+
+
+ @if (ViewBag.ImageUrl != null)
+ {
+    <img  src="@ViewBag.ImageUrl"/>
+         <div class="k">Yüklendi</div>
+ }

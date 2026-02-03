@@ -21093,6 +21093,206 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/Hotelier.jpg",
+      "PackagePath": "staticwebassets/web/Hotelier.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/LICENSE.txt",
+      "PackagePath": "staticwebassets/web/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/READ-ME.txt",
+      "PackagePath": "staticwebassets/web/READ-ME.txt"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/about.html",
+      "PackagePath": "staticwebassets/web/about.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/booking.html",
+      "PackagePath": "staticwebassets/web/booking.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/contact.html",
+      "PackagePath": "staticwebassets/web/contact.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/web/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/css/style.css",
+      "PackagePath": "staticwebassets/web/css/style.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/about-1.jpg",
+      "PackagePath": "staticwebassets/web/img/about-1.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/about-2.jpg",
+      "PackagePath": "staticwebassets/web/img/about-2.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/about-3.jpg",
+      "PackagePath": "staticwebassets/web/img/about-3.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/about-4.jpg",
+      "PackagePath": "staticwebassets/web/img/about-4.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/carousel-1.jpg",
+      "PackagePath": "staticwebassets/web/img/carousel-1.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/carousel-2.jpg",
+      "PackagePath": "staticwebassets/web/img/carousel-2.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/room-1.jpg",
+      "PackagePath": "staticwebassets/web/img/room-1.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/room-2.jpg",
+      "PackagePath": "staticwebassets/web/img/room-2.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/room-3.jpg",
+      "PackagePath": "staticwebassets/web/img/room-3.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/img/video.jpg",
+      "PackagePath": "staticwebassets/web/img/video.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/index.html",
+      "PackagePath": "staticwebassets/web/index.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/js/main.js",
+      "PackagePath": "staticwebassets/web/js/main.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/animate/animate.css",
+      "PackagePath": "staticwebassets/web/lib/animate/animate.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/animate/animate.min.css",
+      "PackagePath": "staticwebassets/web/lib/animate/animate.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/counterup/counterup.min.js",
+      "PackagePath": "staticwebassets/web/lib/counterup/counterup.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/easing/easing.js",
+      "PackagePath": "staticwebassets/web/lib/easing/easing.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/easing/easing.min.js",
+      "PackagePath": "staticwebassets/web/lib/easing/easing.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/LICENSE",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/ajax-loader.gif",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/ajax-loader.gif"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.carousel.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.carousel.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.carousel.min.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.carousel.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.theme.default.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.theme.default.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.theme.default.min.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.theme.default.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.theme.green.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.theme.green.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.theme.green.min.css",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.theme.green.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/assets/owl.video.play.png",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/assets/owl.video.play.png"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/owl.carousel.js",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/owl.carousel.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/owlcarousel/owl.carousel.min.js",
+      "PackagePath": "staticwebassets/web/lib/owlcarousel/owl.carousel.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/css/tempusdominus-bootstrap-4.css",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/css/tempusdominus-bootstrap-4.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/js/moment-timezone.min.js",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/js/moment-timezone.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/js/moment.min.js",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/js/moment.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/js/tempusdominus-bootstrap-4.js",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/js/tempusdominus-bootstrap-4.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js",
+      "PackagePath": "staticwebassets/web/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/waypoints/links.php",
+      "PackagePath": "staticwebassets/web/lib/waypoints/links.php"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/waypoints/waypoints.min.js",
+      "PackagePath": "staticwebassets/web/lib/waypoints/waypoints.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/wow/wow.js",
+      "PackagePath": "staticwebassets/web/lib/wow/wow.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/lib/wow/wow.min.js",
+      "PackagePath": "staticwebassets/web/lib/wow/wow.min.js"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/room.html",
+      "PackagePath": "staticwebassets/web/room.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/service.html",
+      "PackagePath": "staticwebassets/web/service.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/team.html",
+      "PackagePath": "staticwebassets/web/team.html"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/web/testimonial.html",
+      "PackagePath": "staticwebassets/web/testimonial.html"
+    },
+    {
       "Id": "obj/Debug/net6.0/staticwebassets/msbuild.HotelUI.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

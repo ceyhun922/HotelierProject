@@ -30,6 +30,7 @@ builder.Services.AddScoped<ISliderDal, EFSliderRepository>();
 builder.Services.AddScoped<IStaffDal, EFStaffRepository>();
 builder.Services.AddScoped<ITestimonialDal, EFTestimonialRepository>();
 builder.Services.AddScoped<IRoomTypeDal, EFRoomTypeRepository>();
+builder.Services.AddScoped<ITeamDal, EFTeamRepository>();
 
 builder.Services.AddScoped<IAboutService , AboutManager>();
 builder.Services.AddScoped<IAboutImageService , AboutImageManager>();
@@ -40,6 +41,7 @@ builder.Services.AddScoped<ISliderService , SliderManager>();
 builder.Services.AddScoped<IStafService , StaffManager>();
 builder.Services.AddScoped<ITestimonialService , TestimonialManager>();
 builder.Services.AddScoped<IRoomTypeService , RoomTypeManager>();
+builder.Services.AddScoped<ITeamService , TeamManager>();
 
 builder.Services.AddCors(opt =>
 {

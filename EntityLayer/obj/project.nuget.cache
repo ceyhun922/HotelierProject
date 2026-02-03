@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "8727+rubv7mGRo6L+UFfD7o4tzxjjcbFzjCPRN5k1XKP4sSU9OoVdSP3haD/y/Xl19Kqmm4zfu5kjjpBFrCv6w==",
+  "dgSpecHash": "m92CDKcrpcA=",
   "success": true,
   "projectFilePath": "/Users/ceyhunyusif/Documents/Hotelier/EntityLayer/EntityLayer.csproj",
   "expectedPackageFiles": [
-    "/Users/ceyhunyusif/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.31/microsoft.aspnetcore.app.ref.6.0.31.nupkg.sha512",
-    "/Users/ceyhunyusif/.nuget/packages/microsoft.netcore.app.ref/6.0.31/microsoft.netcore.app.ref.6.0.31.nupkg.sha512"
+    "/Users/ceyhunyusif/.nuget/packages/microsoft.netcore.app.ref/6.0.36/microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "/Users/ceyhunyusif/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.36/microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
   ],
   "logs": []
 }

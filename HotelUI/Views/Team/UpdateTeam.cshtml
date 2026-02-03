@@ -1,0 +1,15 @@
+
+@using DTOs.TeamDtos
+@model GetByIdTeamDto
+
+@using(Html.BeginForm("UpdateTeam","Team",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.FullName)
+    @Html.TextAreaFor(x=>x.Title)
+    @Html.TextAreaFor(x=>x.Sosial1)
+    @Html.TextAreaFor(x=>x.Sosial2)
+    @Html.TextAreaFor(x=>x.Sosial3)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

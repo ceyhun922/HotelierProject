@@ -1,0 +1,14 @@
+
+@using DTOs.TeamDtos
+@model CreateTeamDto
+
+@using(Html.BeginForm("CreateTeam","Team",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.FullName)
+    @Html.TextAreaFor(x=>x.Title)
+    @Html.TextAreaFor(x=>x.Sosial1)
+    @Html.TextAreaFor(x=>x.Sosial2)
+    @Html.TextAreaFor(x=>x.Sosial3)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

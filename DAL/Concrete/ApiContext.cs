@@ -15,6 +15,7 @@ namespace Hotelier.DAL.Concrete
         public DbSet<Slider>?  Sliders {get;set;}
         public DbSet<Staff>?  Staffs {get;set;}
         public DbSet<Testimonial>?  Testimonials {get;set;}
+        public DbSet<Team>?  Teams {get;set;}
         public DbSet<Charge>? Charges {get;set;}
     }
 }

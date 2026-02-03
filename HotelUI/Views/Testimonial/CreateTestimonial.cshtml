@@ -1,0 +1,11 @@
+@using DTOs.TestimonialDTOs
+@model CreateTestimonialDto
+@using(Html.BeginForm("CreateTeam","Team",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.FullName)
+    @Html.TextAreaFor(x=>x.Title)
+    @Html.TextAreaFor(x=>x.Message)
+    @Html.TextAreaFor(x=>x.Status)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}
