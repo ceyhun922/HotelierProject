@@ -1,0 +1,12 @@
+@using DTOs.ContactDTOs
+@model CreateContactDto
+
+@using(Html.BeginForm("CreateContact","Contact",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.MailBooking)
+    @Html.TextBoxFor(x=>x.MailGeneral)
+    @Html.TextBoxFor(x=>x.MailTechnical)
+    @Html.TextBoxFor(x=>x.MapLocation)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

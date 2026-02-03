@@ -42,6 +42,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hhcmdlL1VwZGF0ZUNoYXJnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Contact/ContactList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29udGFjdC9Db250YWN0TGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Contact/CreateContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29udGFjdC9DcmVhdGVDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Contact/UpdateContact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29udGFjdC9VcGRhdGVDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/File/UploadFile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRmlsZS9VcGxvYWRGaWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
