@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelWebAPI.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20260201145009_mig-1")]
+    [Migration("20260203100320_mig-1")]
     partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace HotelWebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.About", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.About", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Abouts");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.AboutImage", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.AboutImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,7 +69,32 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("AboutImages");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Contact", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Charge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Charges");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +140,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Room", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,18 +166,20 @@ namespace HotelWebAPI.Migrations
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("RoomTypeId");
 
                     b.ToTable("Rooms");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Service", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,21 +190,19 @@ namespace HotelWebAPI.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services");
+                    b.ToTable("RoomTypes");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Slider", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,7 +227,7 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Staff", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Staff", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -236,7 +261,41 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Staffs");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.Testimonial", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Testimonial", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,15 +323,36 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Testimonials");
                 });
 
-            modelBuilder.Entity("Hotelier.EntityLayer.Concrete.AboutImage", b =>
+            modelBuilder.Entity("EntityLayer.Concrete.AboutImage", b =>
                 {
-                    b.HasOne("Hotelier.EntityLayer.Concrete.About", "About")
-                        .WithMany()
+                    b.HasOne("EntityLayer.Concrete.About", "About")
+                        .WithMany("AboutImages")
                         .HasForeignKey("AboutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("About");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.RoomType", "RoomType")
+                        .WithMany("Rooms")
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.About", b =>
+                {
+                    b.Navigation("AboutImages");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }

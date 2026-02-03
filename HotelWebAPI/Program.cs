@@ -61,6 +61,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("HotelApi");
 app.UseAuthorization();
+app.UseStaticFiles();
 
 app.MapControllers();
 

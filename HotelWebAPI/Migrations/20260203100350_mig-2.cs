@@ -4,7 +4,7 @@
 
 namespace HotelWebAPI.Migrations
 {
-    public partial class mig8 : Migration
+    public partial class mig2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

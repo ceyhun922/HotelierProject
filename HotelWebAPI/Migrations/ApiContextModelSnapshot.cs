@@ -259,6 +259,40 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Staffs");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Team", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sosial3")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Teams");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Testimonial", b =>
                 {
                     b.Property<int>("Id")
