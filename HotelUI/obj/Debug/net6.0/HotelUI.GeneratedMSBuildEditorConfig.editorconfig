@@ -34,6 +34,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/RoomType/CreateRoomType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbVR5cGUvQ3JlYXRlUm9vbVR5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/RoomType/RoomTypeList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbVR5cGUvUm9vbVR5cGVMaXN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/RoomType/UpdateRoomType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbVR5cGUvVXBkYXRlUm9vbVR5cGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Shared/Components/_AdminSideBarPartials/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvX0FkbWluU2lkZUJhclBhcnRpYWxzL0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

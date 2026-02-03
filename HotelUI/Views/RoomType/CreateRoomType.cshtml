@@ -1,0 +1,10 @@
+@using DTOs.RoomTypeDTOs
+@model CreateRoomTypeDto
+
+@using(Html.BeginForm("CreateRoomType","RoomType",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Type)
+    @Html.TextAreaFor(x=>x.Description)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

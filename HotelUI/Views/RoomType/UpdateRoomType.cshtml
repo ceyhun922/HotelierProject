@@ -1,0 +1,11 @@
+@using DTOs.RoomTypeDTOs
+@model GetByIdRoomTypeDto
+
+@using(Html.BeginForm("UpdateRoomType","RoomType",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.Type)
+    @Html.TextAreaFor(x=>x.Description)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}
