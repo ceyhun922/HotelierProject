@@ -22,6 +22,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hhcmdlL0NoYXJnZUxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Charge/CreateCharge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hhcmdlL0NyZWF0ZUNoYXJnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Charge/UpdateCharge.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hhcmdlL1VwZGF0ZUNoYXJnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

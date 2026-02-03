@@ -1,0 +1,11 @@
+@using DTOs.ChargeDTOs
+@model CreateChargeDto
+
+@using(Html.BeginForm("CreateCharge","Charge",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Icon)
+    @Html.TextBoxFor(x=>x.Title)
+    @Html.TextAreaFor(x=>x.Description)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

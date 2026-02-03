@@ -41,6 +41,14 @@ builder.Services.AddScoped<IStafService , StaffManager>();
 builder.Services.AddScoped<ITestimonialService , TestimonialManager>();
 builder.Services.AddScoped<IRoomTypeService , RoomTypeManager>();
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("HotelApi",opts =>
+    {
+        opts.AllowAnyMethod().AllowAnyOrigin();
+    });
+});
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
@@ -51,7 +59,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("HotelApi");
 app.UseAuthorization();
 
 app.MapControllers();
