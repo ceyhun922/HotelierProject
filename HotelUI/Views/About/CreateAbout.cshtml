@@ -1,0 +1,12 @@
+@using DTOs.AboutDTOs
+
+@model CreateAboutDto
+
+@using(Html.BeginForm("CreateAbout","About",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Title)
+    @Html.TextBoxFor(x=>x.SubTitle)
+    @Html.TextAreaFor(x=>x.Description)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

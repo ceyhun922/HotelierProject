@@ -18,6 +18,18 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/ceyhunyusif/Documents/Hotelier/HotelUI
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/About/AboutArea.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWJvdXQvQWJvdXRBcmVhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/About/CreateAbout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWJvdXQvQ3JlYXRlQWJvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/About/UpdateAbout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWJvdXQvVXBkYXRlQWJvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Charge/ChargeList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ2hhcmdlL0NoYXJnZUxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
