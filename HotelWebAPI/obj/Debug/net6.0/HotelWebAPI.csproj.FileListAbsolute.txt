@@ -75,3 +75,4 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.genruntimeconfig.cache
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/ref/HotelWebAPI.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI.staticwebassets.runtime.json
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

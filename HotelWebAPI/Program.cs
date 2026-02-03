@@ -2,8 +2,10 @@
 using DAL.Abstract;
 using DAL.Entityframework;
 using DAL.GenericRepository;
+using EntityLayer.Concrete;
 using Hotelier.DAL.Abstract;
 using Hotelier.DAL.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Service.Abstract;
 using Service.Concrete;
@@ -19,6 +21,19 @@ builder.Services.AddDbContext<ApiContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"), t=>t.MigrationsAssembly("HotelWebAPI"));
 });
+
+builder.Services.AddIdentity<User,Role>(opt =>
+{
+    opt.Password.RequireDigit =false;
+    opt.Password.RequiredLength =0;
+    opt.Password.RequiredUniqueChars =0;
+    opt.Password.RequireLowercase =false;
+    opt.Password.RequireNonAlphanumeric =false;
+    opt.Password.RequireUppercase =false;
+})
+.AddEntityFrameworkStores<ApiContext>()
+.AddDefaultTokenProviders();
+
 
 builder.Services.AddScoped(typeof(IGenericDal<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IAboutDal, EFAboutRepository>();
