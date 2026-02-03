@@ -1,0 +1,16 @@
+@using DTOs.RoomDTOs
+
+@model GetByIdRoomDto
+
+@using(Html.BeginForm("UpdateRoom","Room",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.DropDownListFor(x=>x.RoomTypeId, ViewBag.RoomType as SelectList,"seç")
+     @Html.TextBoxFor(x=>x.Price)
+    @Html.TextBoxFor(x=>x.BedCount)
+    @Html.TextBoxFor(x=>x.BathCount)
+    @Html.CheckBoxFor(x=>x.IsWifi)
+    @Html.TextAreaFor(x=>x.Description)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

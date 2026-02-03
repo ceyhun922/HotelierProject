@@ -1,0 +1,81 @@
+@using DTOs.RoomDTOs
+@using DTOs.RoomTypeDTOs
+
+@model List<ResultRoomDto>
+@{
+    Layout = "_Layout";
+    var count = 1;
+    var select =ViewBag.Select as List<ResultRoomTypeDto> ??new List<ResultRoomTypeDto>();
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Oda Ekleme</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">İnternet</th>
+                        <th scope="col">Oda sayı</th>
+                        <th scope="col">Baynyo sayı</th>
+                        <th scope="col">Durum</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+    var t = select.FirstOrDefault(x => x.Id == item.RoomTypeId
+);
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>
+                               @t.Type
+                            </td>
+                            <td>
+                                <div style="height: 10px">
+                                    @item.Description
+                                </div>
+                            </td>
+                            <td>@item.Price</td>
+                            <td>@(item.IsWifi ? "var" : "yok")</td>
+                            <td>@item.BedCount</td>
+                            <td>@item.BathCount</td>
+
+                            <td>
+                                @(item.Status ? "Aktif" : "Pasif")
+                                <td>
+                                    <span>
+                                        <a asp-action="UpdateRoom" asp-controller="Room" asp-route-id="@item.Id"
+                                               data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="fa fa-pencil color-muted m-r-5"></i>
+                                        </a>
+
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <a asp-action="DeleteRoom" asp-controller="Room" asp-route-id="@item.Id"
+                                               data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="fa fa-close color-danger"></i>
+                                        </a>
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <h4 class="card-title"><a asp-action="CreateRoom" asp-controller="Room"> + Yeni Oda Etke</a></h4>
+
+        </div>
+    </div>
