@@ -5,7 +5,7 @@ namespace HotelWebAPI.Controllers
 {
     public class UploadFileRequest
     {
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
     }
 
     [ApiController]
