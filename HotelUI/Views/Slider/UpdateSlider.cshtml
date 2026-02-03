@@ -1,0 +1,11 @@
+@using DTOs.SliderDTOs
+@model GetByIdSliderDto
+
+@using(Html.BeginForm("UpdateSlider","Slider",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.Title1)
+    @Html.TextBoxFor(x=>x.Title2)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

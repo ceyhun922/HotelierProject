@@ -1,0 +1,10 @@
+@using DTOs.SliderDTOs
+@model CreateSliderDto
+
+@using(Html.BeginForm("CreateSlider","Slider",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Title1)
+    @Html.TextBoxFor(x=>x.Title2)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

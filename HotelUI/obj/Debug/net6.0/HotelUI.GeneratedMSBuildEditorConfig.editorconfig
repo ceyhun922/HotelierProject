@@ -70,6 +70,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Slider/CreateSlider.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2xpZGVyL0NyZWF0ZVNsaWRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Slider/SliderList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2xpZGVyL1NsaWRlckxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Slider/UpdateSlider.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2xpZGVyL1VwZGF0ZVNsaWRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
