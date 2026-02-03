@@ -30,3 +30,7 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelUI/obj/Debug/net6.0/HotelUI.pdb
 /Users/ceyhunyusif/Documents/Hotelier/HotelUI/obj/Debug/net6.0/HotelUI.genruntimeconfig.cache
 /Users/ceyhunyusif/Documents/Hotelier/HotelUI/obj/Debug/net6.0/ref/HotelUI.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelUI/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelUI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelUI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelUI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Relational.dll

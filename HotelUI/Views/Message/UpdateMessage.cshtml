@@ -1,0 +1,12 @@
+@using DTOs.MessageDTOs
+@model GetByIdMessageDto
+@using(Html.BeginForm("UpdateMessage","Message",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.FullName)
+    @Html.TextBoxFor(x=>x.Email)
+    @Html.TextBoxFor(x=>x.Subject)
+    @Html.TextAreaFor(x=>x.Msg)
+    @Html.CheckBoxFor(x=>x.Status)
+    <button type="submit">Ekle</button>
+}

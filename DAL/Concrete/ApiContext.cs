@@ -1,9 +1,10 @@
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotelier.DAL.Concrete
 {
-    public class ApiContext : DbContext
+    public class ApiContext : IdentityDbContext<User,Role,int>
     {
         public ApiContext(DbContextOptions<ApiContext> options) : base(options){}
 
@@ -17,5 +18,6 @@ namespace Hotelier.DAL.Concrete
         public DbSet<Testimonial>?  Testimonials {get;set;}
         public DbSet<Team>?  Teams {get;set;}
         public DbSet<Charge>? Charges {get;set;}
+        public DbSet<Message>? Messages {get;set;}
     }
 }

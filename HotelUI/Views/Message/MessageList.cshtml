@@ -1,0 +1,66 @@
+@using DTOs.MessageDTOs
+@model List<ResultMessageDto>
+@{
+    Layout = "_Layout";
+    var count =1;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Mesaj Ekleme</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Ikon</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Durum</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>
+                                <div  style="height: 10px">
+                                   @item.Msg
+                                </div>
+                            </td>
+                             <td>
+                                @(item.Status ? "Aktif" : "Pasif")
+                            <td>
+                                <span>
+                                    <a asp-action="UpdateMessage" asp-controller="Message" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-pencil color-muted m-r-5"></i>
+                                    </a>
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteMessage" asp-controller="Message" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <h4 class="card-title"><a asp-action="CreateMessage" asp-controller="Message"> + Yeni Mesaj Etke</a></h4>
+
+    </div>
+</div>
