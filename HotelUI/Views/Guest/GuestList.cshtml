@@ -1,0 +1,43 @@
+@using DTOs.GuestDTOs
+@model List<ResultGuestDto>
+@{
+    Layout = "_Layout";
+    var count =1;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Müsafir Listesi</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Adı Soyadı</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ülkesi</th>
+                        <th scope="col">Durum</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.Country</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
