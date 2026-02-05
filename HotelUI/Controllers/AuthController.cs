@@ -2,6 +2,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DTOs.AuthDTOs;
 using DTOs.UserDTOs;
+using HotelUI.DTOs.AuthDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -48,38 +49,40 @@ namespace HotelUI.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        [HttpGet]
         public IActionResult Login() => View();
+
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var client = _httpClientFactory.CreateClient();
+
             var jsonData = JsonConvert.SerializeObject(dto);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
             var res = await client.PostAsync("https://localhost:7243/api/Auth/auth-login", content);
             var resJson = await res.Content.ReadAsStringAsync();
-            var msg = JsonConvert.DeserializeObject<ApiMessageDto>(resJson);
+
             if (!res.IsSuccessStatusCode)
             {
-                ModelState.AddModelError("", msg.Message ?? "Giriş Başarısız");
+                var msg = JsonConvert.DeserializeObject<ApiMessageDto>(resJson);
+                ModelState.AddModelError("", msg?.Message ?? "Giriş Başarısız");
                 return View(dto);
             }
+
+            var token = JsonConvert.DeserializeObject<LoginResponseDto>(resJson);
+
+            if (token == null || string.IsNullOrWhiteSpace(token.AccessToken))
+            {
+                ModelState.AddModelError("", "Token alınamadı.");
+                return View(dto);
+            }
+
+            HttpContext.Session.SetString("AccessToken", token.AccessToken);
+
             return RedirectToAction("Index", "Dashboard");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            var client = _httpClientFactory.CreateClient();
-
-            var res = await client.PostAsync("https://localhost:7243/api/Auth/auth-logout", null);
-            if (!res.IsSuccessStatusCode)
-            {
-                TempData["Error"] = "Logout işlemi başarısız oldu.";
-                return RedirectToAction("Index", "Dashboard");
-            }
-
-            return RedirectToAction("Login", "Auth");
-        }
     }
 }

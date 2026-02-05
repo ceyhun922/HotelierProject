@@ -33,7 +33,14 @@
                             <td>@item.Email</td>
                             <td>
                                 <span>
-                                <a asp-action="DeleteTestimonial" asp-controller="Testimonial" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                <a asp-action="UdateUser" asp-controller="User" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Update">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteUser" asp-controller="User" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
                                         <i class="fa fa-close color-danger"></i>
                                     </a>
                                 </span>

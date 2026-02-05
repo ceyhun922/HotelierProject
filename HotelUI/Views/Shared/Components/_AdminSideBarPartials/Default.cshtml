@@ -37,17 +37,17 @@
                 </a>
             </li>
             <li>
-                <a asp-action="RoomTypeList" asp-controller="RoomType"  aria-expanded="false">
+                <a asp-action="RoomTypeList" asp-controller="RoomType" aria-expanded="false">
                     <i class="icon-home menu-icon"></i><span class="nav-text">Oda Tipleri</span>
                 </a>
             </li>
             <li>
-                <a asp-action="RoomList" asp-controller="Room"  aria-expanded="false">
+                <a asp-action="RoomList" asp-controller="Room" aria-expanded="false">
                     <i class="icon-home menu-icon"></i><span class="nav-text">Odalar</span>
                 </a>
             </li>
             <li>
-                <a asp-action="SliderList" asp-controller="Slider"  aria-expanded="false">
+                <a asp-action="SliderList" asp-controller="Slider" aria-expanded="false">
                     <i class="icon-energy menu-icon"></i><span class="nav-text">Öne Çıkan Alan</span>
                 </a>
             </li>
@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li>
-                <a asp-action="UploadFile" asp-controller="File"  aria-expanded="false">
+                <a asp-action="UploadFile" asp-controller="File" aria-expanded="false">
                     <i class="icon-energy menu-icon"></i><span class="nav-text">Resim İşlemleri</span>
                 </a>
             </li>
@@ -77,7 +77,7 @@
                 </a>
             </li>
             <li>
-                <a asp-action="UserList"  asp-controller="User" aria-expanded="false">
+                <a asp-action="UserList" asp-controller="User" aria-expanded="false">
                     <i class="icon-user-follow menu-icon"></i><span class="nav-text">Kullanıcılar </span>
                 </a>
             </li>
@@ -106,16 +106,19 @@
                     <i class="icon-settings menu-icon"></i><span class="nav-text">İletişim Alanı </span>
                 </a>
             </li>
-            
             <li>
-               <form asp-action="Logout" asp-controller="Auth" method="post" style="display:inline;">
-    <button type="submit" class="nav-link btn btn-link p-0" style="text-decoration:none;">
-        <i class="icon-close menu-icon"></i>
-        <span class="nav-text">Çıkış Yap -</span>
-    </button>
-</form>
-
+                <form asp-action="Logout" asp-controller="Auth" method="post" style="width:100%;">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="nav-link btn btn-link p-0 border-0 bg-transparent"
+                            style="width:100%; text-align:left;">
+                        <i class="icon-close menu-icon"></i>
+                        <span class="nav-text">Çıkış Yap</span>
+                    </button>
+                </form>
             </li>
+
+
+
         </ul>
     </div>
 </div>

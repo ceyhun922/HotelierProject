@@ -26,5 +26,7 @@ namespace HotelUI.Controllers
             }
             return View();
         }
+
+       
     }
 }
