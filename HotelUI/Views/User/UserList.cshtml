@@ -1,0 +1,49 @@
+@using DTOs.UserDTOs
+
+
+@model List<ResultUserDto>
+@{
+    Layout = "_Layout";
+    var count =1;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Kullanıcı List</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteTestimonial" asp-controller="Testimonial" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <h4 class="card-title"><a asp-action="CreateUser" asp-controller="User"> + Yeni Kullanıcı Etke</a></h4>
+
+    </div>
+</div>
