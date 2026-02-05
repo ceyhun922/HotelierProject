@@ -108,9 +108,13 @@
             </li>
             
             <li>
-                <a href="/WorkLocation/Index/" aria-expanded="false">
-                    <i class="icon-close menu-icon"></i><span class="nav-text">Çıkış Yap -</span>
-                </a>
+               <form asp-action="Logout" asp-controller="Auth" method="post" style="display:inline;">
+    <button type="submit" class="nav-link btn btn-link p-0" style="text-decoration:none;">
+        <i class="icon-close menu-icon"></i>
+        <span class="nav-text">Çıkış Yap -</span>
+    </button>
+</form>
+
             </li>
         </ul>
     </div>

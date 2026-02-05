@@ -66,5 +66,13 @@ namespace HotelWebAPI.Controllers
 
             return Unauthorized(new { message = "Email veya şifre hatalı." });
         }
+
+        
+        [HttpPost("auth-logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new {message ="Çıkış Yapıldı"});
+        }
     }
 }
