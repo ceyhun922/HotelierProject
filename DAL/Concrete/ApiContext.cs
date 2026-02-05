@@ -19,5 +19,6 @@ namespace Hotelier.DAL.Concrete
         public DbSet<Team>?  Teams {get;set;}
         public DbSet<Charge>? Charges {get;set;}
         public DbSet<Message>? Messages {get;set;}
+        public DbSet<Booking>? Bookings {get;set;}
     }
 }

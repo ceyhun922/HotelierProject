@@ -2,6 +2,7 @@
 using AutoMapper;
 using DTOs.AboutDTOs;
 using DTOs.AboutImageDTOs;
+using DTOs.BookingDTOs;
 using DTOs.ChargeDTOs;
 using DTOs.ContactDTOs;
 using DTOs.FooterDTOs;
@@ -65,6 +66,11 @@ namespace Service.Mapping
             CreateMap<Team, CreateTeamDto>().ReverseMap();
             CreateMap<Team, GetByIdTeamDto>().ReverseMap();
             CreateMap<Team, UpdateTeamDto>().ReverseMap();
+            //Booking
+            CreateMap<Booking, ResultBookingDto>().ReverseMap();
+            CreateMap<Booking, CreateBookingDto>().ReverseMap();
+            CreateMap<Booking, GetByIdBookingDto>().ReverseMap();
+            CreateMap<Booking, UpdateBookingDto>().ReverseMap();
             //Slider
             CreateMap<Slider, ResultSliderDto>().ReverseMap();
             CreateMap<Slider, CreateSliderDto>().ReverseMap();

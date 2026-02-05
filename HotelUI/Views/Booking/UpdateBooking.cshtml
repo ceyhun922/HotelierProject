@@ -1,0 +1,17 @@
+@using DTOs.BookingDTOs
+@model GetByIdBookingDto
+
+
+@using(Html.BeginForm("UpdateBooking","Booking",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.FullName)
+    @Html.TextBoxFor(x=>x.Email)
+    @Html.TextBoxFor(x=>x.CheckIn)
+    @Html.TextBoxFor(x=>x.CheckOut)
+    @Html.TextBoxFor(x=>x.Adult)
+    @Html.TextBoxFor(x=>x.Country)
+    @Html.TextBoxFor(x=>x.RoomTypeId)
+    @Html.TextBoxFor(x=>x.Message)
+    <button type="submit">Ekle</button>
+}

@@ -1,0 +1,77 @@
+@using DTOs.BookingDTOs
+@model List<ResultBookingDto>
+@{
+    Layout ="_Layout";
+    var count =1;
+}
+
+
+@if(Model != null && Model.Any())
+{
+   
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Rezervasyon Ekleme</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">İsim</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Giriş Tarihi</th>
+                        <th scope="col">Çıkış Tarihi</th>
+                        <th scope="col">Kişi Sayısı</th>
+                        <th scope="col">Ülke</th>
+                        <th scope="col">Seçtiği Oda Türü</th>
+                        <th scope="col">Mesajı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Email</td>
+                            <td>@item.CheckIn</td>
+                            <td>@item.CheckOut</td>
+                            <td>@item.Adult</td>
+                            <td>@item.Country</td>
+                            <td>@item.RoomTypeId</td>
+
+                            <td>
+                                <div  style="height: 10px">
+                                   @item.Message
+                                </div>
+                            </td>
+                            <td>
+
+                                <span>
+                                    <a asp-action="UpdateBooking" asp-controller="Booking" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-pencil color-muted m-r-5"></i>
+                                    </a>
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteBooking" asp-controller="Booking" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <h4 class="card-title"><a asp-action="CreateBooking" asp-controller="Booking"> + Yeni Rezervasyon Etke</a></h4>
+
+    </div>
+</div>
+}

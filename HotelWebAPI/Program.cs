@@ -47,6 +47,7 @@ builder.Services.AddScoped<ITestimonialDal, EFTestimonialRepository>();
 builder.Services.AddScoped<IRoomTypeDal, EFRoomTypeRepository>();
 builder.Services.AddScoped<ITeamDal, EFTeamRepository>();
 builder.Services.AddScoped<IMessageDal, EFMessageRepository>();
+builder.Services.AddScoped<IBookingDal, EFBookingRepository>();
 
 builder.Services.AddScoped<IAboutService , AboutManager>();
 builder.Services.AddScoped<IAboutImageService , AboutImageManager>();
@@ -59,6 +60,7 @@ builder.Services.AddScoped<ITestimonialService , TestimonialManager>();
 builder.Services.AddScoped<IRoomTypeService , RoomTypeManager>();
 builder.Services.AddScoped<ITeamService , TeamManager>();
 builder.Services.AddScoped<IMessageService , MessageManager>();
+builder.Services.AddScoped<IBookingService , BookingManager>();
 
 builder.Services.AddCors(opt =>
 {

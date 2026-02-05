@@ -7,5 +7,6 @@ namespace EntityLayer.Concrete
         public string? Description { get; set; }
         public bool Status { get; set; }=false;
         public List<Room>? Rooms {get;set;}
+        List<Booking>? Bookings {get;set;}
     }
 }
