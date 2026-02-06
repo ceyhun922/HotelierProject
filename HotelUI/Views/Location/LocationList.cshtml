@@ -1,0 +1,54 @@
+@using DTOs.LocationDTOs
+@model List<ResultLocationDto>
+@{
+    Layout = "_Layout";
+    var count =1;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Oda Tipi Ekleme</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.Name</td>                     
+                            <td>
+                                <span>
+                                    <a asp-action="UpdateLocation" asp-controller="Location" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-pencil color-muted m-r-5"></i>
+                                    </a>
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteLocation" asp-controller="Location" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+                    <h4 class="card-title"><a asp-action="CreateLocation" asp-controller="Location"> + Yeni Location Etke</a></h4>
+
+    </div>
+</div>

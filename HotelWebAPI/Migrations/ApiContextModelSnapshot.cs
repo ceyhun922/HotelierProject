@@ -178,6 +178,22 @@ namespace HotelWebAPI.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Message", b =>
                 {
                     b.Property<int>("Id")
@@ -259,6 +275,9 @@ namespace HotelWebAPI.Migrations
                     b.Property<bool>("IsWifi")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
@@ -269,6 +288,8 @@ namespace HotelWebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("RoomTypeId");
 
@@ -617,11 +638,19 @@ namespace HotelWebAPI.Migrations
 
             modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
                 {
+                    b.HasOne("EntityLayer.Concrete.Location", "Location")
+                        .WithMany("Rooms")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EntityLayer.Concrete.RoomType", "RoomType")
                         .WithMany("Rooms")
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Location");
 
                     b.Navigation("RoomType");
                 });
@@ -680,6 +709,11 @@ namespace HotelWebAPI.Migrations
             modelBuilder.Entity("EntityLayer.Concrete.About", b =>
                 {
                     b.Navigation("AboutImages");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Location", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>

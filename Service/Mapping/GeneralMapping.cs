@@ -1,4 +1,5 @@
 
+
 using AutoMapper;
 using DTOs.AboutDTOs;
 using DTOs.AboutImageDTOs;
@@ -7,6 +8,7 @@ using DTOs.ChargeDTOs;
 using DTOs.ContactDTOs;
 using DTOs.FooterDTOs;
 using DTOs.GuestDTOs;
+using DTOs.LocationDTOs;
 using DTOs.MessageDTOs;
 using DTOs.RoleDTOs;
 using DTOs.RoomDTOs;
@@ -78,6 +80,11 @@ namespace Service.Mapping
             CreateMap<Role, CreateRoleDto>().ReverseMap();
             CreateMap<Role, GetByIdRoleDto>().ReverseMap();
             CreateMap<Role, UpdateRoleDto>().ReverseMap();
+            //Location
+            CreateMap<Location, ResultLocationDto>().ReverseMap();
+            CreateMap<Location, CreateLocationDto>().ReverseMap();
+            CreateMap<Location, GetByIdLocationDto>().ReverseMap();
+            CreateMap<Location, UpdateLocationDto>().ReverseMap();
 
             //Guest
             CreateMap<Booking, ResultGuestDto>().ReverseMap();

@@ -12,8 +12,9 @@ namespace EntityLayer.Concrete
         public bool Status { get; set; } = false;
 
         public int RoomTypeId { get; set; }
-
+        public int LocationId { get; set; }
         public RoomType? RoomType {get;set;}
+        public Location? Location {get;set;}
 
 
     }

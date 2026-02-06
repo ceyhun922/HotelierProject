@@ -1,3 +1,5 @@
+
+
 using System.Text;
 using DAL.Abstract;
 using DAL.Entityframework;
@@ -9,7 +11,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Service.Abstract;
 using Service.Concrete;
 
@@ -94,6 +95,7 @@ builder.Services.AddScoped<IRoomTypeDal, EFRoomTypeRepository>();
 builder.Services.AddScoped<ITeamDal, EFTeamRepository>();
 builder.Services.AddScoped<IMessageDal, EFMessageRepository>();
 builder.Services.AddScoped<IBookingDal, EFBookingRepository>();
+builder.Services.AddScoped<ILocationDal, EFLocationRepository>();
 
 builder.Services.AddScoped<IAboutService, AboutManager>();
 builder.Services.AddScoped<IAboutImageService, AboutImageManager>();
@@ -107,6 +109,7 @@ builder.Services.AddScoped<IRoomTypeService, RoomTypeManager>();
 builder.Services.AddScoped<ITeamService, TeamManager>();
 builder.Services.AddScoped<IMessageService, MessageManager>();
 builder.Services.AddScoped<IBookingService, BookingManager>();
+builder.Services.AddScoped<ILocationService, LocationManager>();
 
 var app = builder.Build();
 

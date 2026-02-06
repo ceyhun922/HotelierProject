@@ -1,0 +1,8 @@
+@using DTOs.LocationDTOs
+@model CreateLocationDto
+
+@using(Html.BeginForm("CreateLocation","Location",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Name)
+    <button type="submit">Ekle</button>
+}

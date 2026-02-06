@@ -1,0 +1,9 @@
+@using DTOs.LocationDTOs
+@model GetByIdLocationDto
+
+@using(Html.BeginForm("UpdateLocation","Location",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.Name)
+    <button type="submit">Ekle</button>
+}
