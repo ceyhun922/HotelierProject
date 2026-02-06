@@ -1,8 +1,11 @@
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DTOs.AuthDTOs;
 using DTOs.UserDTOs;
 using HotelUI.DTOs.AuthDTOs;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -23,6 +26,10 @@ namespace HotelUI.Controllers
 
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
             return View();
         }
         [HttpPost]
@@ -50,7 +57,14 @@ namespace HotelUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login() => View();
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Dashboard");
+            }
+            return View();
+        }
 
 
         [HttpPost]
@@ -71,18 +85,43 @@ namespace HotelUI.Controllers
                 return View(dto);
             }
 
-            var token = JsonConvert.DeserializeObject<LoginResponseDto>(resJson);
-
-            if (token == null || string.IsNullOrWhiteSpace(token.AccessToken))
+            var loginRes = JsonConvert.DeserializeObject<LoginResponseDto>(resJson);
+            if (loginRes == null || string.IsNullOrWhiteSpace(loginRes.AccessToken))
             {
-                ModelState.AddModelError("", "Token alınamadı.");
+                ModelState.AddModelError("", "Token alınamadı");
                 return View(dto);
             }
 
-            HttpContext.Session.SetString("AccessToken", token.AccessToken);
+            Response.Cookies.Append("access_token", loginRes.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Lax,
+                Expires = DateTimeOffset.UtcNow.AddSeconds(loginRes.ExpiresIn)
+            });
+
+            var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, dto.Email),
+        new Claim(ClaimTypes.Email, dto.Email)
+    };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
             return RedirectToAction("Index", "Dashboard");
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("access_token");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Login", "Auth");
+        }
+
 
     }
 }

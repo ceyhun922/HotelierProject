@@ -55,7 +55,11 @@ namespace HotelWebAPI.Controllers
                 return Ok(new { message = "Kayıt Başarılı" });
             }
 
-            return Ok();
+            return BadRequest(new
+            {
+                message = "Kayıt Başarısız",
+                errors = result.Errors.Select(x => x.Description)
+            });
         }
 
         [HttpPost("auth-login")]
@@ -64,21 +68,14 @@ namespace HotelWebAPI.Controllers
             var user = await _userManager.FindByEmailAsync(dto.Email);
 
             if (user == null)
-            {
                 return Unauthorized(new { message = "Kullanıcı mail veya şifre hatalı" });
-            }
 
-            var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: false);
-
-
-            if (!check.Succeeded)
-            {
-                return Unauthorized(new { message = "Kullanıcı mail veya şifre hatalı" });
-            }
+            var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
+            if (!check.Succeeded) return Unauthorized(new { message = "Email veya şifre hatalı" });
 
             var token = await CreateJwtAsync(user);
-
             var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"]!);
+
             return Ok(new LoginResponseDto
             {
                 AccessToken = token,
@@ -87,34 +84,39 @@ namespace HotelWebAPI.Controllers
         }
 
         private async Task<string> CreateJwtAsync(User user)
-        {
-            var jwt = _config.GetSection("Jwt");
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+{
+    var jwt = _config.GetSection("Jwt");
 
-            var roles = await _userManager.GetRolesAsync(user);
+    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
+    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
-            new Claim(ClaimTypes.Email, user.Email ?? "")
-        };
+    var roles = await _userManager.GetRolesAsync(user);
 
-            foreach (var r in roles)
-                claims.Add(new Claim(ClaimTypes.Role, r));
+    var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+        new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
+        new Claim(ClaimTypes.Email, user.Email ?? "")
+    };
 
-            var expires = DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpireMinutes"]!));
+    foreach (var role in roles)
+    {
+        claims.Add(new Claim(ClaimTypes.Role, role));
+    }
 
-            var token = new JwtSecurityToken(
-                issuer: jwt["Issuer"],
-                audience: jwt["Audience"],
-                claims: claims,
-                expires: expires,
-                signingCredentials: creds);
+    var expires = DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpireMinutes"]!));
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+    var token = new JwtSecurityToken(
+        issuer: jwt["Issuer"],
+        audience: jwt["Audience"],
+        claims: claims,
+        expires: expires,
+        signingCredentials: creds
+    );
+
+    return new JwtSecurityTokenHandler().WriteToken(token);
+}
+
 
 
         [HttpPost("auth-logout")]

@@ -1,0 +1,163 @@
+   [HttpPost("auth-login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+
+            if (user == null)
+            {
+                return Unauthorized(new { message = "Kullanıcı mail veya şifre hatalı" });
+            }
+
+            var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, lockoutOnFailure: false);
+
+
+            if (!check.Succeeded)
+            {
+                return Unauthorized(new { message = "Kullanıcı mail veya şifre hatalı" });
+            }
+
+            var token = await CreateJwtAsync(user);
+
+            var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"]!);
+            return Ok(new LoginResponseDto
+            {
+                AccessToken = token,
+                ExpiresIn = expireMinutes * 60
+            });
+        }
+
+        private async Task<string> CreateJwtAsync(User user)
+        {
+            var jwt = _config.GetSection("Jwt");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
+            new Claim(ClaimTypes.Email, user.Email ?? "")
+        };
+
+            foreach (var r in roles)
+                claims.Add(new Claim(ClaimTypes.Role, r));
+
+            var expires = DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpireMinutes"]!));
+
+            var token = new JwtSecurityToken(
+                issuer: jwt["Issuer"],
+                audience: jwt["Audience"],
+                claims: claims,
+                expires: expires,
+                signingCredentials: creds);
+            
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelWebAPI", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+var jwt = builder.Configuration.GetSection("Jwt");
+var key = Encoding.UTF8.GetBytes(jwt["Key"]!);
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = true;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = jwt["Issuer"],
+
+        ValidateAudience = true,
+        ValidAudience = jwt["Audience"],
+
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.FromSeconds(30)
+    };
+});
+
+
+  "Jwt": {
+  "Key": "BU_KEY_EN_AZ_32_KARAKTER_OLMALI_1234567890",
+  "Issuer": "HotelWebAPI",
+  "Audience": "HotelUI",
+  "ExpireMinutes": 60
+},
+
+
+//UI
+
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var client = _httpClientFactory.CreateClient();
+
+            var jsonData = JsonConvert.SerializeObject(dto);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            var res = await client.PostAsync("https://localhost:7243/api/Auth/auth-login", content);
+            var resJson = await res.Content.ReadAsStringAsync();
+
+            if (!res.IsSuccessStatusCode)
+            {
+                var msg = JsonConvert.DeserializeObject<ApiMessageDto>(resJson);
+                ModelState.AddModelError("", msg?.Message ?? "Giriş Başarısız");
+                return View(dto);
+            }
+
+            var token = JsonConvert.DeserializeObject<LoginResponseDto>(resJson);
+
+            if (token == null || string.IsNullOrWhiteSpace(token.AccessToken))
+            {
+                ModelState.AddModelError("", "Token alınamadı.");
+                return View(dto);
+            }
+            
+
+            HttpContext.Session.SetString("AccessToken", token.AccessToken);
+
+
+
+            return RedirectToAction("Index", "Dashboard");
+        }
