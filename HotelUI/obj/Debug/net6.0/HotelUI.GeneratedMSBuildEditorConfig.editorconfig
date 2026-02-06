@@ -110,6 +110,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVzc2FnZS9VcGRhdGVNZXNzYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Role/CreateRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9DcmVhdGVSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Role/RoleList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9Sb2xlTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Role/UpdateRole.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9VcGRhdGVSb2xlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Room/CreateRoom.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbS9DcmVhdGVSb29tLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

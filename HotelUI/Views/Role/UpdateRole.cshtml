@@ -1,0 +1,9 @@
+@using DTOs.RoleDTOs
+@model GetByIdRoleDto
+
+@using(Html.BeginForm("UpdateRole","Role",FormMethod.Post))
+{
+    @Html.HiddenFor(x=>x.Id)
+    @Html.TextBoxFor(x=>x.Name)
+    <button type="submit">Ekle</button>
+}

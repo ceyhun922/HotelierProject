@@ -1,0 +1,53 @@
+@using DTOs.RoleDTOs
+@model List<ResultRoleDto>
+@{
+    Layout = "_Layout";
+    var count =1;
+}
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <h4 class="card-title">Role List</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped verticle-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Adı</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <span>
+                                    <a asp-action="UpdateRole" asp-controller="Role" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit">
+                                        <i class="fa fa-pencil color-muted m-r-5"></i>
+                                    </a>
+                                    
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                <a asp-action="DeleteRole" asp-controller="Role" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="fa fa-close color-danger"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <h4 class="card-title"><a asp-action="CreateRole" asp-controller="Role"> + Yeni Role Etke</a></h4>
+
+    </div>
+</div>

@@ -8,6 +8,7 @@ using DTOs.ContactDTOs;
 using DTOs.FooterDTOs;
 using DTOs.GuestDTOs;
 using DTOs.MessageDTOs;
+using DTOs.RoleDTOs;
 using DTOs.RoomDTOs;
 using DTOs.RoomTypeDTOs;
 using DTOs.SliderDTOs;
@@ -72,6 +73,11 @@ namespace Service.Mapping
             CreateMap<Booking, CreateBookingDto>().ReverseMap();
             CreateMap<Booking, GetByIdBookingDto>().ReverseMap();
             CreateMap<Booking, UpdateBookingDto>().ReverseMap();
+            //Role
+            CreateMap<Role, ResultRoleDto>().ReverseMap();
+            CreateMap<Role, CreateRoleDto>().ReverseMap();
+            CreateMap<Role, GetByIdRoleDto>().ReverseMap();
+            CreateMap<Role, UpdateRoleDto>().ReverseMap();
 
             //Guest
             CreateMap<Booking, ResultGuestDto>().ReverseMap();

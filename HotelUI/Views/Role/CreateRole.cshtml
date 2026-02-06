@@ -1,0 +1,8 @@
+@using DTOs.RoleDTOs
+@model CreateRoleDto
+
+@using(Html.BeginForm("CreateRole","Role",FormMethod.Post))
+{
+    @Html.TextBoxFor(x=>x.Name)
+    <button type="submit">Ekle</button>
+}
