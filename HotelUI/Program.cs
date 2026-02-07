@@ -1,9 +1,19 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+  .RequireAuthenticatedUser()
+
+    .Build();
+
+    opt.Filters.Add(new AuthorizeFilter(policy));
+});
 builder.Services.AddHttpClient();
 
 builder.Services.AddDistributedMemoryCache();
@@ -26,6 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,7 +54,7 @@ app.UseRouting();
 
 app.UseSession();
 
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

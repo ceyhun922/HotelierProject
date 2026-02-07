@@ -4,6 +4,8 @@ namespace DTOs.RoomDTOs
     {
         public int Id { get; set; }
         public int RoomTypeId { get; set; }
+        public int LocationId { get; set; }
+
         public string? Price { get; set; }
         public int BedCount { get; set; }
         public int BathCount { get; set; }

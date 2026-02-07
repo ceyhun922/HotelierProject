@@ -6,6 +6,7 @@ using DTOs.UserDTOs;
 using HotelUI.DTOs.AuthDTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -24,6 +25,8 @@ namespace HotelUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+        [AllowAnonymous]
+
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
@@ -33,6 +36,8 @@ namespace HotelUI.Controllers
             return View();
         }
         [HttpPost]
+        [AllowAnonymous]
+
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             var client = _httpClientFactory.CreateClient();
@@ -57,6 +62,7 @@ namespace HotelUI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -68,6 +74,8 @@ namespace HotelUI.Controllers
 
 
         [HttpPost]
+        [AllowAnonymous]
+
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var client = _httpClientFactory.CreateClient();

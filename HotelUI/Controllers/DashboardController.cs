@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelUI.Controllers
 {
+    [Authorize]
     public class DashboardController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -11,8 +12,6 @@ namespace HotelUI.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-        [Authorize]
-
         public async Task<IActionResult> Index()
     {
         var client = _httpClientFactory.CreateClient("api");

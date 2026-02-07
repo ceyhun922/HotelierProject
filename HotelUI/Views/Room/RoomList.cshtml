@@ -1,3 +1,4 @@
+@using DTOs.LocationDTOs
 @using DTOs.RoomDTOs
 @using DTOs.RoomTypeDTOs
 
@@ -6,6 +7,7 @@
     Layout = "_Layout";
     var count = 1;
     var select =ViewBag.Select as List<ResultRoomTypeDto> ??new List<ResultRoomTypeDto>();
+        var Select2 =ViewBag.Select2 as List<ResultLocationDto> ?? new List<ResultLocationDto>();
 }
 
 
@@ -20,6 +22,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Type</th>
+                        <th scope="col">location</th>
                         <th scope="col">Description</th>
                         <th scope="col">Price</th>
                         <th scope="col">İnternet</th>
@@ -34,12 +37,17 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-    var t = select.FirstOrDefault(x => x.Id == item.RoomTypeId
-);
+                        var t = select.FirstOrDefault(x => x.Id == item.RoomTypeId);
+                        var l =Select2.FirstOrDefault(x=>x.Id ==item.LocationId);
+
                         <tr>
                             <td>@(count++)</td>
+                           
                             <td>
                                @t.Type
+                            </td>
+                             <td>
+                               @l.Name
                             </td>
                             <td>
                                 <div style="height: 10px">

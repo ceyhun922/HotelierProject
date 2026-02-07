@@ -1,10 +1,11 @@
 @using DTOs.RoomDTOs
-@using DTOs.RoomTypeDTOs
+
 @model CreateRoomDto
 
 @using(Html.BeginForm("CreateRoom","Room",FormMethod.Post))
 {
     @Html.DropDownListFor(x=>x.RoomTypeId, ViewBag.RoomType as SelectList,"seç")
+    @Html.DropDownListFor(x=>x.LocationId,ViewBag.Location as SelectList,"seç")
     @Html.TextBoxFor(x=>x.Price)
     @Html.TextBoxFor(x=>x.BedCount)
     @Html.TextBoxFor(x=>x.BathCount)
