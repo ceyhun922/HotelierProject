@@ -26,7 +26,6 @@ namespace HotelUI.Controllers
         }
 
         [AllowAnonymous]
-
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
@@ -37,7 +36,6 @@ namespace HotelUI.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<IActionResult> Register(RegisterDto dto)
         {
             var client = _httpClientFactory.CreateClient();
@@ -75,7 +73,6 @@ namespace HotelUI.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-
         public async Task<IActionResult> Login(LoginDto dto)
         {
             var client = _httpClientFactory.CreateClient();
@@ -86,14 +83,32 @@ namespace HotelUI.Controllers
             var res = await client.PostAsync("https://localhost:7243/api/Auth/auth-login", content);
             var resJson = await res.Content.ReadAsStringAsync();
 
+            Console.WriteLine("LOGIN RESPONSE STATUS: " + (int)res.StatusCode);
+            Console.WriteLine("LOGIN RESPONSE BODY: " + resJson);
+
             if (!res.IsSuccessStatusCode)
             {
-                var msg = JsonConvert.DeserializeObject<ApiMessageDto>(resJson);
-                ModelState.AddModelError("", msg?.Message ?? "Giriş Başarısız");
+                ModelState.AddModelError("", "Giriş Başarısız: " + resJson);
                 return View(dto);
             }
 
-            var loginRes = JsonConvert.DeserializeObject<LoginResponseDto>(resJson);
+            if (string.IsNullOrWhiteSpace(resJson) || !resJson.TrimStart().StartsWith("{"))
+            {
+                ModelState.AddModelError("", "API JSON göndərmir: " + resJson);
+                return View(dto);
+            }
+
+            DTOs.AuthDTOs.LoginResponseDto? loginRes;
+            try
+            {
+                loginRes = JsonConvert.DeserializeObject<DTOs.AuthDTOs.LoginResponseDto>(resJson);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "JSON parse xətası: " + ex.Message);
+                return View(dto);
+            }
+
             if (loginRes == null || string.IsNullOrWhiteSpace(loginRes.AccessToken))
             {
                 ModelState.AddModelError("", "Token alınamadı");
@@ -109,13 +124,19 @@ namespace HotelUI.Controllers
             });
 
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, dto.Email),
-        new Claim(ClaimTypes.Email, dto.Email)
-    };
+                {
+                    new Claim(ClaimTypes.NameIdentifier, loginRes.UserId.ToString()),
+                    new Claim(ClaimTypes.Name, dto.Email),
+                    new Claim(ClaimTypes.Email, dto.Email)
+                };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity)
+            );
+
+            HttpContext.Session.SetString("token", loginRes.AccessToken);
 
             return RedirectToAction("Index", "Dashboard");
         }

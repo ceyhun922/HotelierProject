@@ -71,53 +71,50 @@ namespace HotelWebAPI.Controllers
                 return Unauthorized(new { message = "Kullanıcı mail veya şifre hatalı" });
 
             var check = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
-            if (!check.Succeeded) return Unauthorized(new { message = "Email veya şifre hatalı" });
+            if (!check.Succeeded)
+                return Unauthorized(new { message = "Email veya şifre hatalı" });
 
             var token = await CreateJwtAsync(user);
             var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"]!);
 
             return Ok(new LoginResponseDto
             {
+                UserId = user.Id,
                 AccessToken = token,
                 ExpiresIn = expireMinutes * 60
             });
         }
-
         private async Task<string> CreateJwtAsync(User user)
-{
-    var jwt = _config.GetSection("Jwt");
+        {
+            var jwt = _config.GetSection("Jwt");
 
-    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
-    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt["Key"]!));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-    var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
 
-    var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
-        new Claim(ClaimTypes.Email, user.Email ?? "")
-    };
+            var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName ?? user.Email ?? ""),
+                    new Claim(ClaimTypes.Email, user.Email ?? "")
+                };
 
-    foreach (var role in roles)
-    {
-        claims.Add(new Claim(ClaimTypes.Role, role));
-    }
+            foreach (var role in roles)
+                claims.Add(new Claim(ClaimTypes.Role, role));
 
-    var expires = DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpireMinutes"]!));
+            var expires = DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpireMinutes"]!));
 
-    var token = new JwtSecurityToken(
-        issuer: jwt["Issuer"],
-        audience: jwt["Audience"],
-        claims: claims,
-        expires: expires,
-        signingCredentials: creds
-    );
+            var token = new JwtSecurityToken(
+                issuer: jwt["Issuer"],
+                audience: jwt["Audience"],
+                claims: claims,
+                expires: expires,
+                signingCredentials: creds
+            );
 
-    return new JwtSecurityTokenHandler().WriteToken(token);
-}
-
-
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
         [HttpPost("auth-logout")]
         public async Task<IActionResult> Logout()

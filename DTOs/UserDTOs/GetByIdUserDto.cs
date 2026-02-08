@@ -1,11 +1,9 @@
 namespace DTOs.UserDTOs
 {
-    public class ResultUserDto
+    public class GetByIdUserDto
     {
         public int Id { get; set; }
         public string? UserName { get; set; }
-        public string? ImageUrl { get; set; }
-
         public string? Email { get; set; }
     }
 }

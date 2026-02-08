@@ -1,0 +1,173 @@
+@using DTOs.UserDTOs
+@model GetByIdUserDto
+@{
+    var apiBase = "https://localhost:7243";
+    var currentImg = Model.ImageUrl ?? "";
+    if (!string.IsNullOrWhiteSpace(currentImg) && currentImg.StartsWith("/images/"))
+        currentImg =apiBase + currentImg;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- SOL PROFIL KARTI -->
+        <div class="col-lg-4 col-xl-3">
+
+            <!-- PROFIL CARD -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="media align-items-center mb-4">
+                        <img class="mr-3 rounded-circle" src="@currentImg" width="80" height="80" alt="@Model.UserName">
+                        <div class="media-body">
+                            <h3 class="mb-0">@Model.UserName</h3>
+                            <p class="text-muted mb-0">Canada</p>
+                        </div>
+                    </div>
+
+                    <h4>About Me</h4>
+                    <p class="text-muted">
+                        Hi, I'm Pikamy, has been the industry standard dummy text ever since the 1500s.
+                    </p>
+
+                    <ul class="card-profile__info">
+                        <li class="mb-1">
+                            <strong class="text-dark mr-4">Mobile</strong>
+                            <span>01793931609</span>
+                        </li>
+                        <li>
+                            <strong class="text-dark mr-4">Email</strong>
+                            <span>@Model.Email</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ACCOUNT INFO CARD (X OLAN YER) -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="mb-3">Account Info</h4>
+
+                    <ul class="card-profile__info">
+                        <li class="mb-2">
+                            <strong class="text-dark mr-4">Role</strong>
+                            <span class="badge badge-primary">Admin</span>
+                        </li>
+
+                        <li class="mb-2">
+                            <strong class="text-dark mr-4">Status</strong>
+                            <span class="badge badge-success">Active</span>
+                        </li>
+
+                        <li class="mb-2">
+                            <strong class="text-dark mr-4">Created</strong>
+                            <span>02 Feb 2026</span>
+                        </li>
+
+                        <li class="mb-2">
+                            <strong class="text-dark mr-4">Last Login</strong>
+                            <span>Today 14:22</span>
+                        </li>
+
+                        <li class="mb-2">
+                            <strong class="text-dark mr-4">Verified</strong>
+                            <span class="badge badge-warning">Pending</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SAG SETTINGS -->
+        <div class="col-lg-8 col-xl-9">
+
+            <!-- PROFIL EDIT -->
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Profil Məlumatları</h4>
+                </div>
+
+                <div class="card-body">
+                    @using (Html.BeginForm("Index", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        <div class="row">
+                            @Html.HiddenFor(x=>x.Id)
+
+                            <!-- FOTO -->
+                            <div class="col-md-12 mb-4">
+                                <label class="font-weight-bold">Profil Şəkli</label>
+                                <div class="d-flex align-items-center">
+                                    <img src="images/avatar/11.png" class="rounded-circle mr-3" width="80" height="80"
+                                         alt="">
+                                    <div style="width: 100%;">
+                                        <input type="file" class="form-control" />
+                                        <small class="text-muted">PNG / JPG format dəstəklənir.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- USERNAME -->
+                            <div class="col-md-6 mb-3">
+                                @Html.LabelFor(x=>x.UserName,new {@class="font-weight-bold"})
+                                @Html.TextBoxFor(x=>x.UserName,new {@class="form-control", placeholder="Username daxil edin"})
+                                </div>
+
+                                <!-- EMAIL -->
+                                <div class="col-md-6 mb-3">
+                                      @Html.LabelFor(x=>x.Email,new {@class="font-weight-bold"})
+                                @Html.TextBoxFor(x=>x.Email,new {@class="form-control", placeholder="Email daxil edin"})
+                                    </div>
+
+                                    <!-- ABOUT -->
+                                    <div class="col-md-12 mb-3">
+                                        <label class="font-weight-bold">Haqqımda</label>
+                                        <textarea class="form-control" rows="4"
+                                                  placeholder="Haqqında yaz...">Hi, I'm Pikamy, has been the industry standard dummy text ever since the 1500s.</textarea>
+                                    </div>
+
+                                    <!-- SAVE BUTTON -->
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-primary px-4">
+                                            <i class="fa fa-save mr-1"></i> Save Changes
+                                        </button>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <!-- PASSWORD CHANGE -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title mb-0">Şifrəni Dəyiş</h4>
+                        </div>
+
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="font-weight-bold">Yeni Şifrə</label>
+                                        <input type="password" class="form-control" placeholder="Yeni şifrə daxil edin">
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="font-weight-bold">Yeni Şifrə (Confirm)</label>
+                                        <input type="password" class="form-control" placeholder="Təkrar daxil edin">
+                                    </div>
+
+                                    <div class="col-md-12 text-right">
+                                        <button type="submit" class="btn btn-danger px-4">
+                                            <i class="fa fa-lock mr-1"></i> Change Password
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>

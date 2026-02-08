@@ -17,6 +17,7 @@ namespace HotelUI.Controllers
         public async Task<IActionResult> UserList()
         {
             var client =_httpClientFactory.CreateClient();
+            
             var res =await client.GetAsync("https://localhost:7243/api/User");
             if (res.IsSuccessStatusCode)
             {

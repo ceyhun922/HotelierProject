@@ -17,6 +17,7 @@ using DTOs.SliderDTOs;
 using DTOs.StaffDTOs;
 using DTOs.TeamDTOs;
 using DTOs.TestimonialDTOs;
+using DTOs.UserDTOs;
 using EntityLayer.Concrete;
 
 namespace Service.Mapping
@@ -100,6 +101,10 @@ namespace Service.Mapping
             CreateMap<Staff, CreateStaffDto>().ReverseMap();
             CreateMap<Staff, UpdateStaffDto>().ReverseMap();
             CreateMap<Staff, GetByIdStaffDto>().ReverseMap();
+            //User
+            CreateMap<User, ResultUserDto>().ReverseMap();
+            CreateMap<User, UpdateUserDto>().ReverseMap();
+            CreateMap<User, GetByIdUserDto>().ReverseMap();
             //Testimonail
             CreateMap<Testimonial, ResultTestimonialDto>().ReverseMap();
             CreateMap<Testimonial, CreateTestimonialDto>().ReverseMap();

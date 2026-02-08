@@ -126,6 +126,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTWVzc2FnZS9VcGRhdGVNZXNzYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Profile/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUHJvZmlsZS9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Role/CreateRole.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9sZS9DcmVhdGVSb2xlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -168,6 +172,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Shared/Components/_EmailLeftBarPartials/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvX0VtYWlsTGVmdEJhclBhcnRpYWxzL0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Shared/Components/_UserAccontSettingPartials/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvX1VzZXJBY2NvbnRTZXR0aW5nUGFydGlhbHMvRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ceyhunyusif/Documents/Hotelier/HotelUI/Views/Shared/_Layout.cshtml]
