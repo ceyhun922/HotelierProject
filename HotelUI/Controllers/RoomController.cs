@@ -38,14 +38,11 @@ namespace HotelUI.Controllers
                 ViewBag.Select2 = data2;
             }
 
-            if (res.IsSuccessStatusCode)
-            {
+
                 var jsonData = await res.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<List<ResultRoomDto>>(jsonData);
                 return View(data);
-            }
 
-            return View();
         }
 
         public async Task<IActionResult> CreateRoom()
@@ -88,7 +85,7 @@ namespace HotelUI.Controllers
     if (typeRes.IsSuccessStatusCode)
     {
         var typeJson = await typeRes.Content.ReadAsStringAsync();
-        var types = JsonConvert.DeserializeObject<List<ResultRoomTypeDto>>(typeJson);
+        var types = JsonConvert.DeserializeObject<List<ResultRoomTypeDto>>(typeJson) ?? new();
         ViewBag.RoomType = new SelectList(types, "Id", "Type");
     }
 

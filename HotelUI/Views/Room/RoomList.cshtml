@@ -6,8 +6,8 @@
 @{
     Layout = "_Layout";
     var count = 1;
-    var select =ViewBag.Select as List<ResultRoomTypeDto> ??new List<ResultRoomTypeDto>();
-        var Select2 =ViewBag.Select2 as List<ResultLocationDto> ?? new List<ResultLocationDto>();
+    var roomType =ViewBag.Select as List<ResultRoomTypeDto> ??new List<ResultRoomTypeDto>();
+        var loc =ViewBag.Select2 as List<ResultLocationDto> ?? new List<ResultLocationDto>();
 }
 
 
@@ -37,8 +37,8 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        var t = select.FirstOrDefault(x => x.Id == item.RoomTypeId);
-                        var l =Select2.FirstOrDefault(x=>x.Id ==item.LocationId);
+                        var t = roomType.FirstOrDefault(x => x.Id == item.RoomTypeId);
+                        var l =loc.FirstOrDefault(x=>x.Id ==item.LocationId);
 
                         <tr>
                             <td>@(count++)</td>

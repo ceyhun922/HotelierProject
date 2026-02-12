@@ -1,3 +1,4 @@
+@using System.Security.Claims
 <div class="nk-sidebar">
     <div class="nk-nav-scroll">
         <ul class="metismenu" id="menu">
@@ -92,13 +93,13 @@
                 </a>
             </li>
             <li>
-                <a href="/RoleAssign/Index/" aria-expanded="false">
-                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">Rol Atamaları -</span>
+                <a asp-controller="RoleAssign" asp-action="Index" aria-expanded="false">
+                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">Rol Atamaları </span>
                 </a>
             </li>
             <li>
-                <a href="/Settings/Index/" aria-expanded="false">
-                    <i class="icon-settings menu-icon"></i><span class="nav-text">Ayarlar -</span>
+                <a asp-action="Index" asp-controller="Profile" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" aria-expanded="false">
+                    <i class="icon-settings menu-icon"></i><span class="nav-text">Ayarlar </span>
                 </a>
             </li>
             <li>

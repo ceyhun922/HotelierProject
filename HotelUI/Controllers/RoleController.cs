@@ -1,6 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using DTOs.RoleDTOs;
+using DTOs.UserDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -83,6 +84,7 @@ namespace HotelUI.Controllers
             return RedirectToAction("RoleList");
 
         }
+
 
 
     }
