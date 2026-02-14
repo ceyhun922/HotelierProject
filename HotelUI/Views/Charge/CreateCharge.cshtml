@@ -1,11 +1,569 @@
 @using DTOs.ChargeDTOs
 @model CreateChargeDto
 
-@using(Html.BeginForm("CreateCharge","Charge",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Charge";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* ==== FIX: uzun metin layout'u daraltmasın ==== */
+
+/* Live header kısmında flex shrink bug fix */
+.charge-live-head { min-width: 0; }
+.charge-live-text { min-width: 0; flex: 1 1 auto; }
+
+/* Title: kırılabilir + 1-2 satır clamp */
+.charge-live-title{
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;   /* 1 satır + ... istersen 2 yap */
+  overflow: hidden;
+}
+
+/* Desc: kırılabilir + 2 satır clamp */
+.charge-live-desc{
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Alttaki live-row satırlarında: değer alanı daralmasın */
+.live-row { align-items: flex-start; }
+.live-row .k { flex: 0 0 110px; }   /* sol label sabit */
+.live-row .v{
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: none !important;       /* sende 70% vardı, o daraltıyordu */
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  text-align: right;
+}
+
+/* Description satırında da 2 satır + ... */
+.live-row .v.desc{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ===== ICON PICKER (otel hizmetleri - geniş liste) ===== */
+.icon-pick-btn{
+    width:100%;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    padding: 12px;
+    outline:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    cursor:pointer;
+    box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    transition:.18s ease;
+}
+.icon-pick-btn:hover{ filter: brightness(1.06); }
+.icon-left{ display:flex; align-items:center; gap:10px; min-width:0; }
+.icon-badge{
+    width:42px; height:42px; border-radius:14px;
+    border:1px solid rgba(255,255,255,.15);
+    background: rgba(0,0,0,.22);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+}
+.icon-badge i{ font-size:18px !important; color: rgba(255,255,255,.92) !important; }
+.icon-meta{ min-width:0; display:flex; flex-direction:column; gap:2px; }
+.icon-meta .t1{ font-weight:900; font-size:13px; color:#fff; line-height:1.2; }
+.icon-meta .t2{
+    font-size:12px; color: rgba(255,255,255,.58);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width: 360px;
+}
+.icon-caret{ color: rgba(255,255,255,.65); }
+
+.icon-pop{ position:relative; margin-top:10px; display:none; }
+.icon-pop.open{ display:block; }
+
+.icon-panel{
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(0,0,0,.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow:hidden;
+}
+.icon-panel-head{
+    padding:12px;
+    border-bottom:1px solid rgba(255,255,255,.10);
+    display:flex; gap:10px; align-items:center;
+}
+.icon-search{
+    flex:1;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.92);
+    padding:10px 12px;
+    outline:none;
+    box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+.icon-close{
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.92);
+    border-radius:14px;
+    padding:10px 12px;
+    cursor:pointer;
+    font-weight:900;
+}
+.icon-close:hover{ filter: brightness(1.06); }
+
+.icon-grid{
+    padding:12px;
+    display:grid;
+    grid-template-columns: repeat(10, minmax(0, 1fr)); /* daha geniş */
+    gap:10px;
+    max-height: 300px;
+    overflow:auto;
+}
+@@media (max-width: 1000px){ .icon-grid{ grid-template-columns: repeat(7, 1fr); } }
+@@media (max-width: 760px){ .icon-grid{ grid-template-columns: repeat(5, 1fr); } }
+@@media (max-width: 560px){ .icon-grid{ grid-template-columns: repeat(4, 1fr); } }
+
+.icon-btn{
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.05);
+    border-radius: 16px;
+    height: 48px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition: transform .12s ease, filter .12s ease, background .12s ease, border-color .12s ease;
+    user-select:none;
+}
+.icon-btn:hover{ filter: brightness(1.06); background: rgba(168,85,247,.10); }
+.icon-btn:active{ transform: translateY(1px); }
+.icon-btn.active{
+    border-color: rgba(168,85,247,.55);
+    background: rgba(168,85,247,.16);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.10);
+}
+.icon-btn i{ font-size:18px !important; color: rgba(255,255,255,.92) !important; }
+
+/* ===== LIVE PREVIEW FIX (ikon ortada çirkin durmasın + taşma olmasın) ===== */
+.live-icon{
+    width: 50px; height: 50px;
+    border-radius: 16px;
+    border:1px solid rgba(255,255,255,.15);
+    background: rgba(0,0,0,.22);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    flex:0 0 auto;
+}
+.live-icon i{ font-size:20px !important; color: rgba(255,255,255,.92) !important; }
+
+.live-media .ph{
+    display:flex !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    text-align:left !important;
+    padding:18px !important;
+}
+
+.charge-live-head{
+    width:100%;
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+}
+.charge-live-text{ min-width:0; flex:1; }
+.charge-live-title{
+    font-weight:950;
+    color:#fff;
+    font-size:16px;
+    line-height:1.2;
+    margin:2px 0 6px;
+}
+.charge-live-desc{
+    color:rgba(255,255,255,.70);
+    font-size:13px;
+    line-height:1.35;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+/* alt satırlarda taşma fix */
+.live-row .v{
+    min-width:0;
+    max-width:70%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+.live-row .v.desc{
+    white-space:normal;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:70%;
+}
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Charge • Create</h1>
+            <p>Otel hizmet ikonunu seç, başlık/açıklama yaz. Canlı görünüm anında güncellenir.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateCharge", "Charge", FormMethod.Post, new { id="chargeForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateCharge</div>
+                        </div>
+
+                        <!-- ICON -->
+                        <div class="field">
+                            <div class="label">Icon (Hotel Services)</div>
+                            @Html.HiddenFor(x => x.Icon, new { id="Icon" })
+
+                            <button type="button" class="icon-pick-btn" id="iconOpenBtn">
+                                <div class="icon-left">
+                                    <div class="icon-badge"><i id="iconBtnI" class="fa-solid fa-hotel"></i></div>
+                                    <div class="icon-meta">
+                                        <div class="t1">İkon seç</div>
+                                        <div class="t2" id="iconBtnText">fa-solid fa-hotel</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-chevron-down icon-caret"></i>
+                            </button>
+
+                            <div class="icon-pop" id="iconPop">
+                                <div class="icon-panel">
+                                    <div class="icon-panel-head">
+                                        <input class="icon-search" id="iconSearch" placeholder="Ara: wifi, spa, pool, parking, breakfast..." />
+                                        <button type="button" class="icon-close" id="iconCloseBtn">Kapat</button>
+                                    </div>
+
+                                    <div class="icon-grid" id="iconGrid">
+                                        <!-- ===== HOTEL / SERVICES (çok ikon) ===== -->
+                                        <div class="icon-btn" data-icon="fa-solid fa-hotel" title="hotel"><i class="fa-solid fa-hotel"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-bell-concierge" title="concierge"><i class="fa-solid fa-bell-concierge"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-key" title="key"><i class="fa-solid fa-key"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-door-open" title="door"><i class="fa-solid fa-door-open"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-person-shelter" title="room"><i class="fa-solid fa-person-shelter"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-wifi" title="wifi"><i class="fa-solid fa-wifi"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-tv" title="tv"><i class="fa-solid fa-tv"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-snowflake" title="air conditioning"><i class="fa-solid fa-snowflake"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-temperature-high" title="heating"><i class="fa-solid fa-temperature-high"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-plug" title="charging"><i class="fa-solid fa-plug"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-mug-saucer" title="coffee"><i class="fa-solid fa-mug-saucer"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-utensils" title="restaurant"><i class="fa-solid fa-utensils"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-bowl-food" title="breakfast"><i class="fa-solid fa-bowl-food"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-champagne-glasses" title="bar"><i class="fa-solid fa-champagne-glasses"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-burger" title="snack"><i class="fa-solid fa-burger"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-person-swimming" title="pool"><i class="fa-solid fa-person-swimming"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-water-ladder" title="pool ladder"><i class="fa-solid fa-water-ladder"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-umbrella-beach" title="beach"><i class="fa-solid fa-umbrella-beach"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-spa" title="spa"><i class="fa-solid fa-spa"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-hot-tub-person" title="sauna"><i class="fa-solid fa-hot-tub-person"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-dumbbell" title="gym"><i class="fa-solid fa-dumbbell"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-person-walking" title="fitness"><i class="fa-solid fa-person-walking"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-bicycle" title="bicycle"><i class="fa-solid fa-bicycle"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-table-tennis-paddle-ball" title="table tennis"><i class="fa-solid fa-table-tennis-paddle-ball"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-futbol" title="football"><i class="fa-solid fa-futbol"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-square-parking" title="parking"><i class="fa-solid fa-square-parking"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-car" title="car"><i class="fa-solid fa-car"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-taxi" title="taxi"><i class="fa-solid fa-taxi"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-bus" title="shuttle"><i class="fa-solid fa-bus"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-plane" title="airport"><i class="fa-solid fa-plane"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-shield-halved" title="security"><i class="fa-solid fa-shield-halved"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-lock" title="safe"><i class="fa-solid fa-lock"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-camera" title="cctv"><i class="fa-solid fa-camera"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-fire-extinguisher" title="fire safety"><i class="fa-solid fa-fire-extinguisher"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-triangle-exclamation" title="alert"><i class="fa-solid fa-triangle-exclamation"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-suitcase-rolling" title="luggage"><i class="fa-solid fa-suitcase-rolling"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-cart-flatbed-suitcase" title="porter"><i class="fa-solid fa-cart-flatbed-suitcase"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-broom" title="housekeeping"><i class="fa-solid fa-broom"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-soap" title="cleaning"><i class="fa-solid fa-soap"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-shirt" title="laundry"><i class="fa-solid fa-shirt"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-people-roof" title="family"><i class="fa-solid fa-people-roof"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-baby" title="baby"><i class="fa-solid fa-baby"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-wheelchair" title="accessible"><i class="fa-solid fa-wheelchair"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-paw" title="pet friendly"><i class="fa-solid fa-paw"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-ban-smoking" title="non smoking"><i class="fa-solid fa-ban-smoking"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-briefcase" title="business"><i class="fa-solid fa-briefcase"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-people-group" title="meeting"><i class="fa-solid fa-people-group"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-chalkboard" title="conference"><i class="fa-solid fa-chalkboard"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-print" title="print"><i class="fa-solid fa-print"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-headset" title="support"><i class="fa-solid fa-headset"></i></div>
+
+                                        <div class="icon-btn" data-icon="fa-solid fa-earth-europe" title="tour"><i class="fa-solid fa-earth-europe"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-map-location-dot" title="location"><i class="fa-solid fa-map-location-dot"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-language" title="language"><i class="fa-solid fa-language"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-phone" title="phone"><i class="fa-solid fa-phone"></i></div>
+                                        <div class="icon-btn" data-icon="fa-solid fa-comment-dots" title="chat"><i class="fa-solid fa-comment-dots"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hint">Butona bas → ikon seç → otomatik kapanır ve canlı görünüm güncellenir.</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Title</div>
+                                @Html.TextBoxFor(x => x.Title, new { @class="input", id="Title", placeholder="Örn: Free Wi-Fi" })
+                            </div>
+                            <div class="field">
+                                <div class="label">Description</div>
+                                @Html.TextAreaFor(x => x.Description, 3, 30, new { @class="input", id="Description", placeholder="Örn: Tüm odalarda yüksek hızlı internet..." })
+                            </div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="live-media">
+                                <div class="ph">
+                                    <div class="charge-live-head">
+                                        <div class="live-icon">
+                                            <i id="liveIcon" class="fa-solid fa-hotel"></i>
+                                        </div>
+                                        <div class="charge-live-text">
+                                            <div class="charge-live-title" id="liveTitle">Title</div>
+                                            <div class="charge-live-desc" id="liveDesc">Description</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="live-overlay">
+                                    <div></div>
+                                    <div class="badge inactive" id="liveBadge">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="live-body">
+                                <div class="live-row">
+                                    <div class="k">Icon</div>
+                                    <div class="v" id="rowIcon">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Title</div>
+                                    <div class="v" id="rowTitle">—</div>
+                                </div>
+                                <div class="live-row" style="margin-bottom:0;">
+                                    <div class="k">Description</div>
+                                    <div class="v desc" id="rowDesc">—</div>
+                                </div>
+
+                                <div class="hint" style="margin-top:12px;">Not: Preview sadece frontend.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Icon)
-    @Html.TextBoxFor(x=>x.Title)
-    @Html.TextAreaFor(x=>x.Description)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    var iconHidden = document.getElementById("Icon");
+    var iconOpenBtn = document.getElementById("iconOpenBtn");
+    var iconCloseBtn = document.getElementById("iconCloseBtn");
+    var iconPop = document.getElementById("iconPop");
+    var iconSearch = document.getElementById("iconSearch");
+    var iconGrid = document.getElementById("iconGrid");
+    var iconButtons = iconGrid ? iconGrid.querySelectorAll(".icon-btn") : [];
+
+    var iconBtnI = document.getElementById("iconBtnI");
+    var iconBtnText = document.getElementById("iconBtnText");
+
+    var liveIcon = document.getElementById("liveIcon");
+    var rowIcon = document.getElementById("rowIcon");
+
+    var title = document.getElementById("Title");
+    var description = document.getElementById("Description");
+    var status = document.getElementById("Status");
+    var btnReset = document.getElementById("btnReset");
+
+    var liveTitle = document.getElementById("liveTitle");
+    var liveDesc = document.getElementById("liveDesc");
+    var rowTitle = document.getElementById("rowTitle");
+    var rowDesc = document.getElementById("rowDesc");
+
+    var liveBadge = document.getElementById("liveBadge");
+    var liveBadgeText = document.getElementById("liveBadgeText");
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function openPop(){
+        if (!iconPop) return;
+        iconPop.classList.add("open");
+        if (iconSearch) iconSearch.focus();
+    }
+    function closePop(){
+        if (!iconPop) return;
+        iconPop.classList.remove("open");
+        if (iconSearch) iconSearch.value = "";
+        for (var i=0;i<iconButtons.length;i++){
+            iconButtons[i].style.display = "flex";
+        }
+    }
+
+    function setIcon(cls){
+        cls = safe(cls, "fa-solid fa-hotel");
+
+        if (iconHidden) iconHidden.value = cls;
+        if (iconBtnText) iconBtnText.textContent = cls;
+
+        if (iconBtnI) iconBtnI.className = cls;
+        if (liveIcon) liveIcon.className = cls;
+
+        if (rowIcon) rowIcon.textContent = cls;
+
+        for (var i=0;i<iconButtons.length;i++){
+            var b = iconButtons[i];
+            var v = b.getAttribute("data-icon");
+            b.classList.toggle("active", v === cls);
+        }
+    }
+
+    function updateText(){
+        var t = safe(title && title.value, "Title") || "Title";
+        var d = safe(description && description.value, "Description") || "Description";
+
+        if (liveTitle) liveTitle.textContent = t;
+        if (liveDesc) liveDesc.textContent = d;
+
+        if (rowTitle) rowTitle.textContent = safe(title && title.value, "—") || "—";
+        if (rowDesc) rowDesc.textContent = safe(description && description.value, "—") || "—";
+
+        var isActive = !!(status && status.checked);
+        if (liveBadge){
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    if (iconOpenBtn) iconOpenBtn.addEventListener("click", function(){
+        if (!iconPop) return;
+        iconPop.classList.contains("open") ? closePop() : openPop();
+    });
+    if (iconCloseBtn) iconCloseBtn.addEventListener("click", closePop);
+
+    document.addEventListener("click", function(e){
+        if (!iconPop || !iconOpenBtn) return;
+        var inside = iconPop.contains(e.target) || iconOpenBtn.contains(e.target);
+        if (!inside) closePop();
+    });
+
+    for (var i=0;i<iconButtons.length;i++){
+        (function(btn){
+            btn.addEventListener("click", function(){
+                var cls = btn.getAttribute("data-icon");
+                setIcon(cls);
+                closePop();
+            });
+        })(iconButtons[i]);
+    }
+
+    if (iconSearch){
+        iconSearch.addEventListener("input", function(){
+            var q = safe(iconSearch.value, "").toLowerCase();
+            for (var i=0;i<iconButtons.length;i++){
+                var b = iconButtons[i];
+                var t = (b.getAttribute("title") || "").toLowerCase();
+                var cls = (b.getAttribute("data-icon") || "").toLowerCase();
+                var show = !q || (t.indexOf(q) !== -1) || (cls.indexOf(q) !== -1);
+                b.style.display = show ? "flex" : "none";
+            }
+        });
+    }
+
+    if (title) title.addEventListener("input", updateText);
+    if (description) description.addEventListener("input", updateText);
+    if (status) status.addEventListener("change", updateText);
+
+    if (btnReset){
+        btnReset.addEventListener("click", function(){
+            setTimeout(function(){
+                setIcon("fa-solid fa-hotel");
+                closePop();
+                updateText();
+            }, 0);
+        });
+    }
+
+    setIcon(iconHidden && iconHidden.value ? iconHidden.value : "fa-solid fa-hotel");
+    updateText();
+});
+</script>
 }
