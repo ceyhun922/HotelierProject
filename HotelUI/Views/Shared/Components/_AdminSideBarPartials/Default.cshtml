@@ -1,125 +1,349 @@
 @using System.Security.Claims
+@{
+    var c = (ViewContext.RouteData.Values["controller"] ?? "").ToString();
+    var a = (ViewContext.RouteData.Values["action"] ?? "").ToString();
+
+    string IsActive(string controller, string action = "")
+    {
+        var okController = string.Equals(c, controller, StringComparison.OrdinalIgnoreCase);
+        if (!okController) return "";
+        if (string.IsNullOrWhiteSpace(action)) return "is-active";
+        return string.Equals(a, action, StringComparison.OrdinalIgnoreCase) ? "is-active" : "";
+    }
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+/* =========================================================
+   SIDEBAR OVERRIDE (theme ezmesin diye spesifik yazıldı)
+   ========================================================= */
+.nk-sidebar{
+    background: radial-gradient(1200px 600px at 10% 10%, rgba(168,85,247,.20), transparent 55%),
+                radial-gradient(900px 520px at 90% 0%, rgba(56,189,248,.14), transparent 55%),
+                linear-gradient(180deg, rgba(7,6,12,.92), rgba(10,8,18,.82));
+    border-right: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 30px 90px rgba(0,0,0,.55);
+}
+
+.nk-sidebar .nk-nav-scroll{
+    background: transparent !important; /* beyazı öldür */
+    padding: 14px 12px;
+}
+
+/* theme metismenu stillerini ez */
+.nk-sidebar ul,
+.nk-sidebar ul li{ background: transparent !important; }
+
+.nk-sidebar ul li a{
+    background: transparent !important;
+    color: inherit !important;
+}
+
+/* Başlık */
+.sb-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding: 6px 6px 10px;
+}
+.sb-brand{
+    display:flex; flex-direction:column; gap:2px;
+}
+.sb-brand .t1{
+    font-weight:950;
+    letter-spacing:.18px;
+    color: rgba(255,255,255,.88);
+    font-size: 14px;
+}
+.sb-brand .t2{
+    color: rgba(255,255,255,.50);
+    font-size: 11px;
+}
+
+/* Grup başlığı */
+.sb-group{
+    margin-top: 10px;
+}
+.sb-group-title{
+    padding: 10px 8px 6px;
+    color: rgba(255,255,255,.52);
+    font-weight: 900;
+    font-size: 11px;
+    letter-spacing: .18px;
+    text-transform: uppercase;
+}
+
+/* Menü listesi */
+.sb-menu{
+    list-style:none;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+/* Link */
+.sb-link{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    padding: 11px 10px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.03);
+    color: rgba(255,255,255,.85) !important;
+    text-decoration:none !important;
+    transition: .16s ease;
+    cursor:pointer;
+}
+
+.sb-link:hover{
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.14);
+    transform: translateY(-1px);
+    color:#fff !important;
+}
+
+.sb-link.is-active{
+    background: rgba(168,85,247,.18);
+    border-color: rgba(168,85,247,.42);
+    box-shadow: 0 0 0 4px rgba(168,85,247,.10);
+    color:#fff !important;
+}
+
+/* icon chip */
+.sb-ico{
+    width: 38px;
+    height: 38px;
+    border-radius: 14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.25);
+    flex:0 0 auto;
+}
+.sb-ico i{ font-size: 15px; color: rgba(255,255,255,.92); }
+
+/* text */
+.sb-text{
+    min-width:0;
+    font-weight: 850;
+    font-size: 13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* Logout button (form içi) */
+.sb-btn{
+    width:100%;
+    border:0;
+    outline:none;
+    text-align:left;
+}
+
+/* Scrollbar */
+.nk-sidebar .nk-nav-scroll::-webkit-scrollbar{ width: 10px; }
+.nk-sidebar .nk-nav-scroll::-webkit-scrollbar-thumb{
+    background: rgba(255,255,255,.12);
+    border-radius: 999px;
+    border: 2px solid rgba(0,0,0,.35);
+}
+</style>
+
 <div class="nk-sidebar">
     <div class="nk-nav-scroll">
-        <ul class="metismenu" id="menu">
-            <li>
-                <a asp-action="Index" asp-controller="Home" aria-expanded="false">
-                    <i class="icon-plane menu-icon"></i><span class="nav-text">Siteye Git-</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Dashboard" aria-expanded="false">
-                    <i class="icon-magic-wand menu-icon"></i><span class="nav-text">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="BookingList" asp-controller="Booking" aria-expanded="false">
-                    <i class="icon-calender menu-icon"></i><span class="nav-text">Rezervasyonlar</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="TeamList" asp-controller="Team" aria-expanded="false">
-                    <i class="icon-notebook menu-icon"></i><span class="nav-text">Personeller</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="TestimonialList" asp-controller="Testimonial" aria-expanded="false">
-                    <i class="icon-lock menu-icon"></i><span class="nav-text">Referanslar </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="ChargeList" asp-controller="Charge" aria-expanded="false">
-                    <i class="icon-clock menu-icon"></i><span class="nav-text">Hizmetler</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="AboutArea" asp-controller="About" aria-expanded="false">
-                    <i class="icon-info menu-icon"></i><span class="nav-text">Hakkımızda</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="RoomTypeList" asp-controller="RoomType" aria-expanded="false">
-                    <i class="icon-home menu-icon"></i><span class="nav-text">Oda Tipleri</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="RoomList" asp-controller="Room" aria-expanded="false">
-                    <i class="icon-home menu-icon"></i><span class="nav-text">Odalar</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="SliderList" asp-controller="Slider" aria-expanded="false">
-                    <i class="icon-energy menu-icon"></i><span class="nav-text">Öne Çıkan Alan</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="GuestList" asp-controller="Guest" aria-expanded="false">
-                    <i class="icon-people menu-icon"></i><span class="nav-text">Misafirler </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="MessageList" asp-controller="Message" aria-expanded="false">
-                    <i class="icon-envelope menu-icon"></i><span class="nav-text">Mesajlar </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Inbox" asp-controller="Mail" aria-expanded="false">
-                    <i class="icon-paper-clip menu-icon"></i><span class="nav-text">Mail İşlemleri</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="UploadFile" asp-controller="File" aria-expanded="false">
-                    <i class="icon-energy menu-icon"></i><span class="nav-text">Resim İşlemleri</span>
-                </a>
-            </li>
-            <li>
-                <a href="/AdminFile/Index/" aria-expanded="false">
-                    <i class="icon-film menu-icon"></i><span class="nav-text">Dosya İşlemleri -</span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="UserList" asp-controller="User" aria-expanded="false">
-                    <i class="icon-user-follow menu-icon"></i><span class="nav-text">Kullanıcılar </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="LocationList" asp-controller="Location" aria-expanded="false">
-                    <i class="icon-puzzle menu-icon"></i><span class="nav-text">Otel Lokasyonları </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="RoleList" asp-controller="Role" aria-expanded="false">
-                    <i class="icon-game-controller menu-icon"></i><span class="nav-text">Roller </span>
-                </a>
-            </li>
-            <li>
-                <a asp-controller="RoleAssign" asp-action="Index" aria-expanded="false">
-                    <i class="icon-speedometer menu-icon"></i><span class="nav-text">Rol Atamaları </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="Index" asp-controller="Profile" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" aria-expanded="false">
-                    <i class="icon-settings menu-icon"></i><span class="nav-text">Ayarlar </span>
-                </a>
-            </li>
-            <li>
-                <a asp-action="ContactList" asp-controller="Contact" aria-expanded="false">
-                    <i class="icon-settings menu-icon"></i><span class="nav-text">İletişim Alanı </span>
-                </a>
-            </li>
-            <li>
-                <form asp-action="Logout" asp-controller="Auth" method="post" style="width:100%;">
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="nav-link btn btn-link p-0 border-0 bg-transparent"
-                            style="width:100%; text-align:left;">
-                        <i class="icon-close menu-icon"></i>
-                        <span class="nav-text">Çıkış Yap</span>
-                    </button>
-                </form>
-            </li>
 
+        <div class="sb-head">
+            <div class="sb-brand">
+                <div class="t1">ADMIN PANEL</div>
+                <div class="t2">Hotel Yönetimi</div>
+            </div>
+        </div>
 
+        <!-- GENEL -->
+        <div class="sb-group">
+            <div class="sb-group-title">Genel</div>
+            <ul class="sb-menu">
+                <li>
+                    <a class="sb-link @IsActive("Home","Index")" asp-action="Index" asp-controller="Home">
+                        <span class="sb-ico"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                        <span class="sb-text">Siteye Git</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Dashboard","Index")" asp-action="Index" asp-controller="Dashboard">
+                        <span class="sb-ico"><i class="fa-solid fa-gauge-high"></i></span>
+                        <span class="sb-text">Dashboard</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-        </ul>
+        <!-- HOTEL -->
+        <div class="sb-group">
+            <div class="sb-group-title">Hotel</div>
+            <ul class="sb-menu">
+                <li>
+                    <a class="sb-link @IsActive("Booking","BookingList")" asp-action="BookingList" asp-controller="Booking">
+                        <span class="sb-ico"><i class="fa-solid fa-calendar-check"></i></span>
+                        <span class="sb-text">Rezervasyonlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("RoomType","RoomTypeList")" asp-action="RoomTypeList" asp-controller="RoomType">
+                        <span class="sb-ico"><i class="fa-solid fa-layer-group"></i></span>
+                        <span class="sb-text">Oda Tipleri</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Room","RoomList")" asp-action="RoomList" asp-controller="Room">
+                        <span class="sb-ico"><i class="fa-solid fa-bed"></i></span>
+                        <span class="sb-text">Odalar</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Location","LocationList")" asp-action="LocationList" asp-controller="Location">
+                        <span class="sb-ico"><i class="fa-solid fa-map-location-dot"></i></span>
+                        <span class="sb-text">Otel Lokasyonları</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Guest","GuestList")" asp-action="GuestList" asp-controller="Guest">
+                        <span class="sb-ico"><i class="fa-solid fa-user-group"></i></span>
+                        <span class="sb-text">Misafirler</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- İÇERİK -->
+        <div class="sb-group">
+            <div class="sb-group-title">İçerik</div>
+            <ul class="sb-menu">
+                <li>
+                    <a class="sb-link @IsActive("Team","TeamList")" asp-action="TeamList" asp-controller="Team">
+                        <span class="sb-ico"><i class="fa-solid fa-users"></i></span>
+                        <span class="sb-text">Personeller</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Testimonial","TestimonialList")" asp-action="TestimonialList" asp-controller="Testimonial">
+                        <span class="sb-ico"><i class="fa-solid fa-quote-left"></i></span>
+                        <span class="sb-text">Referanslar</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Charge","ChargeList")" asp-action="ChargeList" asp-controller="Charge">
+                        <span class="sb-ico"><i class="fa-solid fa-bell-concierge"></i></span>
+                        <span class="sb-text">Hizmetler</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("About","AboutArea")" asp-action="AboutArea" asp-controller="About">
+                        <span class="sb-ico"><i class="fa-solid fa-circle-info"></i></span>
+                        <span class="sb-text">Hakkımızda</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Slider","SliderList")" asp-action="SliderList" asp-controller="Slider">
+                        <span class="sb-ico"><i class="fa-solid fa-images"></i></span>
+                        <span class="sb-text">Öne Çıkan Alan</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Message","MessageList")" asp-action="MessageList" asp-controller="Message">
+                        <span class="sb-ico"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="sb-text">Mesajlar</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Contact","ContactList")" asp-action="ContactList" asp-controller="Contact">
+                        <span class="sb-ico"><i class="fa-solid fa-address-book"></i></span>
+                        <span class="sb-text">İletişim Alanı</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- SİSTEM -->
+        <div class="sb-group">
+            <div class="sb-group-title">Sistem</div>
+            <ul class="sb-menu">
+                <li>
+                    <a class="sb-link @IsActive("Mail","Inbox")" asp-action="Inbox" asp-controller="Mail">
+                        <span class="sb-ico"><i class="fa-solid fa-inbox"></i></span>
+                        <span class="sb-text">Mail İşlemleri</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("File","UploadFile")" asp-action="UploadFile" asp-controller="File">
+                        <span class="sb-ico"><i class="fa-solid fa-cloud-arrow-up"></i></span>
+                        <span class="sb-text">Resim İşlemleri</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link" href="/AdminFile/Index/">
+                        <span class="sb-ico"><i class="fa-solid fa-folder-open"></i></span>
+                        <span class="sb-text">Dosya İşlemleri</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- KULLANICI & ROL -->
+        <div class="sb-group">
+            <div class="sb-group-title">Kullanıcı & Rol</div>
+            <ul class="sb-menu">
+                <li>
+                    <a class="sb-link @IsActive("User","UserList")" asp-action="UserList" asp-controller="User">
+                        <span class="sb-ico"><i class="fa-solid fa-user"></i></span>
+                        <span class="sb-text">Kullanıcılar</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Role","RoleList")" asp-action="RoleList" asp-controller="Role">
+                        <span class="sb-ico"><i class="fa-solid fa-id-badge"></i></span>
+                        <span class="sb-text">Roller</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("RoleAssign","Index")" asp-controller="RoleAssign" asp-action="Index">
+                        <span class="sb-ico"><i class="fa-solid fa-user-shield"></i></span>
+                        <span class="sb-text">Rol Atamaları</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="sb-link @IsActive("Profile","Index")"
+                       asp-action="Index" asp-controller="Profile"
+                       asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                        <span class="sb-ico"><i class="fa-solid fa-gear"></i></span>
+                        <span class="sb-text">Ayarlar</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ÇIKIŞ -->
+        <div class="sb-group" style="margin-top:14px;">
+            <div class="sb-group-title">Hesap</div>
+            <ul class="sb-menu">
+                <li>
+                    <form asp-action="Logout" asp-controller="Auth" method="post" style="margin:0;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="sb-link sb-btn">
+                            <span class="sb-ico"><i class="fa-solid fa-right-from-bracket"></i></span>
+                            <span class="sb-text">Çıkış Yap</span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
     </div>
 </div>

@@ -1,10 +1,426 @@
 @using DTOs.SliderDTOs
 @model CreateSliderDto
 
-@using(Html.BeginForm("CreateSlider","Slider",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Hero";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* HERO özel */
+    .hero-grid{
+        display:grid;
+        grid-template-columns: 1.05fr .95fr;
+        gap:16px;
+    }
+    @@media (max-width: 940px){ .hero-grid{ grid-template-columns:1fr; } }
+
+    .wrap-any{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+
+    .hero-preview{
+        border-radius: 22px;
+        border:1px solid rgba(255,255,255,.12);
+        background: rgba(0,0,0,.25);
+        overflow:hidden;
+        position:relative;
+        min-height: 360px;
+        box-shadow: 0 25px 70px rgba(0,0,0,.40);
+    }
+
+    .hero-bg{
+        position:absolute; inset:0;
+        width:100%; height:100%;
+        object-fit:cover;
+        display:none;
+        transform: scale(1.02);
+        filter: saturate(1.05) contrast(1.03);
+    }
+
+    .hero-ph{
+        position:absolute; inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:22px;
+        color: rgba(255,255,255,.65);
+        font-size: 13px;
+        line-height: 1.5;
+        background: rgba(0,0,0,.12);
+    }
+
+    .hero-overlay{
+        position:absolute; inset:0;
+        background:
+            radial-gradient(1200px 500px at 50% 45%, rgba(0,0,0,.20), rgba(0,0,0,.65)),
+            linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.55));
+    }
+
+    .hero-content{
+        position:absolute; inset:0;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        padding: 26px;
+        gap: 14px;
+        text-align:center;
+    }
+
+    .hero-kicker{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        color: rgba(255,255,255,.80);
+        font-weight:900;
+        letter-spacing:.14px;
+        font-size: 12px;
+        text-transform:uppercase;
+    }
+    .hero-kicker:before,
+    .hero-kicker:after{
+        content:"";
+        height:2px;
+        width:42px;
+        border-radius:999px;
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.85));
+        opacity:.9;
+    }
+
+    .hero-title1{
+        margin:0;
+        font-weight: 980;
+        font-size: 44px;
+        line-height:1.08;
+        color:#fff;
+        text-shadow: 0 18px 45px rgba(0,0,0,.55);
+    }
+    @@media (max-width: 560px){ .hero-title1{ font-size: 32px; } }
+
+    .hero-title2{
+        margin:0;
+        font-weight: 980;
+        font-size: 44px;
+        line-height:1.08;
+        color:#fff;
+        text-shadow: 0 18px 45px rgba(0,0,0,.55);
+    }
+    @@media (max-width: 560px){ .hero-title2{ font-size: 32px; } }
+
+    .hero-actions{
+        margin-top: 6px;
+        display:flex;
+        gap:14px;
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+    .hero-btn{
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-weight: 950;
+        letter-spacing:.10px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.08);
+        color:#fff;
+        cursor: default; /* preview */
+        user-select:none;
+        box-shadow: 0 18px 45px rgba(0,0,0,.30);
+    }
+    .hero-btn.primary{
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.85));
+        border-color: rgba(255,255,255,.18);
+    }
+    .hero-btn.ghost{
+        background: rgba(255,255,255,.10);
+    }
+
+    /* form file ui (senin create-theme ile uyumlu) */
+    .file-holder{ position:relative; }
+    .file-ui{
+        display:flex; align-items:center; gap:12px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        padding: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+        cursor:pointer;
+    }
+    .file-btn{
+        padding:10px 12px;
+        border-radius:12px;
+        background: rgba(0,0,0,.28);
+        border:1px solid rgba(255,255,255,.12);
+        font-weight:950;
+        color:#fff;
+        white-space:nowrap;
+    }
+    .file-name{
+        color: rgba(255,255,255,.70);
+        font-size: 12px;
+        overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+        min-width:0;
+    }
+    .file-real{
+        position:absolute;
+        inset:0;
+        opacity:0;
+        cursor:pointer;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Hero • Create</h1>
+            <p>Arka plan foto + Title1 + Title2. Sağdaki canlı görünüm sitedeki hero gibi.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateSlider","Slider",FormMethod.Post, new { id="heroForm", enctype="multipart/form-data", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="hero-grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateSlider</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Image (Upload)</div>
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">Dosya Seç</div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP (max 3MB)</div>
+                                </div>
+                                <!-- ✅ ImageUrl değil: upload -->
+                                <input class="file-real" type="file" id="ImageFile" name="ImageFile"
+                                       accept="image/png,image/jpeg,image/webp" />
+                            </div>
+                            <div class="hint">Seçtiğin foto sağdaki hero arka planına düşecek.</div>
+                            <div class="err" id="fileError"></div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Title 1</div>
+                                @Html.TextBoxFor(x => x.Title1, new { @class="input", id="Title1", placeholder="Örn: Discover A Brand" })
+                            </div>
+                            <div class="field">
+                                <div class="label">Title 2</div>
+                                @Html.TextBoxFor(x => x.Title2, new { @class="input", id="Title2", placeholder="Örn: Luxurious Hotel" })
+                            </div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="hero-preview">
+                                <img class="hero-bg" id="pvBg" alt="hero" />
+                                <div class="hero-ph" id="pvPh">Foto seçilmedi • Hero arka planı burada görünecek</div>
+                                <div class="hero-overlay"></div>
+
+                                <div class="hero-content">
+                                    <div class="hero-kicker">LUXURY LIVING</div>
+
+                                    <h2 class="hero-title1 wrap-any" id="pvT1">Discover A Brand</h2>
+                                    <h2 class="hero-title2 wrap-any" id="pvT2">Luxurious Hotel</h2>
+
+                                    <div class="hero-actions">
+                                        <div class="hero-btn primary">OUR ROOMS</div>
+                                        <div class="hero-btn ghost">BOOK A ROOM</div>
+                                    </div>
+                                </div>
+
+                                <div class="live-overlay">
+                                    <div></div>
+                                    <div class="badge inactive" id="liveBadge" style="margin:14px;">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="live-body">
+                                <div class="live-row">
+                                    <div class="k">Title1</div>
+                                    <div class="v" id="rowT1">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Title2</div>
+                                    <div class="v" id="rowT2">—</div>
+                                </div>
+                                <div class="hint" style="margin-top:12px;">Not: Preview sadece frontend.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Title1)
-    @Html.TextBoxFor(x=>x.Title2)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    var t1 = document.getElementById("Title1");
+    var t2 = document.getElementById("Title2");
+    var status = document.getElementById("Status");
+
+    var pvT1 = document.getElementById("pvT1");
+    var pvT2 = document.getElementById("pvT2");
+    var rowT1 = document.getElementById("rowT1");
+    var rowT2 = document.getElementById("rowT2");
+
+    var liveBadge = document.getElementById("liveBadge");
+    var liveBadgeText = document.getElementById("liveBadgeText");
+
+    var fileInput = document.getElementById("ImageFile");
+    var fileName = document.getElementById("fileName");
+    var fileError = document.getElementById("fileError");
+
+    var pvBg = document.getElementById("pvBg");
+    var pvPh = document.getElementById("pvPh");
+
+    var btnReset = document.getElementById("btnReset");
+
+    if (!t1 || !t2 || !status || !fileInput || !btnReset) return;
+
+    var objectUrl = null;
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "—" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function showError(msg){
+        if (!fileError) return;
+        fileError.textContent = msg;
+        fileError.style.display = "block";
+    }
+    function clearError(){
+        if (!fileError) return;
+        fileError.textContent = "";
+        fileError.style.display = "none";
+    }
+
+    function updateText(){
+        var a = safe(t1.value, "Discover A Brand");
+        var b = safe(t2.value, "Luxurious Hotel");
+
+        if (pvT1) pvT1.textContent = a;
+        if (pvT2) pvT2.textContent = b;
+
+        if (rowT1) rowT1.textContent = safe(t1.value, "—");
+        if (rowT2) rowT2.textContent = safe(t2.value, "—");
+
+        var isActive = !!status.checked;
+        if (liveBadge){
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    function clearImage(){
+        if (objectUrl){
+            try{ URL.revokeObjectURL(objectUrl); }catch(e){}
+            objectUrl = null;
+        }
+
+        if (pvBg){
+            pvBg.removeAttribute("src");
+            pvBg.style.display = "none";
+        }
+        if (pvPh) pvPh.style.display = "flex";
+
+        if (fileName) fileName.textContent = "PNG / JPG / WEBP (max 3MB)";
+        clearError();
+    }
+
+    function onFileChange(){
+        clearError();
+
+        var f = fileInput.files && fileInput.files[0];
+        if (!f){ clearImage(); return; }
+
+        var allowed = ["image/png","image/jpeg","image/webp"];
+        if (allowed.indexOf(f.type) === -1){
+            showError("Yalnız PNG / JPG / WEBP kabul.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+        if (f.size > 3 * 1024 * 1024){
+            showError("Fayl 3MB'dan büyük olamaz.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (fileName) fileName.textContent = f.name;
+
+        if (objectUrl){
+            try{ URL.revokeObjectURL(objectUrl); }catch(e){}
+        }
+        objectUrl = URL.createObjectURL(f);
+
+        if (pvBg){
+            pvBg.src = objectUrl;
+            pvBg.onload = function(){
+                pvBg.style.display = "block";
+                if (pvPh) pvPh.style.display = "none";
+            };
+        }
+    }
+
+    t1.addEventListener("input", updateText);
+    t2.addEventListener("input", updateText);
+    status.addEventListener("change", updateText);
+    fileInput.addEventListener("change", onFileChange);
+
+    btnReset.addEventListener("click", function(){
+        setTimeout(function(){
+            fileInput.value = "";
+            clearImage();
+            updateText();
+        }, 0);
+    });
+
+    clearImage();
+    updateText();
+});
+</script>
 }

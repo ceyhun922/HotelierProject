@@ -20853,6 +20853,10 @@
       "PackagePath": "staticwebassets/admin/widgets.html"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/create-theme.css",
+      "PackagePath": "staticwebassets/css/create-theme.css"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },

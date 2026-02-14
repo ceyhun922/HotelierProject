@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "3I6iRTRRIFI2G8Mz4uI/9XFVDcNA65xhpVjYTVZcXP8=",
+  "Hash": "Av88Tmqn7Dhv/uDMe0lhpFAtM54hSEwGH8O8FPWvkzg=",
   "Source": "HotelUI",
   "BasePath": "_content/HotelUI",
   "Mode": "Default",
@@ -99062,6 +99062,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/admin/widgets.html"
+    },
+    {
+      "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/create-theme.css",
+      "SourceId": "HotelUI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/",
+      "BasePath": "_content/HotelUI",
+      "RelativePath": "css/create-theme.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/create-theme.css"
     },
     {
       "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/site.css",

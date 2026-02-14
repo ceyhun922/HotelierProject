@@ -1,16 +1,592 @@
 @using DTOs.RoomDTOs
-
 @model CreateRoomDto
 
-@using(Html.BeginForm("CreateRoom","Room",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Room";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* Room özel */
+    .room-grid{
+        display:grid;
+        grid-template-columns: 1.05fr .95fr;
+        gap:16px;
+    }
+    @@media (max-width: 940px){ .room-grid{ grid-template-columns:1fr; } }
+
+    .wrap-any{ overflow-wrap:anywhere; word-break:break-word; }
+
+    /* select görünümü: input ile aynı hiss */
+    .select{
+        width:100%;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.92);
+        padding: 12px 12px;
+        outline:none;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+        appearance:none;
+        -webkit-appearance:none;
+        -moz-appearance:none;
+    }
+    .select option{ color:#111; } /* dropdown list */
+    .select-wrap{ position:relative; }
+    .select-wrap:after{
+        content:"\f078";
+        font-family:"Font Awesome 6 Free";
+        font-weight:900;
+        position:absolute;
+        right:14px;
+        top:50%;
+        transform: translateY(-50%);
+        color: rgba(255,255,255,.55);
+        pointer-events:none;
+        font-size: 12px;
+    }
+
+    /* file ui */
+    .file-holder{ position:relative; }
+    .file-ui{
+        display:flex; align-items:center; gap:12px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        padding: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+        cursor:pointer;
+    }
+    .file-btn{
+        padding:10px 12px;
+        border-radius:12px;
+        background: rgba(0,0,0,.28);
+        border:1px solid rgba(255,255,255,.12);
+        font-weight:950;
+        color:#fff;
+        white-space:nowrap;
+    }
+    .file-name{
+        color: rgba(255,255,255,.70);
+        font-size: 12px;
+        overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+        min-width:0;
+    }
+    .file-real{
+        position:absolute; inset:0;
+        opacity:0; cursor:pointer;
+    }
+
+    /* preview card (room) */
+    .room-preview{
+        border-radius: 22px;
+        border:1px solid rgba(255,255,255,.12);
+        background: rgba(0,0,0,.25);
+        overflow:hidden;
+        position:relative;
+        box-shadow: 0 25px 70px rgba(0,0,0,.40);
+    }
+
+    .room-cover{
+        position:relative;
+        height: 230px;
+        background: rgba(0,0,0,.18);
+        overflow:hidden;
+    }
+    .room-img{
+        position:absolute; inset:0;
+        width:100%; height:100%;
+        object-fit:cover;
+        display:none;
+        transform: scale(1.02);
+        filter:saturate(1.05) contrast(1.03);
+    }
+    .room-ph{
+        position:absolute; inset:0;
+        display:flex; align-items:center; justify-content:center;
+        text-align:center;
+        padding:18px;
+        color: rgba(255,255,255,.65);
+        font-size: 13px;
+        line-height:1.5;
+    }
+    .room-overlay{
+        position:absolute; inset:0;
+        background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.65));
+    }
+
+    .room-top{
+        position:absolute;
+        left:16px; right:16px; bottom:14px;
+        display:flex;
+        align-items:flex-end;
+        justify-content:space-between;
+        gap:12px;
+    }
+    .room-title{
+        min-width:0;
+        display:flex;
+        flex-direction:column;
+        gap:4px;
+    }
+    .room-type{
+        font-weight:950;
+        color:#fff;
+        font-size:16px;
+        line-height:1.2;
+        text-shadow: 0 18px 45px rgba(0,0,0,.55);
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        max-width: 360px;
+    }
+    .room-loc{
+        color: rgba(255,255,255,.78);
+        font-size: 12px;
+        display:flex;
+        align-items:center;
+        gap:8px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        max-width: 360px;
+    }
+    .room-price{
+        flex:0 0 auto;
+        padding:10px 12px;
+        border-radius: 14px;
+        border:1px solid rgba(255,255,255,.16);
+        background: rgba(0,0,0,.35);
+        color:#fff;
+        font-weight:980;
+        box-shadow: 0 18px 45px rgba(0,0,0,.35);
+        white-space:nowrap;
+    }
+    .room-price small{
+        font-weight:800;
+        color: rgba(255,255,255,.75);
+        margin-left:6px;
+    }
+
+    .room-body{
+        padding:16px;
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+    .room-metrics{
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+    }
+    .pill{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding:9px 12px;
+        border-radius: 999px;
+        border:1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.88);
+        font-weight:900;
+        font-size: 12px;
+    }
+    .pill i{ opacity:.95; }
+    .pill.off{ opacity:.55; }
+
+    .desc{
+        color: rgba(255,255,255,.74);
+        font-size: 13px;
+        line-height:1.6;
+    }
+    .clamp-4{
+        display:-webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow:hidden;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Room • Create</h1>
+            <p>RoomType + Location + Price + Bed/Bath + WiFi + Description + Foto. Sağda canlı preview.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateRoom","Room",FormMethod.Post, new { id="roomForm", enctype="multipart/form-data", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="room-grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateRoom</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Room Type</div>
+                                <div class="select-wrap">
+                                    @Html.DropDownListFor(x=>x.RoomTypeId, ViewBag.RoomType as SelectList, "Seç", new { @class="select", id="RoomTypeId" })
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="label">Location</div>
+                                <div class="select-wrap">
+                                    @Html.DropDownListFor(x=>x.LocationId, ViewBag.Location as SelectList, "Seç", new { @class="select", id="LocationId" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Price</div>
+                                @Html.TextBoxFor(x=>x.Price, new { @class="input", id="Price", placeholder="Örn: 120" })
+                                <div class="hint">Preview’de “/night” gibi gösterilir (sadece UI).</div>
+                            </div>
+                            <div class="field">
+                                <div class="label">WiFi</div>
+                                <label class="toggle" style="margin-top:6px;">
+                                    @Html.CheckBoxFor(x=>x.IsWifi, new { id="IsWifi" })
+                                    <span>IsWifi</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Bed Count</div>
+                                @Html.TextBoxFor(x=>x.BedCount, new { @class="input", id="BedCount", placeholder="Örn: 2", inputmode="numeric" })
+                            </div>
+                            <div class="field">
+                                <div class="label">Bath Count</div>
+                                @Html.TextBoxFor(x=>x.BathCount, new { @class="input", id="BathCount", placeholder="Örn: 1", inputmode="numeric" })
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Description</div>
+                            @Html.TextAreaFor(x=>x.Description, 6, 30, new { @class="input", id="Description", placeholder="Açıklama..." })
+                            <div class="hint">Preview’de 4 satır gösterir.</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Image (Upload)</div>
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">Dosya Seç</div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP (max 3MB)</div>
+                                </div>
+                                <input class="file-real" type="file" id="ImageFile" name="ImageFile"
+                                       accept="image/png,image/jpeg,image/webp" />
+                            </div>
+                            <div class="hint">Seçtiğin foto sağdaki oda görseli olur.</div>
+                            <div class="err" id="fileError"></div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x=>x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="room-preview">
+                            <div class="room-cover">
+                                <img class="room-img" id="pvImg" alt="room" />
+                                <div class="room-ph" id="pvPh">Foto seçilmedi • Oda görseli burada</div>
+                                <div class="room-overlay"></div>
+
+                                <div class="room-top">
+                                    <div class="room-title">
+                                        <div class="room-type" id="pvType">Room Type</div>
+                                        <div class="room-loc" id="pvLoc">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <span>Location</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="room-price" id="pvPrice">$0 <small>/night</small></div>
+                                </div>
+                            </div>
+
+                            <div class="room-body">
+                                <div class="room-metrics">
+                                    <div class="pill" id="pvBed"><i class="fa-solid fa-bed"></i> <span>0 Bed</span></div>
+                                    <div class="pill" id="pvBath"><i class="fa-solid fa-bath"></i> <span>0 Bath</span></div>
+                                    <div class="pill off" id="pvWifi"><i class="fa-solid fa-wifi"></i> <span>WiFi</span></div>
+
+                                    <div class="badge inactive" id="liveBadge" style="margin-left:auto;">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+
+                                <div class="desc clamp-4 wrap-any" id="pvDesc">Description...</div>
+
+                                <div class="hint">Not: Preview sadece frontend.</div>
+                            </div>
+                        </div>
+
+                        <div class="live-card" style="margin-top:14px;">
+                            <div class="live-body">
+                                <div class="live-row">
+                                    <div class="k">RoomType</div>
+                                    <div class="v" id="rowType">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Location</div>
+                                    <div class="v" id="rowLoc">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Price</div>
+                                    <div class="v" id="rowPrice">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Beds</div>
+                                    <div class="v" id="rowBed">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Baths</div>
+                                    <div class="v" id="rowBath">—</div>
+                                </div>
+                                <div class="live-row" style="margin-bottom:0;">
+                                    <div class="k">WiFi</div>
+                                    <div class="v" id="rowWifi">—</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.DropDownListFor(x=>x.RoomTypeId, ViewBag.RoomType as SelectList,"seç")
-    @Html.DropDownListFor(x=>x.LocationId,ViewBag.Location as SelectList,"seç")
-    @Html.TextBoxFor(x=>x.Price)
-    @Html.TextBoxFor(x=>x.BedCount)
-    @Html.TextBoxFor(x=>x.BathCount)
-    @Html.CheckBoxFor(x=>x.IsWifi)
-    @Html.TextAreaFor(x=>x.Description)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+    var roomType = document.getElementById("RoomTypeId");
+    var location = document.getElementById("LocationId");
+    var price = document.getElementById("Price");
+    var bed = document.getElementById("BedCount");
+    var bath = document.getElementById("BathCount");
+    var wifi = document.getElementById("IsWifi");
+    var desc = document.getElementById("Description");
+    var status = document.getElementById("Status");
+
+    var pvType = document.getElementById("pvType");
+    var pvLoc = document.getElementById("pvLoc");
+    var pvPrice = document.getElementById("pvPrice");
+    var pvBed = document.getElementById("pvBed");
+    var pvBath = document.getElementById("pvBath");
+    var pvWifi = document.getElementById("pvWifi");
+    var pvDesc = document.getElementById("pvDesc");
+
+    var rowType = document.getElementById("rowType");
+    var rowLoc = document.getElementById("rowLoc");
+    var rowPrice = document.getElementById("rowPrice");
+    var rowBed = document.getElementById("rowBed");
+    var rowBath = document.getElementById("rowBath");
+    var rowWifi = document.getElementById("rowWifi");
+
+    var liveBadge = document.getElementById("liveBadge");
+    var liveBadgeText = document.getElementById("liveBadgeText");
+
+    var fileInput = document.getElementById("ImageFile");
+    var fileName = document.getElementById("fileName");
+    var fileError = document.getElementById("fileError");
+    var pvImg = document.getElementById("pvImg");
+    var pvPh = document.getElementById("pvPh");
+    var btnReset = document.getElementById("btnReset");
+
+    if (!roomType || !location || !price || !bed || !bath || !wifi || !desc || !status || !fileInput || !btnReset) return;
+
+    var objectUrl = null;
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "—" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function optText(selectEl){
+        if (!selectEl) return "";
+        var i = selectEl.selectedIndex;
+        if (i < 0) return "";
+        var t = selectEl.options[i].text || "";
+        t = String(t).trim();
+        // "Seç" ise boş say
+        if (!t || t.toLowerCase() === "seç") return "";
+        return t;
+    }
+
+    function showError(msg){
+        if (!fileError) return;
+        fileError.textContent = msg;
+        fileError.style.display = "block";
+    }
+    function clearError(){
+        if (!fileError) return;
+        fileError.textContent = "";
+        fileError.style.display = "none";
+    }
+
+    function clearImage(){
+        if (objectUrl){
+            try{ URL.revokeObjectURL(objectUrl); }catch(e){}
+            objectUrl = null;
+        }
+        if (pvImg){
+            pvImg.removeAttribute("src");
+            pvImg.style.display = "none";
+        }
+        if (pvPh) pvPh.style.display = "flex";
+        if (fileName) fileName.textContent = "PNG / JPG / WEBP (max 3MB)";
+        clearError();
+    }
+
+    function onFileChange(){
+        clearError();
+
+        var f = fileInput.files && fileInput.files[0];
+        if (!f){ clearImage(); return; }
+
+        var allowed = ["image/png","image/jpeg","image/webp"];
+        if (allowed.indexOf(f.type) === -1){
+            showError("Yalnız PNG / JPG / WEBP kabul.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+        if (f.size > 3 * 1024 * 1024){
+            showError("Fayl 3MB'dan büyük olamaz.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (fileName) fileName.textContent = f.name;
+
+        if (objectUrl){
+            try{ URL.revokeObjectURL(objectUrl); }catch(e){}
+        }
+        objectUrl = URL.createObjectURL(f);
+
+        if (pvImg){
+            pvImg.src = objectUrl;
+            pvImg.onload = function(){
+                pvImg.style.display = "block";
+                if (pvPh) pvPh.style.display = "none";
+            };
+        }
+    }
+
+    function update(){
+        var t = optText(roomType);
+        var l = optText(location);
+
+        var p = safe(price.value, "");
+        var b = safe(bed.value, "");
+        var ba = safe(bath.value, "");
+        var d = safe(desc.value, "Description...");
+
+        if (pvType) pvType.textContent = t || "Room Type";
+        if (rowType) rowType.textContent = t || "—";
+
+        if (pvLoc){
+            var span = pvLoc.querySelector("span");
+            if (span) span.textContent = l || "Location";
+        }
+        if (rowLoc) rowLoc.textContent = l || "—";
+
+        // price
+        var priceText = p ? ("$" + p) : "$0";
+        if (pvPrice) pvPrice.innerHTML = priceText + ' <small>/night</small>';
+        if (rowPrice) rowPrice.textContent = p ? p : "—";
+
+        // beds/baths
+        var bedNum = b ? b : "0";
+        var bathNum = ba ? ba : "0";
+
+        if (pvBed){
+            var s1 = pvBed.querySelector("span");
+            if (s1) s1.textContent = bedNum + " Bed";
+        }
+        if (pvBath){
+            var s2 = pvBath.querySelector("span");
+            if (s2) s2.textContent = bathNum + " Bath";
+        }
+
+        if (rowBed) rowBed.textContent = b ? b : "—";
+        if (rowBath) rowBath.textContent = ba ? ba : "—";
+
+        // wifi
+        var w = !!wifi.checked;
+        if (pvWifi){
+            pvWifi.classList.toggle("off", !w);
+        }
+        if (rowWifi) rowWifi.textContent = w ? "Var" : "Yok";
+
+        // desc
+        if (pvDesc) pvDesc.textContent = d;
+
+        // status badge
+        var isActive = !!status.checked;
+        if (liveBadge){
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    roomType.addEventListener("change", update);
+    location.addEventListener("change", update);
+    price.addEventListener("input", update);
+    bed.addEventListener("input", update);
+    bath.addEventListener("input", update);
+    wifi.addEventListener("change", update);
+    desc.addEventListener("input", update);
+    status.addEventListener("change", update);
+
+    fileInput.addEventListener("change", onFileChange);
+
+    btnReset.addEventListener("click", function(){
+        setTimeout(function(){
+            fileInput.value = "";
+            clearImage();
+            update();
+        }, 0);
+    });
+
+    clearImage();
+    update();
+});
+</script>
 }
