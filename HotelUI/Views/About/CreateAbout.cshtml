@@ -1,12 +1,583 @@
 @using DTOs.AboutDTOs
-
 @model CreateAboutDto
 
-@using(Html.BeginForm("CreateAbout","About",FormMethod.Post))
+@{
+    ViewBag.Title = "Create About";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* About özel: mozaik preview + daha iyi text wrap */
+    .about-grid{
+        display:grid;
+        grid-template-columns: 1.1fr .9fr;
+        gap:16px;
+    }
+    @@media (max-width: 940px){ .about-grid{ grid-template-columns:1fr; } }
+
+    /* mozaik alan */
+    .mosaic{
+        display:grid;
+        grid-template-columns: 1.3fr .9fr;
+        gap:12px;
+        align-items:stretch;
+        min-height: 280px;
+    }
+    @@media (max-width: 560px){
+        .mosaic{ grid-template-columns: 1fr; }
+    }
+
+    .m-left{
+        border-radius: 18px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        overflow:hidden;
+        position:relative;
+        min-height: 280px;
+    }
+    .m-right{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap:12px;
+        min-height: 280px;
+    }
+    @@media (max-width: 560px){
+        .m-right{ min-height:auto; }
+    }
+
+    .m-tile{
+        border-radius: 18px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        overflow:hidden;
+        position:relative;
+        min-height: 134px;
+    }
+
+    .m-img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        display:none;
+        filter:saturate(1.05) contrast(1.03);
+        transform: scale(1.02);
+    }
+    .m-ph{
+        position:absolute; inset:0;
+        display:flex; align-items:center; justify-content:center;
+        text-align:center;
+        padding:16px;
+        color: rgba(255,255,255,.60);
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    /* tile üstü action */
+    .tile-actions{
+        position:absolute;
+        left:10px;
+        top:10px;
+        display:flex;
+        gap:8px;
+        z-index:5;
+    }
+    .tile-btn{
+        border:1px solid rgba(255,255,255,.16);
+        background: rgba(0,0,0,.35);
+        color: rgba(255,255,255,.92);
+        border-radius: 999px;
+        padding: 8px 10px;
+        font-weight: 950;
+        font-size: 12px;
+        cursor:pointer;
+        box-shadow: 0 14px 35px rgba(0,0,0,.35);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: .14s ease;
+        user-select:none;
+    }
+    .tile-btn:hover{ filter: brightness(1.06); }
+    .tile-btn:active{ transform: translateY(1px); }
+
+    /* text overflow fix: asla alan daraltmasın */
+    .wrap-any{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+
+    /* sağ üst preview header */
+    .about-preview-head{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        padding: 18px;
+    }
+    .about-kicker{
+        font-size:12px;
+        font-weight:900;
+        letter-spacing:.18px;
+        color: rgba(255,255,255,.70);
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    .about-kicker .line{
+        height:2px;
+        width:52px;
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.75));
+        border-radius:999px;
+        opacity:.9;
+    }
+    .about-title{
+        margin:0;
+        font-size: 30px;
+        line-height:1.05;
+        font-weight: 980;
+        color:#fff;
+    }
+    .about-title .accent{
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.85));
+        -webkit-background-clip:text;
+        background-clip:text;
+        color: transparent;
+    }
+    .about-desc{
+        margin:0;
+        color: rgba(255,255,255,.72);
+        line-height:1.6;
+        font-size: 13px;
+    }
+
+    /* description preview clamp */
+    .clamp-4{
+        display:-webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow:hidden;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>About • Create</h1>
+            <p>Başlık / alt başlık / açıklama + çoklu foto. Sağda sitedeki gibi mozaik canlı görünüm.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateAbout", "About", FormMethod.Post, new { id="aboutForm", enctype="multipart/form-data", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="about-grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateAbout</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Title</div>
+                                @Html.TextBoxFor(x => x.Title, new { @class="input", id="Title", placeholder="Örn: Welcome to HOTELIER" })
+                            </div>
+                            <div class="field">
+                                <div class="label">SubTitle</div>
+                                @Html.TextBoxFor(x => x.SubTitle, new { @class="input", id="SubTitle", placeholder="Örn: ABOUT US" })
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Description</div>
+                            @Html.TextAreaFor(x => x.Description, 6, 30, new { @class="input", id="Description", placeholder="Açıklama..." })
+                            <div class="hint">Sağdaki preview’de 4 satır görünecek (uzunu gizler).</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Images (Upload • Multiple)</div>
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">Dosya Seç</div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP (maks 4 foto)</div>
+                                </div>
+                                <input class="file-real"
+                                       type="file"
+                                       id="ImageFiles"
+                                       name="ImageFiles"
+                                       multiple
+                                       accept="image/png,image/jpeg,image/webp" />
+                            </div>
+                            <div class="hint">Max 4 foto. Yanlış yüklediğin fotoyu sağdaki “Değiştir” ile tek tek değiş.</div>
+                            <div class="err" id="fileError"></div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="about-preview-head">
+                                <div class="about-kicker">
+                                    <span id="pvSubTitle">ABOUT US</span>
+                                    <span class="line"></span>
+                                </div>
+
+                                <h2 class="about-title wrap-any" id="pvTitle">
+                                    Welcome to <span class="accent">HOTELIER</span>
+                                </h2>
+
+                                <p class="about-desc clamp-4 wrap-any" id="pvDesc">
+                                    Description...
+                                </p>
+                            </div>
+
+                            <div class="live-body" style="padding-top:0;">
+                                <div class="mosaic">
+                                    <!-- büyük -->
+                                    <div class="m-left" data-slot="0">
+                                        <div class="tile-actions">
+                                            <button type="button" class="tile-btn js-replace" data-slot="0">Değiştir</button>
+                                        </div>
+                                        <img class="m-img" id="img0" alt="img0" />
+                                        <div class="m-ph" id="ph0">Foto seçilmedi • Büyük görsel</div>
+                                    </div>
+
+                                    <!-- 3 küçük -->
+                                    <div class="m-right">
+                                        <div class="m-tile" data-slot="1">
+                                            <div class="tile-actions">
+                                                <button type="button" class="tile-btn js-replace" data-slot="1">Değiştir</button>
+                                            </div>
+                                            <img class="m-img" id="img1" alt="img1" />
+                                            <div class="m-ph" id="ph1">Küçük 1</div>
+                                        </div>
+
+                                        <div class="m-tile" data-slot="2">
+                                            <div class="tile-actions">
+                                                <button type="button" class="tile-btn js-replace" data-slot="2">Değiştir</button>
+                                            </div>
+                                            <img class="m-img" id="img2" alt="img2" />
+                                            <div class="m-ph" id="ph2">Küçük 2</div>
+                                        </div>
+
+                                        <div class="m-tile" data-slot="3">
+                                            <div class="tile-actions">
+                                                <button type="button" class="tile-btn js-replace" data-slot="3">Değiştir</button>
+                                            </div>
+                                            <img class="m-img" id="img3" alt="img3" />
+                                            <div class="m-ph" id="ph3">Küçük 3</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="hint" style="margin-top:12px;">Not: Preview sadece frontend.</div>
+                            </div>
+
+                            <div class="live-media" style="height:auto;">
+                                <div class="live-overlay">
+                                    <div></div>
+                                    <div class="badge inactive" id="liveBadge">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Title)
-    @Html.TextBoxFor(x=>x.SubTitle)
-    @Html.TextAreaFor(x=>x.Description)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    var title = document.getElementById("Title");
+    var subTitle = document.getElementById("SubTitle");
+    var desc = document.getElementById("Description");
+    var status = document.getElementById("Status");
+
+    var pvTitle = document.getElementById("pvTitle");
+    var pvSubTitle = document.getElementById("pvSubTitle");
+    var pvDesc = document.getElementById("pvDesc");
+
+    var fileInput = document.getElementById("ImageFiles");
+    var fileName = document.getElementById("fileName");
+    var fileError = document.getElementById("fileError");
+
+    var imgEls = [
+        document.getElementById("img0"),
+        document.getElementById("img1"),
+        document.getElementById("img2"),
+        document.getElementById("img3")
+    ];
+    var phEls = [
+        document.getElementById("ph0"),
+        document.getElementById("ph1"),
+        document.getElementById("ph2"),
+        document.getElementById("ph3")
+    ];
+
+    var replaceBtns = document.querySelectorAll(".js-replace");
+
+    var liveBadge = document.getElementById("liveBadge");
+    var liveBadgeText = document.getElementById("liveBadgeText");
+    var btnReset = document.getElementById("btnReset");
+
+    if (!title || !subTitle || !desc || !status || !fileInput || !btnReset) return;
+
+    var objectUrls = [];
+    var selectedFiles = []; // slot bazlı: 0..3
+    var MAX = 4;
+
+    // replace mod (hangi slot değişecek)
+    var replaceMode = false;
+    var replaceSlot = 0;
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function updateText(){
+        var st = safe(subTitle.value, "ABOUT US");
+        if (pvSubTitle) pvSubTitle.textContent = st;
+
+        var t = safe(title.value, "Welcome to HOTELIER");
+        if (pvTitle) pvTitle.innerHTML = t.replace(/HOTELIER/gi, '<span class="accent">$&</span>');
+
+        var d = safe(desc.value, "Description...");
+        if (pvDesc) pvDesc.textContent = d;
+
+        var isActive = !!status.checked;
+        if (liveBadge){
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    function showError(msg){
+        if (!fileError) return;
+        fileError.textContent = msg;
+        fileError.style.display = "block";
+    }
+    function clearError(){
+        if (!fileError) return;
+        fileError.textContent = "";
+        fileError.style.display = "none";
+    }
+
+    function revokeAllUrls(){
+        for (var i=0;i<objectUrls.length;i++){
+            try{ URL.revokeObjectURL(objectUrls[i]); }catch(e){}
+        }
+        objectUrls = [];
+    }
+
+    function renderImages(){
+        revokeAllUrls();
+
+        for (var p=0;p<MAX;p++){
+            if (!imgEls[p]) continue;
+
+            if (selectedFiles[p]){
+                var url = URL.createObjectURL(selectedFiles[p]);
+                objectUrls.push(url);
+
+                imgEls[p].src = url;
+                imgEls[p].style.display = "block";
+                if (phEls[p]) phEls[p].style.display = "none";
+            } else {
+                imgEls[p].removeAttribute("src");
+                imgEls[p].style.display = "none";
+                if (phEls[p]) phEls[p].style.display = "flex";
+            }
+        }
+
+        var count = 0;
+        for (var i=0;i<MAX;i++){
+            if (selectedFiles[i]) count++;
+        }
+
+        if (fileName){
+            fileName.textContent = count
+                ? (count + " / " + MAX + " foto seçildi")
+                : "PNG / JPG / WEBP (maks 4 foto)";
+        }
+    }
+
+    function clearImages(){
+        revokeAllUrls();
+
+        selectedFiles = [];
+
+        for (var j=0;j<MAX;j++){
+            if (imgEls[j]){
+                imgEls[j].removeAttribute("src");
+                imgEls[j].style.display = "none";
+            }
+            if (phEls[j]){
+                phEls[j].style.display = "flex";
+            }
+        }
+
+        if (fileName) fileName.textContent = "PNG / JPG / WEBP (maks 4 foto)";
+        clearError();
+    }
+
+    function syncInputFiles(){
+        // input’un gerçek files listesini selectedFiles ile eşitle (slot sırasına göre)
+        var dt = new DataTransfer();
+        for (var i=0;i<MAX;i++){
+            if (selectedFiles[i]) dt.items.add(selectedFiles[i]);
+        }
+        fileInput.files = dt.files;
+    }
+
+    function validateFile(f){
+        var allowed = ["image/png","image/jpeg","image/webp"];
+        if (allowed.indexOf(f.type) === -1) return "Yalnız PNG / JPG / WEBP kabul.";
+        if (f.size > 3 * 1024 * 1024) return "Her bir foto 3MB'dan büyük olamaz.";
+        return "";
+    }
+
+    function firstEmptySlot(){
+        for (var i=0;i<MAX;i++){
+            if (!selectedFiles[i]) return i;
+        }
+        return -1;
+    }
+
+    function onFiles(){
+        clearError();
+
+        var picked = fileInput.files ? Array.prototype.slice.call(fileInput.files) : [];
+        if (!picked.length) return;
+
+        // validate (hata varsa hiç dokunma)
+        for (var i=0;i<picked.length;i++){
+            var err = validateFile(picked[i]);
+            if (err){
+                showError(err);
+                syncInputFiles();
+                fileInput.value = "";
+                replaceMode = false;
+                return;
+            }
+        }
+
+        if (replaceMode){
+            // sadece 1 dosya al ve ilgili slota yaz
+            var f0 = picked[0];
+            selectedFiles[replaceSlot] = f0;
+
+            replaceMode = false;
+            syncInputFiles();
+            renderImages();
+            fileInput.value = "";
+            return;
+        }
+
+        // normal ekleme: boş slotlara sırayla doldur (max 4)
+        var slot = firstEmptySlot();
+        if (slot === -1){
+            showError("Zaten 4 foto dolu. Değiştirmek için sağdaki Değiştir butonunu kullan.");
+            syncInputFiles();
+            fileInput.value = "";
+            return;
+        }
+
+        for (var k=0;k<picked.length;k++){
+            if (slot >= MAX) break;
+            selectedFiles[slot] = picked[k];
+            slot = firstEmptySlot();
+            if (slot === -1) break;
+        }
+
+        // fazlaysa uyar
+        var extra = (picked.length - (MAX)); // kaba
+        if (picked.length > 0 && firstEmptySlot() === -1 && picked.length > 1){
+            // sadece bilgilendirme
+            // showError("Maks 4 foto. Fazlası alınmadı.");
+        }
+
+        syncInputFiles();
+        renderImages();
+        fileInput.value = "";
+    }
+
+    function hardReset(){
+        fileInput.value = "";
+        clearImages();
+        updateText();
+        syncInputFiles();
+        renderImages();
+        replaceMode = false;
+    }
+
+    // replace butonları: slot seç + file picker aç
+    for (var b=0;b<replaceBtns.length;b++){
+        (function(btn){
+            btn.addEventListener("click", function(){
+                var s = btn.getAttribute("data-slot");
+                var n = parseInt(s, 10);
+                if (isNaN(n)) n = 0;
+                if (n < 0) n = 0;
+                if (n > 3) n = 3;
+
+                replaceMode = true;
+                replaceSlot = n;
+
+                clearError();
+                fileInput.click(); // sadece o slot değişsin
+            });
+        })(replaceBtns[b]);
+    }
+
+    title.addEventListener("input", updateText);
+    subTitle.addEventListener("input", updateText);
+    desc.addEventListener("input", updateText);
+    status.addEventListener("change", updateText);
+
+    fileInput.addEventListener("change", onFiles);
+
+    btnReset.addEventListener("click", function(){
+        setTimeout(function(){
+            hardReset();
+        }, 0);
+    });
+
+    hardReset();
+});
+</script>
 }
