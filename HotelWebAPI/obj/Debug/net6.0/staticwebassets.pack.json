@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets/images/028c0ef0-e2f9-4546-bedd-5a50c162a01b.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/029b7584-a71c-4858-939c-f1b2e852ee69.jpg",
+      "PackagePath": "staticwebassets/images/029b7584-a71c-4858-939c-f1b2e852ee69.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/15ad7048-f339-4645-b02e-101c73a80829.jpg",
+      "PackagePath": "staticwebassets/images/15ad7048-f339-4645-b02e-101c73a80829.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/237bc431-1a20-4d00-9779-997bc382beec.jpg",
       "PackagePath": "staticwebassets/images/237bc431-1a20-4d00-9779-997bc382beec.jpg"
     },
@@ -37,8 +45,16 @@
       "PackagePath": "staticwebassets/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/ba73e10b-2607-45f9-881c-ac24af79b9a5.jpg",
+      "PackagePath": "staticwebassets/images/ba73e10b-2607-45f9-881c-ac24af79b9a5.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg",
       "PackagePath": "staticwebassets/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg",
+      "PackagePath": "staticwebassets/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg"
     },
     {
       "Id": "obj/Debug/net6.0/staticwebassets/msbuild.HotelWebAPI.Microsoft.AspNetCore.StaticWebAssets.props",

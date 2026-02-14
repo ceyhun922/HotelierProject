@@ -1,5 +1,8 @@
 @{
     Layout ="_Layout";
+    var apiBase ="https://localhost:7243/";
+
+   
 }
 
 <form action="UploadFile" method="post" enctype="multipart/form-data">
@@ -11,6 +14,6 @@
 
  @if (ViewBag.ImageUrl != null)
  {
-    <img  src="@ViewBag.ImageUrl"/>
+    <img  src="@(apiBase +ViewBag.ImageUrl)"/>
          <div class="k">Yüklendi</div>
  }

@@ -1,14 +1,369 @@
-
 @using DTOs.TeamDtos
 @model CreateTeamDto
 
-@using(Html.BeginForm("CreateTeam","Team",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Team";
+        ViewBag.BodyClass = "create-theme";
+
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<!-- Global Create Theme -->
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Team • Create</h1>
+            <p>Sosial1=Facebook, Sosial2=X, Sosial3=Instagram. Kök hazır, sadece username yaz.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateTeam", "Team", FormMethod.Post, new { id="teamForm", enctype="multipart/form-data", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateTeam</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Full Name</div>
+                                @Html.TextBoxFor(x => x.FullName, new { @class="input", placeholder="Örn: Nabi Aliyev", id="FullName" })
+                            </div>
+                            <div class="field">
+                                <div class="label">Title</div>
+                                @Html.TextBoxFor(x => x.Title, new { @class="input", placeholder="Örn: UI/UX Designer", id="Title" })
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Image (Upload)</div>
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">Dosya Seç</div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP (max 3MB)</div>
+                                </div>
+                                <input class="file-real" type="file" id="ImageFile" name="ImageFile"
+                                       accept="image/png,image/jpeg,image/webp" />
+                            </div>
+                            <div class="hint">Seçtiğin foto sağdaki kartta anlık görünecek.</div>
+                            <div class="err" id="fileError"></div>
+                        </div>
+
+                        <!-- Sosial 1-2 yan yana -->
+                        <div class="social-grid">
+                            <div class="field">
+                                <div class="label">Sosial 1 • Facebook</div>
+                                <div class="social-input">
+                                    <div class="sicon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></div>
+                                    <div class="sprefix">facebook.com/</div>
+                                    @Html.TextBoxFor(x => x.Sosial1, new { @class="input", style="padding:0;background:transparent;border:0;box-shadow:none;border-radius:0;", id="Sosial1", placeholder="username" })
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="label">Sosial 2 • X</div>
+                                <div class="social-input">
+                                    <div class="sicon" title="X"><i class="fa-brands fa-x-twitter"></i></div>
+                                    <div class="sprefix">x.com/</div>
+                                    @Html.TextBoxFor(x => x.Sosial2, new { @class="input", style="padding:0;background:transparent;border:0;box-shadow:none;border-radius:0;", id="Sosial2", placeholder="username" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sosial 3 tek satır input -->
+                        <div class="social-one">
+                            <div class="field">
+                                <div class="label">Sosial 3 • Instagram</div>
+                                <div class="social-input">
+                                    <div class="sicon" title="Instagram"><i class="fa-brands fa-instagram"></i></div>
+                                    <div class="sprefix">instagram.com/</div>
+                                    @Html.TextBoxFor(x => x.Sosial3, new { @class="input", style="padding:0;background:transparent;border:0;box-shadow:none;border-radius:0;", id="Sosial3", placeholder="username" })
+                                </div>
+                                <div class="hint">DB’de linki sen oluşturacaksın; burada sadece username tutulur.</div>
+                            </div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Kaydet</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="live-media">
+                                <img id="liveCover" alt="cover"/>
+                                <div class="ph" id="coverPh">Foto seçilmedi • Kapak burada görünecek</div>
+
+                                <div class="live-overlay">
+                                    <div class="live-left">
+                                        <div class="avatar">
+                                            <img id="liveAvatar" alt="avatar"/>
+                                            <div class="aph" id="avatarPh">No photo</div>
+                                        </div>
+
+                                        <div class="live-text">
+                                            <h3 class="live-name" id="liveName">Ad Soyad</h3>
+                                            <p class="live-title" id="liveTitle">Title</p>
+
+                                            <div class="preview-socials">
+                                                <div class="pico" title="Facebook"><i class="fa-brands fa-facebook-f"></i></div>
+                                                <div class="pico" title="X"><i class="fa-brands fa-x-twitter"></i></div>
+                                                <div class="pico" title="Instagram"><i class="fa-brands fa-instagram"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="badge inactive" id="liveBadge">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="live-body">
+                                <div class="live-row">
+                                    <div class="k">Full Name</div>
+                                    <div class="v" id="rowName">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Title</div>
+                                    <div class="v" id="rowTitle">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Facebook</div>
+                                    <div class="v" id="rowFb">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">X</div>
+                                    <div class="v" id="rowX">—</div>
+                                </div>
+                                <div class="live-row" style="margin-bottom:0;">
+                                    <div class="k">Instagram</div>
+                                    <div class="v" id="rowIg">—</div>
+                                </div>
+
+                                <div class="hint" style="margin-top:12px;">Not: Preview frontend. Submit edince backend action’a gider.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts 
 {
-    @Html.TextBoxFor(x=>x.FullName)
-    @Html.TextAreaFor(x=>x.Title)
-    @Html.TextAreaFor(x=>x.Sosial1)
-    @Html.TextAreaFor(x=>x.Sosial2)
-    @Html.TextAreaFor(x=>x.Sosial3)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const fullName = document.getElementById('FullName');
+    const title = document.getElementById('Title');
+    const status = document.getElementById('Status');
+
+    const s1 = document.getElementById('Sosial1'); // Facebook username
+    const s2 = document.getElementById('Sosial2'); // X username
+    const s3 = document.getElementById('Sosial3'); // Instagram username
+
+    const liveName = document.getElementById('liveName');
+    const liveTitle = document.getElementById('liveTitle');
+    const rowName = document.getElementById('rowName');
+    const rowTitle = document.getElementById('rowTitle');
+    const rowFb = document.getElementById('rowFb');
+    const rowX  = document.getElementById('rowX');
+    const rowIg = document.getElementById('rowIg');
+
+    const liveBadge = document.getElementById('liveBadge');
+    const liveBadgeText = document.getElementById('liveBadgeText');
+
+    const fileInput = document.getElementById('ImageFile');
+    const fileName = document.getElementById('fileName');
+    const fileError = document.getElementById('fileError');
+    const liveCover = document.getElementById('liveCover');
+    const coverPh = document.getElementById('coverPh');
+    const liveAvatar = document.getElementById('liveAvatar');
+    const avatarPh = document.getElementById('avatarPh');
+    const btnReset = document.getElementById('btnReset');
+
+    // Elementlər yoxdursa çıx (başqa səhifədə səhv verməsin)
+    if (!fullName || !title || !status || !s1 || !s2 || !s3 || !fileInput || !btnReset) return;
+
+    let objectUrl = null;
+
+    // ES2020 (??) YOX — köhnə JS ilə uyumlu
+    function safe(v, fallback) {
+        fallback = (fallback === undefined) ? "—" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    // ES2020 (??) YOX — köhnə JS ilə uyumlu
+    function cleanUser(v) {
+        var t = (v === null || v === undefined) ? "" : String(v);
+        t = t.trim();
+        t = t.replace(/^https?:\/\/(www\.)?/i, "");
+        t = t.replace(/^facebook\.com\//i, "");
+        t = t.replace(/^x\.com\//i, "");
+        t = t.replace(/^twitter\.com\//i, "");
+        t = t.replace(/^instagram\.com\//i, "");
+        t = t.replace(/^@@/, "");
+        t = t.replace(/\/+$/, "");
+        return t;
+    }
+
+    function updateText() {
+        if (liveName)  liveName.textContent  = safe(fullName.value, "Ad Soyad");
+        if (liveTitle) liveTitle.textContent = safe(title.value, "Title");
+
+        if (rowName)  rowName.textContent  = safe(fullName.value, "—");
+        if (rowTitle) rowTitle.textContent = safe(title.value, "—");
+
+        const fb = cleanUser(s1.value);
+        const xx = cleanUser(s2.value);
+        const ig = cleanUser(s3.value);
+
+        if (rowFb) rowFb.textContent = fb ? ("facebook.com/" + fb) : "—";
+        if (rowX)  rowX.textContent  = xx ? ("x.com/" + xx) : "—";
+        if (rowIg) rowIg.textContent = ig ? ("instagram.com/" + ig) : "—";
+
+        const isActive = !!status.checked;
+
+        if (liveBadge) {
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    function clearImage() {
+        if (objectUrl) {
+            URL.revokeObjectURL(objectUrl);
+            objectUrl = null;
+        }
+
+        if (liveCover) {
+            liveCover.removeAttribute("src");
+            liveCover.style.display = "none";
+        }
+        if (coverPh) coverPh.style.display = "flex";
+
+        if (liveAvatar) {
+            liveAvatar.removeAttribute("src");
+            liveAvatar.style.display = "none";
+        }
+        if (avatarPh) avatarPh.style.display = "flex";
+
+        if (fileName) fileName.textContent = "PNG / JPG / WEBP (max 3MB)";
+        if (fileError) {
+            fileError.style.display = "none";
+            fileError.textContent = "";
+        }
+    }
+
+    function showError(msg) {
+        if (!fileError) return;
+        fileError.textContent = msg;
+        fileError.style.display = "block";
+    }
+
+    function onFileChange() {
+        if (fileError) { fileError.style.display = "none"; fileError.textContent = ""; }
+
+        const f = fileInput.files && fileInput.files[0];
+        if (!f) { clearImage(); return; }
+
+        const allowed = ["image/png", "image/jpeg", "image/webp"];
+        if (allowed.indexOf(f.type) === -1) {
+            showError("Yalnız PNG / JPG / WEBP kabul.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (f.size > 3 * 1024 * 1024) {
+            showError("Fayl 3MB'dan büyük.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (fileName) fileName.textContent = f.name;
+
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        objectUrl = URL.createObjectURL(f);
+
+        if (liveCover) {
+            liveCover.src = objectUrl;
+            liveCover.onload = function () {
+                liveCover.style.display = "block";
+                if (coverPh) coverPh.style.display = "none";
+            };
+        }
+
+        if (liveAvatar) {
+            liveAvatar.src = objectUrl;
+            liveAvatar.onload = function () {
+                liveAvatar.style.display = "block";
+                if (avatarPh) avatarPh.style.display = "none";
+            };
+        }
+    }
+
+    function bindSocialClean(el) {
+        el.addEventListener("input", function () {
+            el.value = cleanUser(el.value);
+            updateText();
+        });
+        el.addEventListener("blur", function () {
+            el.value = cleanUser(el.value);
+            updateText();
+        });
+    }
+
+    fullName.addEventListener("input", updateText);
+    title.addEventListener("input", updateText);
+
+    bindSocialClean(s1);
+    bindSocialClean(s2);
+    bindSocialClean(s3);
+
+    status.addEventListener("change", updateText);
+    fileInput.addEventListener("change", onFileChange);
+
+    btnReset.addEventListener("click", function () {
+        setTimeout(function () {
+            fileInput.value = "";
+            clearImage();
+            updateText();
+        }, 0);
+    });
+
+    clearImage();
+    updateText();
+});
+</script>
 }

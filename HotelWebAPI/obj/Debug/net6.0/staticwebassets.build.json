@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wVyps/0uEfCYj+J0SRrcQxmUJRokSk315a3M044ZfLo=",
+  "Hash": "bsFWGRmYgM5baKk6AMhPNi9T/1K6L5iqT2S1lpMq6IE=",
   "Source": "HotelWebAPI",
   "BasePath": "_content/HotelWebAPI",
   "Mode": "Default",
@@ -34,6 +34,44 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/028c0ef0-e2f9-4546-bedd-5a50c162a01b.jpg"
+    },
+    {
+      "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/029b7584-a71c-4858-939c-f1b2e852ee69.jpg",
+      "SourceId": "HotelWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/",
+      "BasePath": "_content/HotelWebAPI",
+      "RelativePath": "images/029b7584-a71c-4858-939c-f1b2e852ee69.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/029b7584-a71c-4858-939c-f1b2e852ee69.jpg"
+    },
+    {
+      "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/15ad7048-f339-4645-b02e-101c73a80829.jpg",
+      "SourceId": "HotelWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/",
+      "BasePath": "_content/HotelWebAPI",
+      "RelativePath": "images/15ad7048-f339-4645-b02e-101c73a80829.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/15ad7048-f339-4645-b02e-101c73a80829.jpg"
     },
     {
       "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/237bc431-1a20-4d00-9779-997bc382beec.jpg",
@@ -188,6 +226,25 @@
       "OriginalItemSpec": "wwwroot/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg"
     },
     {
+      "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/ba73e10b-2607-45f9-881c-ac24af79b9a5.jpg",
+      "SourceId": "HotelWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/",
+      "BasePath": "_content/HotelWebAPI",
+      "RelativePath": "images/ba73e10b-2607-45f9-881c-ac24af79b9a5.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/ba73e10b-2607-45f9-881c-ac24af79b9a5.jpg"
+    },
+    {
       "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg",
       "SourceId": "HotelWebAPI",
       "SourceType": "Discovered",
@@ -205,6 +262,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/images/c34a6964-9474-4f51-8ee5-2f57cc6ed8d5.jpg"
+    },
+    {
+      "Identity": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg",
+      "SourceId": "HotelWebAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/",
+      "BasePath": "_content/HotelWebAPI",
+      "RelativePath": "images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg"
     }
   ]
 }
