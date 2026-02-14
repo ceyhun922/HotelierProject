@@ -1,11 +1,295 @@
 @using DTOs.TestimonialDTOs
 @model CreateTestimonialDto
-@using(Html.BeginForm("CreateTeam","Team",FormMethod.Post))
+
+@{
+    ViewBag.Title = "Create Testimonial";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Testimonial • Create</h1>
+            <p>Foto + FullName + Title + Message (textarea) + Status. Mesaj preview 10 karakter sonra “...” olur.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateTestimonial", "Testimonial", FormMethod.Post,
+                   new { id="tForm", enctype="multipart/form-data", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateTestimonial</div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field">
+                                <div class="label">Full Name</div>
+                                @Html.TextBoxFor(x => x.FullName, new { @class="input", id="FullName", placeholder="Örn: Nabi Aliyev" })
+                            </div>
+
+                            <div class="field">
+                                <div class="label">Title</div>
+                                @Html.TextBoxFor(x => x.Title, new { @class="input", id="Title", placeholder="Örn: Customer" })
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Message</div>
+                            @Html.TextAreaFor(x => x.Message, 6, 30, new { @class="input", id="Message", placeholder="Mesaj..." })
+                            <div class="hint">Preview: 10 karakterden sonrası “...” olur.</div>
+                        </div>
+
+                        <!-- Image input (ImageUrl deyil) -->
+                        <div class="field">
+                            <div class="label">Image (Upload)</div>
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">Dosya Seç</div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP (max 3MB)</div>
+                                </div>
+                                <input class="file-real" type="file" id="ImageFile" name="ImageFile"
+                                       accept="image/png,image/jpeg,image/webp" />
+                            </div>
+                            <div class="hint">Seçdiyin foto sağda preview olacaq.</div>
+                            <div class="err" id="fileError"></div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="live-media">
+                                <img id="liveCover" alt="cover" />
+                                <div class="ph" id="coverPh">Foto seçilmədi • Burada görünəcək</div>
+
+                                <div class="live-overlay">
+                                    <div class="live-left">
+                                        <div class="avatar">
+                                            <img id="liveAvatar" alt="avatar" />
+                                            <div class="aph" id="avatarPh">No photo</div>
+                                        </div>
+
+                                        <div class="live-text">
+                                            <h3 class="live-name" id="liveName">Ad Soyad</h3>
+                                            <p class="live-title" id="liveTitle">Title</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="badge inactive" id="liveBadge">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="live-body">
+                                <div class="live-row">
+                                    <div class="k">Full Name</div>
+                                    <div class="v" id="rowName">—</div>
+                                </div>
+                                <div class="live-row">
+                                    <div class="k">Title</div>
+                                    <div class="v" id="rowTitle">—</div>
+                                </div>
+                                <!-- ✅ Message altda + 10 char preview -->
+                                <div class="live-row" style="margin-bottom:0;">
+                                    <div class="k">Message</div>
+                                    <div class="v" id="rowMsg">—</div>
+                                </div>
+
+                                <div class="hint" style="margin-top:12px;">Not: Preview frontend.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.FullName)
-    @Html.TextAreaFor(x=>x.Title)
-    @Html.TextAreaFor(x=>x.Message)
-    @Html.TextAreaFor(x=>x.Status)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    var fullName = document.getElementById('FullName');
+    var title = document.getElementById('Title');
+    var message = document.getElementById('Message');
+    var status = document.getElementById('Status');
+
+    var liveName = document.getElementById('liveName');
+    var liveTitle = document.getElementById('liveTitle');
+
+    var rowName = document.getElementById('rowName');
+    var rowTitle = document.getElementById('rowTitle');
+    var rowMsg = document.getElementById('rowMsg');
+
+    var liveBadge = document.getElementById('liveBadge');
+    var liveBadgeText = document.getElementById('liveBadgeText');
+
+    var fileInput = document.getElementById('ImageFile');
+    var fileName = document.getElementById('fileName');
+    var fileError = document.getElementById('fileError');
+    var liveCover = document.getElementById('liveCover');
+    var coverPh = document.getElementById('coverPh');
+    var liveAvatar = document.getElementById('liveAvatar');
+    var avatarPh = document.getElementById('avatarPh');
+    var btnReset = document.getElementById('btnReset');
+
+    if (!fullName || !title || !message || !status || !fileInput || !btnReset) return;
+
+    var objectUrl = null;
+
+    function safe(v, fallback) {
+        fallback = (fallback === undefined) ? "—" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    // ✅ 10 karakter sonra "..."
+    function short10(v) {
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        if (!v) return "—";
+        return (v.length > 10) ? (v.substring(0, 10) + "...") : v;
+    }
+
+    function updateText() {
+        if (liveName)  liveName.textContent  = safe(fullName.value, "Ad Soyad");
+        if (liveTitle) liveTitle.textContent = safe(title.value, "Title");
+
+        if (rowName)  rowName.textContent  = safe(fullName.value, "—");
+        if (rowTitle) rowTitle.textContent = safe(title.value, "—");
+
+        // ✅ Message altda, qısa preview
+        if (rowMsg) rowMsg.textContent = short10(message.value);
+
+        var isActive = !!status.checked;
+        if (liveBadge) {
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    function clearImage() {
+        if (objectUrl) {
+            URL.revokeObjectURL(objectUrl);
+            objectUrl = null;
+        }
+
+        if (liveCover) {
+            liveCover.removeAttribute("src");
+            liveCover.style.display = "none";
+        }
+        if (coverPh) coverPh.style.display = "flex";
+
+        if (liveAvatar) {
+            liveAvatar.removeAttribute("src");
+            liveAvatar.style.display = "none";
+        }
+        if (avatarPh) avatarPh.style.display = "flex";
+
+        if (fileName) fileName.textContent = "PNG / JPG / WEBP (max 3MB)";
+        if (fileError) {
+            fileError.style.display = "none";
+            fileError.textContent = "";
+        }
+    }
+
+    function showError(msg) {
+        if (!fileError) return;
+        fileError.textContent = msg;
+        fileError.style.display = "block";
+    }
+
+    function onFileChange() {
+        if (fileError) { fileError.style.display = "none"; fileError.textContent = ""; }
+
+        var f = fileInput.files && fileInput.files[0];
+        if (!f) { clearImage(); return; }
+
+        var allowed = ["image/png", "image/jpeg", "image/webp"];
+        if (allowed.indexOf(f.type) === -1) {
+            showError("Yalnız PNG / JPG / WEBP kabul.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (f.size > 3 * 1024 * 1024) {
+            showError("Fayl 3MB'dan büyük.");
+            fileInput.value = "";
+            clearImage();
+            return;
+        }
+
+        if (fileName) fileName.textContent = f.name;
+
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
+        objectUrl = URL.createObjectURL(f);
+
+        if (liveCover) {
+            liveCover.src = objectUrl;
+            liveCover.onload = function () {
+                liveCover.style.display = "block";
+                if (coverPh) coverPh.style.display = "none";
+            };
+        }
+
+        if (liveAvatar) {
+            liveAvatar.src = objectUrl;
+            liveAvatar.onload = function () {
+                liveAvatar.style.display = "block";
+                if (avatarPh) avatarPh.style.display = "none";
+            };
+        }
+    }
+
+    fullName.addEventListener("input", updateText);
+    title.addEventListener("input", updateText);
+    message.addEventListener("input", updateText);
+    status.addEventListener("change", updateText);
+    fileInput.addEventListener("change", onFileChange);
+
+    btnReset.addEventListener("click", function () {
+        setTimeout(function () {
+            fileInput.value = "";
+            clearImage();
+            updateText();
+        }, 0);
+    });
+
+    clearImage();
+    updateText();
+});
+</script>
 }
