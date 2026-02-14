@@ -1,10 +1,264 @@
 @using DTOs.RoomTypeDTOs
 @model CreateRoomTypeDto
 
-@using(Html.BeginForm("CreateRoomType","RoomType",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Room Type";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* RoomType: daha temiz preview kart */
+    .rt-grid{
+        display:grid;
+        grid-template-columns: 1.05fr .95fr;
+        gap:16px;
+    }
+    @@media (max-width: 940px){ .rt-grid{ grid-template-columns:1fr; } }
+
+    .rt-preview-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding:18px;
+    }
+    .rt-chip{
+        display:inline-flex;
+        align-items:center;
+        gap:10px;
+        padding:10px 12px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.28);
+        color: rgba(255,255,255,.92);
+        box-shadow: 0 14px 35px rgba(0,0,0,.25);
+        white-space:nowrap;
+    }
+    .rt-chip i{ opacity:.9; }
+
+    .rt-title{
+        margin:0;
+        font-size: 22px;
+        line-height: 1.15;
+        font-weight: 980;
+        color:#fff;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+    .rt-desc{
+        margin:0;
+        color: rgba(255,255,255,.72);
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+
+    /* “site gibi” kart içerik alanı */
+    .rt-body{
+        padding: 0 18px 18px 18px;
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+    }
+
+    .rt-row{
+        display:flex;
+        justify-content:space-between;
+        gap:12px;
+        padding:10px 12px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(255,255,255,.04);
+    }
+    .rt-row .k{
+        color: rgba(255,255,255,.55);
+        font-size:12px;
+        font-weight:900;
+        letter-spacing:.12px;
+        flex: 0 0 auto;
+    }
+    .rt-row .v{
+        color: rgba(255,255,255,.92);
+        font-size:12.5px;
+        font-weight:800;
+        text-align:right;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Room Type • Create</h1>
+            <p>Type ve Description gir. Sağda canlı görünüm var. Description preview 10 karakterden sonra “…” olur.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateRoomType","RoomType",FormMethod.Post, new { id="rtForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="rt-grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateRoomType</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Type</div>
+                            @Html.TextBoxFor(x => x.Type, new { @class="input", id="Type", placeholder="Örn: Deluxe Room" })
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Description</div>
+                            @Html.TextAreaFor(x => x.Description, 6, 30, new { @class="input", id="Description", placeholder="Oda tipi açıklaması..." })
+                            <div class="hint">Preview’de kısa gösterim: ilk 10 karakter + “…”</div>
+                        </div>
+
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="live-card">
+                            <div class="rt-preview-head">
+                                <div style="min-width:0; display:flex; flex-direction:column; gap:8px;">
+                                    <h3 class="rt-title" id="pvType">Room Type</h3>
+                                    <p class="rt-desc" id="pvDesc">Description...</p>
+                                </div>
+
+                                <div class="rt-chip">
+                                    <i class="fa-solid fa-bed"></i>
+                                    <span id="pvChip">ACTIVE</span>
+                                </div>
+                            </div>
+
+                            <div class="rt-body">
+                                <div class="rt-row">
+                                    <div class="k">Type</div>
+                                    <div class="v" id="rowType">—</div>
+                                </div>
+
+                                <div class="rt-row">
+                                    <div class="k">Description</div>
+                                    <div class="v" id="rowDesc">—</div>
+                                </div>
+
+                                <div class="hint" style="margin-top:6px;">Not: Preview sadece frontend.</div>
+                            </div>
+
+                            <div class="live-media" style="height:auto;">
+                                <div class="live-overlay">
+                                    <div></div>
+                                    <div class="badge inactive" id="liveBadge">
+                                        <span class="dot"></span>
+                                        <span id="liveBadgeText">Pasif</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Type)
-    @Html.TextAreaFor(x=>x.Description)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    var type = document.getElementById("Type");
+    var desc = document.getElementById("Description");
+    var status = document.getElementById("Status");
+    var btnReset = document.getElementById("btnReset");
+
+    var pvType = document.getElementById("pvType");
+    var pvDesc = document.getElementById("pvDesc");
+    var pvChip = document.getElementById("pvChip");
+
+    var rowType = document.getElementById("rowType");
+    var rowDesc = document.getElementById("rowDesc");
+
+    var liveBadge = document.getElementById("liveBadge");
+    var liveBadgeText = document.getElementById("liveBadgeText");
+
+    if (!type || !desc || !status || !btnReset) return;
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "—" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function short10(v){
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        if (!v) return "Description...";
+        if (v.length <= 10) return v;
+        return v.substring(0, 10) + "...";
+    }
+
+    function update(){
+        var t = safe(type.value, "Room Type");
+        var dFull = safe(desc.value, "—");
+        var dShort = short10(desc.value);
+
+        if (pvType) pvType.textContent = t;
+        if (pvDesc) pvDesc.textContent = dShort;
+
+        if (rowType) rowType.textContent = safe(type.value, "—");
+        if (rowDesc) rowDesc.textContent = dFull;
+
+        var isActive = !!status.checked;
+
+        if (pvChip) pvChip.textContent = isActive ? "ACTIVE" : "INACTIVE";
+
+        if (liveBadge){
+            liveBadge.classList.toggle("active", isActive);
+            liveBadge.classList.toggle("inactive", !isActive);
+        }
+        if (liveBadgeText) liveBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    type.addEventListener("input", update);
+    desc.addEventListener("input", update);
+    status.addEventListener("change", update);
+
+    btnReset.addEventListener("click", function(){
+        setTimeout(function(){
+            update();
+        }, 0);
+    });
+
+    update();
+});
+</script>
 }
