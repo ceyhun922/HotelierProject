@@ -1,8 +1,258 @@
 @using DTOs.LocationDTOs
 @model CreateLocationDto
 
-@using(Html.BeginForm("CreateLocation","Location",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Location";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    /* Location özel: küçük bir preview kartı */
+    .loc-grid{
+        display:grid;
+        grid-template-columns: 1.05fr .95fr;
+        gap:16px;
+    }
+    @@media (max-width: 940px){ .loc-grid{ grid-template-columns:1fr; } }
+
+    .loc-pill{
+        display:inline-flex; align-items:center; gap:8px;
+        padding:8px 10px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.05);
+        color: rgba(255,255,255,.80);
+        font-weight: 900;
+        font-size: 12px;
+    }
+    .loc-pill i{ opacity:.9; }
+
+    .wrap-any{ overflow-wrap:anywhere; word-break:break-word; }
+
+    .loc-card{
+        border-radius: 18px;
+        border:1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.04);
+        box-shadow: 0 18px 55px rgba(0,0,0,.35);
+        overflow:hidden;
+    }
+    .loc-card-top{
+        padding:18px;
+        border-bottom:1px solid rgba(255,255,255,.08);
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .loc-title{
+        display:flex; align-items:center; gap:10px;
+        min-width:0;
+    }
+    .loc-ico{
+        width:44px; height:44px;
+        border-radius: 16px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        display:flex; align-items:center; justify-content:center;
+        flex:0 0 auto;
+    }
+    .loc-ico i{ color: rgba(255,255,255,.92); font-size:18px; }
+
+    .loc-title h3{
+        margin:0;
+        font-size:16px;
+        font-weight: 950;
+        color:#fff;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .loc-sub{
+        margin:2px 0 0 0;
+        font-size:12px;
+        color: rgba(255,255,255,.60);
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+
+    /* status badge senin create-theme.css’teki badge varsa onu kullanır; yoksa fallback */
+    .badge{
+        display:inline-flex; align-items:center; gap:8px;
+        padding:8px 10px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.25);
+        color: rgba(255,255,255,.86);
+        font-weight: 950;
+        font-size: 12px;
+    }
+    .badge .dot{
+        width:8px; height:8px; border-radius:999px;
+        background: rgba(255,255,255,.60);
+    }
+    .badge.active{ border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10); }
+    .badge.active .dot{ background: rgba(34,197,94,.95); }
+    .badge.inactive{ border-color: rgba(244,63,94,.28); background: rgba(244,63,94,.08); }
+    .badge.inactive .dot{ background: rgba(244,63,94,.90); }
+
+    .loc-body{
+        padding:18px;
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+    }
+    .loc-row{
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border:1px solid rgba(255,255,255,.10);
+        background: rgba(0,0,0,.18);
+    }
+    .loc-row .k{
+        color: rgba(255,255,255,.62);
+        font-weight: 900;
+        font-size: 12px;
+    }
+    .loc-row .v{
+        color: rgba(255,255,255,.92);
+        font-weight: 950;
+        font-size: 12px;
+        text-align:right;
+        max-width: 70%;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Location • Create</h1>
+            <p>Lokasyon adı ekle. Sağda canlı görünüm anında güncellenir.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+            @using (Html.BeginForm("CreateLocation", "Location", FormMethod.Post, new { id="locForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="loc-grid">
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateLocation</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Name</div>
+                            @Html.TextBoxFor(x => x.Name, new { @class="input", id="Name", placeholder="Örn: Baku / Nizami / Sahil" })
+                            <div class="hint">Kısa ve anlaşılır yaz. (Örn: “Baku - Sahil”)</div>
+                        </div>
+
+                        <!-- Status modelde var, formda yoktu. İstersen kaldır. -->
+                        <label class="toggle">
+                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <span>Aktif (Status)</span>
+                        </label>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">Ekle</button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="loc-card">
+                            <div class="loc-card-top">
+                                <div class="loc-title">
+                                    <div class="loc-ico"><i class="fa-solid fa-location-dot"></i></div>
+                                    <div style="min-width:0;">
+                                        <h3 class="wrap-any" id="pvName">Location Name</h3>
+                                        <p class="loc-sub" id="pvSub">Otel Lokasyonu</p>
+                                    </div>
+                                </div>
+
+                                <div class="badge inactive" id="pvBadge">
+                                    <span class="dot"></span>
+                                    <span id="pvBadgeText">Pasif</span>
+                                </div>
+                            </div>
+
+                            <div class="loc-body">
+                                <div class="loc-row">
+                                    <div class="k">Name</div>
+                                    <div class="v wrap-any" id="rowName">—</div>
+                                </div>
+
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    <span class="loc-pill"><i class="fa-solid fa-hotel"></i> Hotel Panel</span>
+                                    <span class="loc-pill"><i class="fa-solid fa-wand-magic-sparkles"></i> Dark Glass</span>
+                                </div>
+
+                                <div class="hint" style="margin-top:6px;">Not: Preview sadece frontend.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Name)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var name = document.getElementById("Name");
+    var status = document.getElementById("Status");
+    var btnReset = document.getElementById("btnReset");
+
+    var pvName = document.getElementById("pvName");
+    var rowName = document.getElementById("rowName");
+
+    var pvBadge = document.getElementById("pvBadge");
+    var pvBadgeText = document.getElementById("pvBadgeText");
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function update(){
+        var n = safe(name && name.value, "Location Name");
+        if (pvName) pvName.textContent = n;
+        if (rowName) rowName.textContent = safe(name && name.value, "—");
+
+        var isActive = !!(status && status.checked);
+        if (pvBadge){
+            pvBadge.classList.toggle("active", isActive);
+            pvBadge.classList.toggle("inactive", !isActive);
+        }
+        if (pvBadgeText) pvBadgeText.textContent = isActive ? "Aktif" : "Pasif";
+    }
+
+    if (name) name.addEventListener("input", update);
+    if (status) status.addEventListener("change", update);
+
+    if (btnReset){
+        btnReset.addEventListener("click", function(){
+            setTimeout(update, 0);
+        });
+    }
+
+    update();
+});
+</script>
 }

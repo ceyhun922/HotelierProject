@@ -4,6 +4,7 @@ namespace EntityLayer.Concrete
     {
         public int Id { get; set; }
         public string? Name {get;set;}
+        public bool Status {get;set;}=false;
 
         public List<Room>? Rooms {get;set;}
     }

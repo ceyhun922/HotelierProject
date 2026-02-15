@@ -1,12 +1,552 @@
 @using DTOs.ContactDTOs
 @model CreateContactDto
 
-@using(Html.BeginForm("CreateContact","Contact",FormMethod.Post))
-{
-    @Html.TextBoxFor(x=>x.MailBooking)
-    @Html.TextBoxFor(x=>x.MailGeneral)
-    @Html.TextBoxFor(x=>x.MailTechnical)
-    @Html.TextBoxFor(x=>x.MapLocation)
-    @Html.CheckBoxFor(x=>x.Status)
-    <button type="submit">Ekle</button>
+@{
+    ViewBag.Title = "Create Contact";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<!-- Leaflet (OpenStreetMap) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+    /* Eğer panelinde bootstrap varsa zaten row/col var; yoksa fallback */
+    .rowx{ display:flex; flex-wrap:wrap; margin:-12px; }
+    .colx{ padding:12px; width:100%; }
+    @@media (min-width: 992px){
+        .col-lg-5x{ flex:0 0 41.6667%; max-width:41.6667%; }
+        .col-lg-7x{ flex:0 0 58.3333%; max-width:58.3333%; }
+    }
+
+    /* inputlar beyaz kalmasın diye (senin temayı bozmadan net override) */
+    .create-theme .input{
+        width:100%;
+        border-radius: 16px;
+        padding: 12px 14px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        color: rgba(255,255,255,.92);
+        outline: none;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+        transition: .15s ease;
+    }
+    .create-theme .input:focus{
+        border-color: rgba(168,85,247,.45);
+        box-shadow: 0 0 0 4px rgba(168,85,247,.14);
+    }
+    .create-theme .input::placeholder{ color: rgba(255,255,255,.45); }
+
+    .contact-head{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px; margin-bottom: 12px;
+    }
+    .contact-head .ttl{ font-weight:950; font-size:16px; color:#fff; }
+    .contact-head .tag{
+        padding:8px 12px; border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.16);
+        color: rgba(255,255,255,.82);
+        font-weight:850; font-size:12px;
+    }
+
+    .grid-2{
+        display:grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    @@media (max-width: 860px){ .grid-2{ grid-template-columns:1fr; } }
+
+    .hint2{
+        margin-top:8px;
+        color: rgba(255,255,255,.58);
+        font-size:12px;
+        line-height:1.5;
+    }
+
+    /* Konum seçici kart */
+    .map-card{
+        margin-top: 12px;
+        border-radius: 20px;
+        overflow: hidden;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+    }
+    .map-card-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        border-bottom:1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,0));
+    }
+    .map-card-head .left{
+        display:flex; align-items:center; gap:10px;
+        font-weight:900;
+        color: rgba(255,255,255,.88);
+    }
+    .map-card-head .left i{ color: rgba(168,85,247,.95); }
+
+    .map-card-actions{
+        display:flex; gap:10px; flex-wrap:wrap;
+        justify-content:flex-end;
+    }
+
+    .mini-btn{
+        display:inline-flex; align-items:center; justify-content:center;
+        gap:10px;
+        padding:10px 12px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.20);
+        color: rgba(255,255,255,.90);
+        font-weight:900;
+        cursor:pointer;
+        user-select:none;
+        transition:.15s ease;
+        white-space:nowrap;
+    }
+    .mini-btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+    .mini-btn.primary{ border-color: rgba(168,85,247,.28); background: rgba(168,85,247,.10); }
+    .mini-btn.danger{ border-color: rgba(244,63,94,.22); background: rgba(244,63,94,.08); }
+
+    /* Sol harita: daha kompakt, estetize */
+    #pickMap{
+        height: 260px;
+        width: 100%;
+        border-radius: 0;
+    }
+    @@media (max-width: 560px){ #pickMap{ height: 230px; } }
+
+    /* Sağ preview: temiz kart */
+    .preview-card{
+        border-radius: 22px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        overflow:hidden;
+    }
+    .preview-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        border-bottom:1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,0));
+    }
+    .preview-head .left{
+        display:flex; align-items:center; gap:10px;
+        color:#fff; font-weight:950;
+    }
+    .preview-head .bubble{
+        width:34px; height:34px; border-radius:12px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        display:flex; align-items:center; justify-content:center;
+        color: rgba(168,85,247,.95);
+    }
+
+    .badge2{
+        display:inline-flex; align-items:center; gap:10px;
+        padding:8px 12px; border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        color: rgba(255,255,255,.86);
+        font-weight:900; font-size:12px;
+    }
+    .badge2 .dot{ width:10px; height:10px; border-radius:99px; background:#ef4444; box-shadow:0 0 0 4px rgba(239,68,68,.16); }
+    .badge2.active .dot{ background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.16); }
+
+    .preview-body{ padding: 14px 16px 16px; }
+
+    .map-preview{
+        border-radius: 18px;
+        overflow:hidden;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.20);
+    }
+    .map-preview-head{
+        display:flex; align-items:center; justify-content:space-between;
+        padding:12px 12px;
+        border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .map-preview-head .title{
+        display:flex; align-items:center; gap:10px;
+        font-weight:950; color: rgba(255,255,255,.90);
+    }
+    .map-preview-head .title i{ color: rgba(168,85,247,.95); }
+
+    /* Sağ map alanı: daha oranlı, kart gibi */
+    #pvMap{
+        height: 360px;
+        width: 100%;
+        display:none;
+    }
+    @@media (max-width: 560px){ #pvMap{ height: 260px; } }
+
+    .placeholder{
+        height: 360px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding: 18px;
+        color: rgba(255,255,255,.62);
+        font-weight:850;
+        line-height:1.5;
+        border-top: 0;
+        background: rgba(0,0,0,.10);
+    }
+    @@media (max-width: 560px){ .placeholder{ height: 260px; } }
+
+    .map-preview-foot{
+        display:flex; align-items:center; justify-content:space-between;
+        gap:12px; padding:12px;
+        border-top:1px solid rgba(255,255,255,.10);
+        flex-wrap:wrap;
+    }
+    .coord-pill{
+        display:inline-flex; align-items:center; gap:8px;
+        padding:8px 10px; border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        color: rgba(255,255,255,.88);
+        font-weight:850;
+        max-width: 100%;
+    }
+    .coord-pill code{
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+        font-size: 12px;
+        color: rgba(255,255,255,.92);
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:inline-block;
+        max-width: 360px;
+    }
+    .go-btn{
+        display:inline-flex; align-items:center; justify-content:center;
+        gap:10px;
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        color: rgba(255,255,255,.92);
+        font-weight:950;
+        text-decoration:none;
+        transition:.15s ease;
+    }
+    .go-btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+    .go-btn.disabled{ opacity:.45; pointer-events:none; }
+
+    /* Leaflet içine ufak yumuşatma */
+    .leaflet-container{ background: rgba(0,0,0,.10); }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Contact • Create</h1>
+            <p>Solda mail + haritadan konum seç. Sağda sadece MAP canlı önizleme.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+
+            @using (Html.BeginForm("CreateContact", "Contact", FormMethod.Post, new { id="contactForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="rowx">
+                    <!-- SOL -->
+                    <div class="colx col-lg-5x">
+                        <div class="section">
+                            <div class="contact-head">
+                                <div class="ttl">Form</div>
+                                <div class="tag">CreateContact</div>
+                            </div>
+
+                            <div class="grid-2">
+                                <div class="field">
+                                    <div class="label">MailBooking</div>
+                                    @Html.TextBoxFor(x => x.MailBooking, new { @class="input", id="MailBooking", placeholder="book@example.com" })
+                                </div>
+
+                                <div class="field">
+                                    <div class="label">MailGeneral</div>
+                                    @Html.TextBoxFor(x => x.MailGeneral, new { @class="input", id="MailGeneral", placeholder="info@example.com" })
+                                </div>
+
+                                <div class="field">
+                                    <div class="label">MailTechnical</div>
+                                    @Html.TextBoxFor(x => x.MailTechnical, new { @class="input", id="MailTechnical", placeholder="tech@example.com" })
+                                </div>
+
+                                <div class="field">
+                                    <div class="label">Konum (MapLocation)</div>
+                                    @Html.TextBoxFor(x => x.MapLocation, new { @class="input", id="MapLocation", placeholder="Haritadan bir noktaya tıkla", @readonly="readonly" })
+                                    <div class="hint2">
+                                        Haritada bir noktaya tıkla → <b>lat,lng</b> otomatik yazılır.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MAP PICKER -->
+                            <div class="map-card">
+                                <div class="map-card-head">
+                                    <div class="left">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <span>Haritadan Konum Seç</span>
+                                    </div>
+
+                                    <div class="map-card-actions">
+                                        <button type="button" class="mini-btn primary" id="btnCenter">
+                                            <i class="fa-solid fa-bullseye"></i> Merkeze Git
+                                        </button>
+                                        <button type="button" class="mini-btn danger" id="btnClearLoc">
+                                            <i class="fa-regular fa-trash-can"></i> Konumu Sil
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="pickMap"></div>
+                            </div>
+
+                            <label class="toggle" style="margin-top:14px;">
+                                @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                                <span>Aktif (Status)</span>
+                            </label>
+
+                            <div class="actions">
+                                <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                                <button type="submit" class="btn btn-primary">Ekle</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SAĞ -->
+                    <div class="colx col-lg-7x">
+                        <div class="section">
+                            <div class="contact-head">
+                                <div class="ttl">Canlı Görünüm</div>
+                                <div class="tag">Preview</div>
+                            </div>
+
+                            <div class="preview-card">
+                                <div class="preview-head">
+                                    <div class="left">
+                                        <div class="bubble"><i class="fa-regular fa-map"></i></div>
+                                        <div>Map Önizleme</div>
+                                    </div>
+
+                                    <div class="badge2 inactive" id="pvStatusBadge">
+                                        <span class="dot"></span>
+                                        <span id="pvStatusText">Pasif</span>
+                                    </div>
+                                </div>
+
+                                <div class="preview-body">
+                                    <div class="map-preview">
+                                        <div class="map-preview-head">
+                                            <div class="title">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                                <span>Konum</span>
+                                            </div>
+                                        </div>
+
+                                        <div id="pvPlaceholder" class="placeholder">
+                                            Map yok<br />Haritadan konum seç.
+                                        </div>
+
+                                        <div id="pvMap"></div>
+
+                                        <div class="map-preview-foot">
+                                            <div class="coord-pill">
+                                                <i class="fa-solid fa-crosshairs"></i>
+                                                <span>Seçili:</span>
+                                                <code id="pvCoord">-</code>
+                                            </div>
+
+                                            <a class="go-btn disabled" id="btnGo" href="#" target="_blank" rel="noopener">
+                                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                                Konuma Git
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="hint2" style="margin-top:10px;">
+                                        Not: Bu görünüm sadece frontend preview. Kaydedilen değer <b>MapLocation</b> alanına yazılır.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var status = document.getElementById("Status");
+        var mapLocation = document.getElementById("MapLocation");
+
+        var pvStatusBadge = document.getElementById("pvStatusBadge");
+        var pvStatusText  = document.getElementById("pvStatusText");
+
+        var btnCenter   = document.getElementById("btnCenter");
+        var btnClearLoc = document.getElementById("btnClearLoc");
+        var btnReset    = document.getElementById("btnReset");
+
+        var pvPlaceholder = document.getElementById("pvPlaceholder");
+        var pvCoord = document.getElementById("pvCoord");
+        var btnGo = document.getElementById("btnGo");
+
+        var pvMapEl = document.getElementById("pvMap");
+
+        function setStatusPreview(){
+            var isActive = !!status.checked;
+            pvStatusBadge.classList.toggle("active", isActive);
+            pvStatusBadge.classList.toggle("inactive", !isActive);
+            pvStatusText.textContent = isActive ? "Aktif" : "Pasif";
+        }
+
+        function parseCoords(text){
+            var t = (text || "").trim();
+            var m = t.match(/(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)/);
+            if (!m) return null;
+            var lat = parseFloat(m[1]), lng = parseFloat(m[2]);
+            if (isNaN(lat) || isNaN(lng)) return null;
+            if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
+            return { lat: lat, lng: lng };
+        }
+
+        function setGoLink(lat, lng){
+            var url = "https://www.google.com/maps?q=" + encodeURIComponent(lat + "," + lng);
+            btnGo.href = url;
+            btnGo.classList.remove("disabled");
+        }
+
+        function disableGo(){
+            btnGo.href = "#";
+            btnGo.classList.add("disabled");
+        }
+
+        // ---- maps
+        var defaultCenter = [40.4093, 49.8671]; // Baku
+        var defaultZoom = 12;
+
+        // picker map
+        var pickMap = L.map("pickMap").setView(defaultCenter, defaultZoom);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(pickMap);
+
+        var pickMarker = null;
+
+        // preview map
+        var pvLeaflet = L.map("pvMap", { zoomControl: true });
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(pvLeaflet);
+
+        var pvMarker = null;
+
+        function showPlaceholder(){
+            pvPlaceholder.style.display = "flex";
+            pvMapEl.style.display = "none";
+            pvCoord.textContent = "-";
+            disableGo();
+        }
+
+        function showCoords(lat, lng){
+            pvPlaceholder.style.display = "none";
+            pvMapEl.style.display = "block";
+
+            // Leaflet görünür olunca ölçüleri yenile
+            setTimeout(function(){ pvLeaflet.invalidateSize(); }, 0);
+
+            var ll = [lat, lng];
+            pvLeaflet.setView(ll, 15);
+
+            if (!pvMarker){
+                pvMarker = L.marker(ll).addTo(pvLeaflet);
+            } else {
+                pvMarker.setLatLng(ll);
+            }
+
+            pvCoord.textContent = lat.toFixed(6) + ", " + lng.toFixed(6);
+            setGoLink(lat, lng);
+        }
+
+        function setMapLocationValue(lat, lng){
+            mapLocation.value = lat.toFixed(6) + "," + lng.toFixed(6);
+            showCoords(lat, lng);
+        }
+
+        pickMap.on("click", function(e){
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+
+            if (!pickMarker){
+                pickMarker = L.marker([lat,lng]).addTo(pickMap);
+            } else {
+                pickMarker.setLatLng([lat,lng]);
+            }
+
+            setMapLocationValue(lat, lng);
+        });
+
+        btnCenter.addEventListener("click", function(){
+            pickMap.setView(defaultCenter, defaultZoom);
+        });
+
+        btnClearLoc.addEventListener("click", function(){
+            mapLocation.value = "";
+            if (pickMarker){ pickMap.removeLayer(pickMarker); pickMarker = null; }
+            if (pvMarker){ pvLeaflet.removeLayer(pvMarker); pvMarker = null; }
+            showPlaceholder();
+        });
+
+        btnReset.addEventListener("click", function(){
+            setTimeout(function(){
+                mapLocation.value = "";
+                if (pickMarker){ pickMap.removeLayer(pickMarker); pickMarker = null; }
+                if (pvMarker){ pvLeaflet.removeLayer(pvMarker); pvMarker = null; }
+                showPlaceholder();
+                setStatusPreview();
+            }, 0);
+        });
+
+        status.addEventListener("change", setStatusPreview);
+
+        // init
+        setStatusPreview();
+        var initial = parseCoords(mapLocation.value);
+        if (initial){
+            // picker marker + preview
+            pickMarker = L.marker([initial.lat, initial.lng]).addTo(pickMap);
+            pickMap.setView([initial.lat, initial.lng], 13);
+            showCoords(initial.lat, initial.lng);
+        }else{
+            showPlaceholder();
+        }
+
+    });
+    </script>
 }
