@@ -1,19 +1,385 @@
 @{
-    Layout ="_Layout";
-    var apiBase ="https://localhost:7243/";
+    Layout = "_Layout";
+    ViewBag.Title = "Upload File";
+    ViewBag.BodyClass = "create-theme";
 
-   
+    var apiBase = "https://localhost:7243/";
+    string? imgUrl = ViewBag.ImageUrl as string; // örn: /images/xxx.jpg
+    string fullUrl = !string.IsNullOrWhiteSpace(imgUrl) ? (apiBase + imgUrl.TrimStart('/')) : "";
 }
 
-<form action="UploadFile" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" id="">
-    <button type="submit">Ekle</button>
-</form>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
 
+<style>
+    .upload-grid{
+        display:grid;
+        grid-template-columns: 1.05fr .95fr;
+        gap:16px;
+    }
+    @@media (max-width: 980px){ .upload-grid{ grid-template-columns:1fr; } }
 
+    .file-holder{
+        position:relative;
+        border-radius: 18px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        overflow:hidden;
+    }
+    .file-ui{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding:14px 14px;
+    }
+    .file-btn{
+        display:inline-flex;
+        align-items:center;
+        gap:10px;
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.18);
+        background: rgba(0,0,0,.22);
+        color: rgba(255,255,255,.92);
+        font-weight:950;
+        cursor:pointer;
+        user-select:none;
+        transition:.15s ease;
+        white-space:nowrap;
+    }
+    .file-btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.26); }
+    .file-name{
+        color: rgba(255,255,255,.70);
+        font-size:13px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        width:100%;
+        text-align:right;
+    }
+    .file-real{
+        position:absolute;
+        inset:0;
+        opacity:0;
+        cursor:pointer;
+    }
 
- @if (ViewBag.ImageUrl != null)
- {
-    <img  src="@(apiBase +ViewBag.ImageUrl)"/>
-         <div class="k">Yüklendi</div>
- }
+    .hint{
+        margin-top:10px;
+        color: rgba(255,255,255,.58);
+        font-size:12px;
+        line-height:1.45;
+    }
+
+    .preview-card{
+        border-radius: 22px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        overflow:hidden;
+        min-height: 320px;
+    }
+    .preview-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding: 14px 16px;
+        border-bottom:1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,0));
+    }
+    .preview-head .ttl{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        color:#fff;
+        font-weight:950;
+    }
+    .chip2{
+        padding:8px 12px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.16);
+        color: rgba(255,255,255,.82);
+        font-weight:900;
+        font-size:12px;
+    }
+    .preview-body{
+        padding: 14px 16px 16px;
+    }
+
+    .img-frame{
+        border-radius: 18px;
+        border:1px dashed rgba(255,255,255,.22);
+        background: rgba(0,0,0,.14);
+        overflow:hidden;
+        min-height: 240px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        text-align:center;
+        padding:18px;
+        color: rgba(255,255,255,.65);
+        font-weight:850;
+    }
+    .img-frame img{
+        width:100%;
+        height:100%;
+        max-height: 420px;
+        object-fit: cover;
+        display:block;
+    }
+
+    .url-row{
+        margin-top:12px;
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        align-items:center;
+    }
+    .url-box{
+        flex:1 1 320px;
+        border-radius: 14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+        padding:10px 12px;
+        color: rgba(255,255,255,.90);
+        font-size:12px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+    }
+    .mini-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:10px;
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.20);
+        color: rgba(255,255,255,.92);
+        font-weight:950;
+        cursor:pointer;
+        transition:.15s ease;
+        white-space:nowrap;
+    }
+    .mini-btn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+
+    .ok{
+        margin-top:10px;
+        color: rgba(34,197,94,.92);
+        font-weight:900;
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    .err{
+        margin-top:10px;
+        color: rgba(244,63,94,.92);
+        font-weight:900;
+        display:none;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Resim Yükle</h1>
+            <p>PNG / JPG / WEBP yükle. Sağda canlı önizleme + yükleme sonrası URL.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+
+            <div class="upload-grid">
+                <!-- LEFT -->
+                <div class="section">
+                    <div class="section-title">
+                        <div class="ttl">Upload</div>
+                        <div class="tag">UploadFile</div>
+                    </div>
+
+                    <form asp-action="UploadFile" asp-controller="File" method="post" enctype="multipart/form-data" id="uploadForm" autocomplete="off">
+                        @Html.AntiForgeryToken()
+
+                        <div class="field">
+                            <div class="label">Dosya</div>
+
+                            <div class="file-holder">
+                                <div class="file-ui">
+                                    <div class="file-btn">
+                                        <i class="fa-regular fa-image"></i>
+                                        Dosya Seç
+                                    </div>
+                                    <div class="file-name" id="fileName">PNG / JPG / WEBP</div>
+                                </div>
+
+                                <input class="file-real"
+                                       type="file"
+                                       name="file"
+                                       id="fileInput"
+                                       accept="image/png,image/jpeg,image/webp,image/*" />
+                            </div>
+
+                            <div class="hint">
+                                İpucu: Çok büyük dosya seçersen (örn. 8–10MB) upload yavaşlar. İstersen 3–5MB civarı kullan.
+                            </div>
+
+                            <div class="err" id="clientErr">Hata</div>
+                        </div>
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                Ekle
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!string.IsNullOrWhiteSpace(imgUrl))
+                    {
+                        <div class="ok">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Yüklendi
+                        </div>
+                    }
+                </div>
+
+                <!-- RIGHT -->
+                <div class="section">
+                    <div class="section-title">
+                        <div class="ttl">Canlı Önizleme</div>
+                        <div class="tag">Preview</div>
+                    </div>
+
+                    <div class="preview-card">
+                        <div class="preview-head">
+                            <div class="ttl">
+                                <i class="fa-regular fa-eye"></i>
+                                Görsel
+                            </div>
+                            <div class="chip2" id="pvState">Seçilmedi</div>
+                        </div>
+
+                        <div class="preview-body">
+                            <div class="img-frame" id="frame">
+                                <div id="ph">Dosya seçince burada görünecek</div>
+                                <img id="pvImg" alt="preview" style="display:none;" />
+                            </div>
+
+                            @if (!string.IsNullOrWhiteSpace(imgUrl))
+                            {
+                                <div class="url-row">
+                                    <div class="url-box" id="urlBox" title="@fullUrl">@fullUrl</div>
+                                    <button type="button" class="mini-btn" id="btnCopy">
+                                        <i class="fa-regular fa-copy"></i> Kopyala
+                                    </button>
+                                    <a class="mini-btn" href="@fullUrl" target="_blank" rel="noopener">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Aç
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var input = document.getElementById("fileInput");
+    var fileName = document.getElementById("fileName");
+    var pvImg = document.getElementById("pvImg");
+    var ph = document.getElementById("ph");
+    var pvState = document.getElementById("pvState");
+    var err = document.getElementById("clientErr");
+    var btnReset = document.getElementById("btnReset");
+
+    var objUrl = null;
+
+    function showErr(msg){
+        if(!err) return;
+        err.textContent = msg;
+        err.style.display = "block";
+    }
+    function clearErr(){
+        if(!err) return;
+        err.textContent = "";
+        err.style.display = "none";
+    }
+
+    function resetPreview(){
+        clearErr();
+        if(objUrl){ try{ URL.revokeObjectURL(objUrl); }catch(e){} objUrl=null; }
+        pvImg.style.display = "none";
+        pvImg.removeAttribute("src");
+        ph.style.display = "block";
+        pvState.textContent = "Seçilmedi";
+        fileName.textContent = "PNG / JPG / WEBP";
+    }
+
+    function validate(f){
+        if(!f) return "Dosya seçilmedi.";
+        var ok = ["image/png","image/jpeg","image/webp"];
+        if(f.type && ok.indexOf(f.type) === -1 && !f.type.startsWith("image/")) return "Yalnız resim dosyası seç.";
+        if(f.size > 6 * 1024 * 1024) return "Dosya 6MB'dan büyük. (İstersen sınırı artırırız.)";
+        return "";
+    }
+
+    input.addEventListener("change", function(){
+        clearErr();
+        if(!input.files || !input.files.length){
+            resetPreview();
+            return;
+        }
+
+        var f = input.files[0];
+        var v = validate(f);
+        if(v){
+            showErr(v);
+            input.value = "";
+            resetPreview();
+            return;
+        }
+
+        if(objUrl){ try{ URL.revokeObjectURL(objUrl); }catch(e){} }
+        objUrl = URL.createObjectURL(f);
+
+        pvImg.src = objUrl;
+        pvImg.style.display = "block";
+        ph.style.display = "none";
+        pvState.textContent = "Hazır";
+        fileName.textContent = f.name;
+    });
+
+    btnReset.addEventListener("click", function(){
+        setTimeout(function(){
+            input.value = "";
+            resetPreview();
+        }, 0);
+    });
+
+    // server url copy
+    var btnCopy = document.getElementById("btnCopy");
+    var urlBox = document.getElementById("urlBox");
+    if(btnCopy && urlBox){
+        btnCopy.addEventListener("click", async function(){
+            try{
+                await navigator.clipboard.writeText(urlBox.textContent.trim());
+                btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Kopyalandı';
+                setTimeout(function(){
+                    btnCopy.innerHTML = '<i class="fa-regular fa-copy"></i> Kopyala';
+                }, 1200);
+            }catch(e){}
+        });
+    }
+});
+</script>
