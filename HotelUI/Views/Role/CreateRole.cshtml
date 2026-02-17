@@ -1,8 +1,345 @@
 @using DTOs.RoleDTOs
 @model CreateRoleDto
 
-@using(Html.BeginForm("CreateRole","Role",FormMethod.Post))
+@{
+    ViewBag.Title = "Create Role";
+    ViewBag.BodyClass = "create-theme";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
+
+<style>
+    .role-grid{
+        display:grid;
+        grid-template-columns: 1fr .95fr;
+        gap:16px;
+        align-items:start;
+    }
+    @@media (max-width: 940px){ .role-grid{ grid-template-columns:1fr; } }
+
+    .role-kicker{
+        font-size:12px;
+        font-weight:900;
+        letter-spacing:.18px;
+        color: rgba(255,255,255,.70);
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    .role-kicker .line{
+        height:2px;
+        width:52px;
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.75));
+        border-radius:999px;
+        opacity:.9;
+    }
+
+    .role-title{
+        margin:0;
+        font-size: 30px;
+        line-height:1.05;
+        font-weight: 980;
+        color:#fff;
+    }
+    .role-title .accent{
+        background: linear-gradient(90deg, rgba(168,85,247,.95), rgba(236,72,153,.85));
+        -webkit-background-clip:text;
+        background-clip:text;
+        color: transparent;
+    }
+    .role-desc{
+        margin:0;
+        color: rgba(255,255,255,.72);
+        line-height:1.6;
+        font-size: 13px;
+    }
+
+    .wrap-any{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+    }
+
+    .preview-box{
+        padding:18px;
+    }
+
+    .mini-card{
+        border-radius: 18px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        overflow:hidden;
+    }
+    .mini-head{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        padding:14px 16px;
+        border-bottom:1px solid rgba(255,255,255,.10);
+        background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,0));
+    }
+    .mini-head .ttl{
+        color:#fff;
+        font-weight:950;
+        display:flex;
+        align-items:center;
+        gap:10px;
+    }
+    .badge2{
+        padding:8px 12px;
+        border-radius:999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.16);
+        color: rgba(255,255,255,.82);
+        font-weight:900;
+        font-size:12px;
+    }
+    .mini-body{
+        padding:16px;
+    }
+
+    .pv-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        padding:14px 14px;
+        border-radius: 16px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.22);
+    }
+    .pv-left{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        min-width:0;
+    }
+    .pv-ico{
+        width:42px;
+        height:42px;
+        border-radius: 14px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.25);
+        color: rgba(168,85,247,.95);
+        flex:0 0 auto;
+    }
+    .pv-text{
+        min-width:0;
+    }
+    .pv-name{
+        color:#fff;
+        font-weight:950;
+        line-height:1.1;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        max-width: 360px;
+    }
+    .pv-sub{
+        margin-top:4px;
+        color: rgba(255,255,255,.62);
+        font-size:12px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        max-width: 360px;
+    }
+
+    .pv-status{
+        display:inline-flex;
+        align-items:center;
+        gap:10px;
+        padding:10px 12px;
+        border-radius: 999px;
+        border:1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        color: rgba(255,255,255,.90);
+        font-weight:900;
+        font-size:12px;
+        flex:0 0 auto;
+    }
+    .pv-dot{
+        width:10px;height:10px;border-radius:999px;
+        background: rgba(244,63,94,.9);
+        box-shadow: 0 0 0 4px rgba(244,63,94,.15);
+    }
+    .pv-status.active .pv-dot{
+        background: rgba(34,197,94,.92);
+        box-shadow: 0 0 0 4px rgba(34,197,94,.14);
+    }
+
+    .hint2{
+        margin-top:10px;
+        color: rgba(255,255,255,.58);
+        font-size:12px;
+        line-height:1.45;
+    }
+</style>
+
+<div class="wrap">
+    <div class="hero">
+        <div>
+            <h1>Role • Create</h1>
+            <p>Rol adı ekle. Sağda canlı önizleme.</p>
+        </div>
+        <div class="chip">Dark • Purple • Glass</div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+
+            @using (Html.BeginForm("CreateRole", "Role", FormMethod.Post, new { id="roleForm", autocomplete="off" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="role-grid">
+
+                    <!-- LEFT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Form</div>
+                            <div class="tag">CreateRole</div>
+                        </div>
+
+                        <div class="field">
+                            <div class="label">Role Name</div>
+                            @Html.TextBoxFor(x => x.Name, new { @class="input", id="Name", placeholder="Örn: Admin" })
+                            <div class="hint">Kısa ve net yaz: Admin, Manager, Reception...</div>
+                        </div>
+
+                        @* Eğer CreateRoleDto’da Status yoksa bu toggle’ı kaldır *@
+                        @if (ViewData.ModelMetadata.Properties.Any(p => p.PropertyName == "Status"))
+                        {
+                            <label class="toggle">
+                                @Html.CheckBox("Status", false, new { id="Status" })
+                                <span>Aktif (Status)</span>
+                            </label>
+                        }
+
+                        <div class="actions">
+                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-plus"></i> Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT -->
+                    <div class="section">
+                        <div class="section-title">
+                            <div class="ttl">Canlı Görünüm</div>
+                            <div class="tag">Preview</div>
+                        </div>
+
+                        <div class="mini-card">
+                            <div class="mini-head">
+                                <div class="ttl"><i class="fa-regular fa-eye"></i> Preview</div>
+                                <div class="badge2" id="pvChip">Role</div>
+                            </div>
+
+                            <div class="mini-body preview-box">
+                                <div class="role-kicker">
+                                    <span>ROLE</span>
+                                    <span class="line"></span>
+                                </div>
+
+                                <h2 class="role-title wrap-any" id="pvTitle">
+                                    <span class="accent">Admin</span>
+                                </h2>
+
+                                <p class="role-desc" id="pvDesc">Sistemde yetki grubu.</p>
+
+                                <div style="margin-top:14px;" class="pv-row">
+                                    <div class="pv-left">
+                                        <div class="pv-ico"><i class="fa-solid fa-user-shield"></i></div>
+                                        <div class="pv-text">
+                                            <div class="pv-name" id="pvName">Admin</div>
+                                            <div class="pv-sub" id="pvSub">Role name preview</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="pv-status" id="pvStatus">
+                                        <span class="pv-dot"></span>
+                                        <span id="pvStatusText">Pasif</span>
+                                    </div>
+                                </div>
+
+                                <div class="hint2">Not: Bu alan sadece frontend önizleme.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
 {
-    @Html.TextBoxFor(x=>x.Name)
-    <button type="submit">Ekle</button>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var name = document.getElementById("Name");
+    var status = document.getElementById("Status");
+
+    var pvTitle = document.getElementById("pvTitle");
+    var pvName  = document.getElementById("pvName");
+    var pvChip  = document.getElementById("pvChip");
+    var pvDesc  = document.getElementById("pvDesc");
+
+    var pvStatus = document.getElementById("pvStatus");
+    var pvStatusText = document.getElementById("pvStatusText");
+    var btnReset = document.getElementById("btnReset");
+
+    function safe(v, fallback){
+        fallback = (fallback === undefined) ? "" : fallback;
+        v = (v === null || v === undefined) ? "" : String(v);
+        v = v.trim();
+        return v ? v : fallback;
+    }
+
+    function update(){
+        var n = safe(name ? name.value : "", "Admin");
+
+        if (pvTitle) pvTitle.innerHTML = '<span class="accent">' + escapeHtml(n) + '</span>';
+        if (pvName) pvName.textContent = n;
+        if (pvChip) pvChip.textContent = n || "Role";
+        if (pvDesc) pvDesc.textContent = (n ? ("“" + n + "” rolü için kısa açıklama.") : "Sistemde yetki grubu.");
+
+        // status optional
+        if (status && pvStatus && pvStatusText){
+            var isActive = !!status.checked;
+            pvStatus.classList.toggle("active", isActive);
+            pvStatusText.textContent = isActive ? "Aktif" : "Pasif";
+        } else if (pvStatusText){
+            pvStatusText.textContent = "—";
+        }
+    }
+
+    function escapeHtml(str){
+        return String(str)
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
+    }
+
+    if (name) name.addEventListener("input", update);
+    if (status) status.addEventListener("change", update);
+
+    if (btnReset){
+        btnReset.addEventListener("click", function(){
+            setTimeout(update, 0);
+        });
+    }
+
+    update();
+});
+</script>
 }
