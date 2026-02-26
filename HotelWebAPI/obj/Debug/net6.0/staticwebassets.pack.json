@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets/images/15ad7048-f339-4645-b02e-101c73a80829.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/1a30aeee-531f-4633-bbfc-e5b2f428bbfd.jpg",
+      "PackagePath": "staticwebassets/images/1a30aeee-531f-4633-bbfc-e5b2f428bbfd.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/237bc431-1a20-4d00-9779-997bc382beec.jpg",
       "PackagePath": "staticwebassets/images/237bc431-1a20-4d00-9779-997bc382beec.jpg"
     },
@@ -33,6 +37,10 @@
       "PackagePath": "staticwebassets/images/7b23f4b4-b120-4e7c-85dd-14cbf9e5ceb9.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/89aafe1d-57cc-4dbd-8f29-80cdea044510.jpg",
+      "PackagePath": "staticwebassets/images/89aafe1d-57cc-4dbd-8f29-80cdea044510.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/959a7dfd-4d4a-4721-8579-a96ac587fae5.jpg",
       "PackagePath": "staticwebassets/images/959a7dfd-4d4a-4721-8579-a96ac587fae5.jpg"
     },
@@ -41,8 +49,16 @@
       "PackagePath": "staticwebassets/images/962b28a3-560c-42c3-827c-536c5c5632b6.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/9db62f56-b169-4470-8762-edfdefe9de47.jpg",
+      "PackagePath": "staticwebassets/images/9db62f56-b169-4470-8762-edfdefe9de47.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg",
       "PackagePath": "staticwebassets/images/a6f09710-8fa3-4caf-a00b-274234264d32.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/aa955f32-84d3-4101-a5f6-6e53a79b2c42.jpg",
+      "PackagePath": "staticwebassets/images/aa955f32-84d3-4101-a5f6-6e53a79b2c42.jpg"
     },
     {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/b154c329-4f60-4e29-9481-873dac217d38.jpg",

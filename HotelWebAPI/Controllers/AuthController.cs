@@ -1,6 +1,7 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using DTOs.AuthDTOs;
@@ -77,13 +78,19 @@ namespace HotelWebAPI.Controllers
             var token = await CreateJwtAsync(user);
             var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"]!);
 
+            var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpire = DateTime.UtcNow.AddDays(7);
+            await _userManager.UpdateAsync(user);
+
             return Ok(new LoginResponseDto
             {
                 UserId = user.Id,
                 AccessToken = token,
-                ExpiresIn = expireMinutes * 60
+                ExpiresIn = expireMinutes * 60,
+                RefreshToken = refreshToken
             });
-        }
+        } 
         private async Task<string> CreateJwtAsync(User user)
         {
             var jwt = _config.GetSection("Jwt");
@@ -122,5 +129,32 @@ namespace HotelWebAPI.Controllers
             await _signInManager.SignOutAsync();
             return Ok(new { message = "Çıkış Yapıldı" });
         }
+        
+        [HttpPost("refresh")]
+public async Task<IActionResult> Refresh([FromBody] RefreshTokenDto dto)
+{
+    var user = _userManager.Users
+        .FirstOrDefault(u => u.RefreshToken == dto.RefreshToken);
+
+    if (user == null || user.RefreshTokenExpire < DateTime.UtcNow)
+        return Unauthorized(new { message = "Geçersiz veya süresi dolmuş token" });
+
+    var newAccessToken = await CreateJwtAsync(user);
+    var newRefreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+
+    user.RefreshToken = newRefreshToken;
+    user.RefreshTokenExpire = DateTime.UtcNow.AddDays(7);
+    await _userManager.UpdateAsync(user);
+
+    var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"]!);
+
+    return Ok(new LoginResponseDto
+    {
+        UserId = user.Id,
+        AccessToken = newAccessToken,
+        ExpiresIn = expireMinutes * 60,
+        RefreshToken = newRefreshToken
+    });
+}
     }
 }
