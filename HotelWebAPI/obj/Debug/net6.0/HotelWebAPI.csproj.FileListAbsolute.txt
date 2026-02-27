@@ -1,5 +1,6 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/appsettings.Development.json
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/appsettings.json
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI.staticwebassets.runtime.json
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI.deps.json
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI.runtimeconfig.json
@@ -8,6 +9,8 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/AutoMapper.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Humanizer.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.Data.SqlClient.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -74,6 +77,3 @@
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.pdb
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/HotelWebAPI.genruntimeconfig.cache
 /Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/obj/Debug/net6.0/ref/HotelWebAPI.dll
-/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/HotelWebAPI.staticwebassets.runtime.json
-/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll

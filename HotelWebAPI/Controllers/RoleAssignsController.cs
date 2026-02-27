@@ -3,9 +3,11 @@ using DTOs.AssignRoleDTOs;
 using Microsoft.AspNetCore.Identity;
 using EntityLayer.Concrete;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebAPI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class RoleAssignsController : ControllerBase
@@ -36,7 +38,7 @@ namespace HotelWebAPI.Controllers
                 {
                     return BadRequest(new
                     {
-                        message = "Mevcut roller temizlenmedi",
+                        message = "Mevcut roller temizlenemedi",
                         errors = removeRole.Errors.Select(e => e.Description)
                     });
                 }
@@ -69,7 +71,7 @@ namespace HotelWebAPI.Controllers
             }
 
             var roles = await _userManager.GetRolesAsync(user);
-            
+
             return Ok(roles.ToList());
         }
     }
