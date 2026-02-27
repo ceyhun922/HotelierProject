@@ -1,6 +1,7 @@
 
 
 using HotelWebAPI.Infrastructure.Extensions;
+using Service.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,16 +10,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseService(builder.Configuration);
+builder.Services.AddJWTService(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddCorsService();
-builder.Services.AddJWTService(builder.Configuration);
-
-
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.AddRepositoriesService();
 builder.Services.AddManagerServices();
+
+
+
+
+builder.Services.AddAutoMapper(typeof(GeneralMapping)); 
 
 
 var app = builder.Build();

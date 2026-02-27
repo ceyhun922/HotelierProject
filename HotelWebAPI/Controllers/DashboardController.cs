@@ -19,7 +19,7 @@ namespace HotelWebAPI.Controllers
         public async Task<IActionResult> Dashboard()
         {
             var values =await _teamService.GetALLServiceAsync();
-              var topValues = values.Take(4);
+              var topValues = values.Take(4).ToList();
             return Ok(topValues);
         }
     }
