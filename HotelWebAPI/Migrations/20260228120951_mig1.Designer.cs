@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelWebAPI.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20260203162020_mig-4")]
-    partial class mig4
+    [Migration("20260228120951_mig1")]
+    partial class mig1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,45 @@ namespace HotelWebAPI.Migrations
                     b.HasIndex("AboutId");
 
                     b.ToTable("AboutImages");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Adult")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomTypeId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Charge", b =>
@@ -139,6 +178,25 @@ namespace HotelWebAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.Message", b =>
@@ -222,6 +280,9 @@ namespace HotelWebAPI.Migrations
                     b.Property<bool>("IsWifi")
                         .HasColumnType("bit");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Price")
                         .HasColumnType("nvarchar(max)");
 
@@ -232,6 +293,8 @@ namespace HotelWebAPI.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("RoomTypeId");
 
@@ -430,6 +493,12 @@ namespace HotelWebAPI.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExpire")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -567,13 +636,32 @@ namespace HotelWebAPI.Migrations
                     b.Navigation("About");
                 });
 
+            modelBuilder.Entity("EntityLayer.Concrete.Booking", b =>
+                {
+                    b.HasOne("EntityLayer.Concrete.RoomType", "RoomType")
+                        .WithMany()
+                        .HasForeignKey("RoomTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RoomType");
+                });
+
             modelBuilder.Entity("EntityLayer.Concrete.Room", b =>
                 {
+                    b.HasOne("EntityLayer.Concrete.Location", "Location")
+                        .WithMany("Rooms")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EntityLayer.Concrete.RoomType", "RoomType")
                         .WithMany("Rooms")
                         .HasForeignKey("RoomTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Location");
 
                     b.Navigation("RoomType");
                 });
@@ -632,6 +720,11 @@ namespace HotelWebAPI.Migrations
             modelBuilder.Entity("EntityLayer.Concrete.About", b =>
                 {
                     b.Navigation("AboutImages");
+                });
+
+            modelBuilder.Entity("EntityLayer.Concrete.Location", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("EntityLayer.Concrete.RoomType", b =>

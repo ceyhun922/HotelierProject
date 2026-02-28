@@ -1,6 +1,5 @@
-
-
 using HotelWebAPI.Infrastructure.Extensions;
+using HotelWebAPI.Infrastructure.Seed;
 using Service.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +14,6 @@ builder.Services.AddIdentityService(builder.Configuration);
 builder.Services.AddCorsService();
 builder.Services.AddRepositoriesService();
 builder.Services.AddManagerServices();
-
-
-
 
 builder.Services.AddAutoMapper(typeof(GeneralMapping)); 
 
@@ -37,5 +33,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var config = services.GetRequiredService<IConfiguration>();
+    await IdentitySeedData.CreateAdminUser(services, config);
+}
 app.Run();

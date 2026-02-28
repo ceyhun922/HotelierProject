@@ -13,12 +13,14 @@ namespace HotelWebAPI.Controllers
     public class RolesController : ControllerBase
     {
         private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public RolesController(RoleManager<Role> roleManager, IMapper mapper)
+        public RolesController(RoleManager<Role> roleManager, IMapper mapper, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -53,7 +55,14 @@ namespace HotelWebAPI.Controllers
 
             await _roleManager.CreateAsync(mapper);
 
-            return Ok(new { message = "Eklendi" });
+            var adminUser = await _userManager.FindByEmailAsync("admin@a.a");
+            if (adminUser != null)
+            {
+                await _userManager.AddToRoleAsync(adminUser, mapper.Name);
+            }
+            return Ok(new { message = "Eklendi ve Admin'e atandı" });
+
+           
         }
 
         [HttpPut]
@@ -83,7 +92,7 @@ namespace HotelWebAPI.Controllers
                 return Ok(new { message = "Bulunamadı" });
             }
             await _roleManager.DeleteAsync(value);
-            
+
             return Ok(new { message = "Silindi" });
 
         }

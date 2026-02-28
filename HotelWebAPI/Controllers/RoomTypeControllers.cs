@@ -25,32 +25,33 @@ namespace HotelWebAPI.Controllers
         {
             var entities = await _roomTypeService.GetALLServiceAsync();
 
-            var result = _mapper.Map<List<ResultRoomTypeDto>>(entities);  // Mapper adını daha anlamlı yaptım
+            var result = _mapper.Map<List<ResultRoomTypeDto>>(entities);
             return Ok(result);
         }
 
-      [HttpGet("{id}")]
-public async Task<IActionResult> GetByIdRoomType(int id)
-{
-    var entity = await _roomTypeService.GetByIdAsync(id);
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdRoomType(int id)
+        {
+            var entity = await _roomTypeService.GetByIdAsync(id);
 
-    if (entity == null)
-    {
-        return NotFound(new { message = "Bulunamadı" });
-    }
+            if (entity == null)
+            {
+                return NotFound(new { message = "Bulunamadı" });
+            }
 
-    var result = _mapper.Map<GetByIdRoomTypeDto>(entity); 
-    return Ok(result);
-}
-       [HttpPost]
-public async Task<IActionResult> CreateRoomType(CreateRoomTypeDto dto)
-{
-    var roomType = _mapper.Map<RoomType>(dto);  
+            var result = _mapper.Map<GetByIdRoomTypeDto>(entity);
+            return Ok(result);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateRoomType(CreateRoomTypeDto dto)
+        {
+            var roomType = _mapper.Map<RoomType>(dto);
 
-    await _roomTypeService.InsertServiceAsync(roomType);
+            await _roomTypeService.InsertServiceAsync(roomType);
 
-    return Ok(new { message = "Eklendi" });
-}
+            return Ok(new { message = "Eklendi" });
+        }
 
         [HttpPut]
         public async Task<IActionResult> UpdateRoomType(UpdateRoomTypeDto dto)

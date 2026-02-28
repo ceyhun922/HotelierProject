@@ -16,11 +16,34 @@ namespace HotelWebAPI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public UserController(UserManager<User> userManager, IMapper mapper)
+        public UserController(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _roleManager = roleManager;
+        }
+
+        [HttpPost("create-admin")]
+        public async Task<IActionResult> CreateAdmin(CreateUserDto dto)
+        {
+            var user = _mapper.Map<User>(dto);
+
+            var result = await _userManager.CreateAsync(user, dto.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { message = "Kullanıcı oluşturulamadı", errors = result.Errors });
+            }
+
+            var roleExists = await _roleManager.RoleExistsAsync("Admin");
+            if (roleExists)
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+            }
+
+            return Ok(new { message = "Admin kullanıcısı başarıyla eklendi" });
         }
 
         [HttpGet]
