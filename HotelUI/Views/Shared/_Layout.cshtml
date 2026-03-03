@@ -16,6 +16,66 @@
                 <!-- Chartist -->
                 <link rel="stylesheet" href="~/admin/plugins/chartist/css/chartist.min.css">
                     <link rel="stylesheet" href="~/admin/plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+@await RenderSectionAsync("Styles", required: false)
+
+                    <style>
+        /* Page Background */
+        body {
+            background: #1e1e2f; /* Change body background color to match your theme */
+            color: #fff; /* White text color */
+        }
+
+        /* Sidebar */
+        .nk-sidebar {
+            background-color: #2d2d44; /* Dark background for sidebar */
+            color: #fff;
+        }
+
+        .nav-header {
+            background-color: #333; /* Dark header */
+        }
+
+        .brand-logo {
+            background-color: #222; /* Darker logo area */
+        }
+
+        /* Header Styling */
+        .header {
+            background-color: #1f1f32; /* Matching dark header */
+            color: #fff;
+        }
+
+        .header-content {
+            border-bottom: 2px solid #444; /* Light border to divide header */
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #222; /* Footer background */
+            color: #aaa; /* Lighter text in footer */
+        }
+
+        .footer p {
+            color: #aaa; /* Light text in footer */
+        }
+
+        /* Sidebar Menu Items */
+        .metismenu li a {
+            color: #fff; /* White text for menu items */
+            background-color: #333; /* Dark background for menu items */
+        }
+
+        .metismenu li a:hover {
+            background-color: #444; /* Lighter hover background */
+        }
+
+        /* Active menu item */
+        .metismenu li a.active {
+            background-color: #6a1b9a; /* Highlight active menu item with purple */
+        }
+    </style>
                     </head>
 
                     <body class="@ViewBag.BodyClass">

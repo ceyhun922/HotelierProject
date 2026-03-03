@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HotelWebAPI.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
     public class RoleAssignsController : ControllerBase
@@ -19,7 +18,7 @@ namespace HotelWebAPI.Controllers
             _userManager = userManager;
         }
 
-        [HttpPost("assign-roles")]
+       [HttpPost("assign-roles")]
         public async Task<IActionResult> AssignRoles([FromBody] AssignRoleDto dto)
         {
             var user = await _userManager.FindByIdAsync(dto.UserId.ToString());

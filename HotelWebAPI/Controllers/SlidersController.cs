@@ -8,12 +8,12 @@ namespace HotelWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SliderControllers : ControllerBase
+    public class SlidersController : ControllerBase
     {
         private readonly ISliderService _sliderService;
         private readonly IMapper _mapper;
 
-        public SliderControllers(ISliderService sliderService, IMapper mapper)
+        public SlidersController(ISliderService sliderService, IMapper mapper)
         {
             _sliderService = sliderService;
             _mapper = mapper;

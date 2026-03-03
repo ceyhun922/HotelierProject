@@ -16,9 +16,9 @@ namespace HotelWebAPI.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public UserController(UserManager<User> userManager, IMapper mapper, RoleManager<IdentityRole<int>> roleManager)
+        public UserController(UserManager<User> userManager, IMapper mapper, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -49,13 +49,22 @@ namespace HotelWebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> UserList()
         {
-            var users = await _userManager.Users.Select(dto => new ResultUserDto
+            var users = await _userManager.Users.ToListAsync();
+            var userListDto = new List<ResultUserDto>();
+
+            foreach (var user in users)
             {
-                Id = dto.Id,
-                UserName = dto.UserName,
-                Email = dto.Email
-            }).ToListAsync();
-            return Ok(users);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                userListDto.Add(new ResultUserDto
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = roles.ToList() 
+                });
+            }
+            return Ok(userListDto);
         }
 
         [Authorize]

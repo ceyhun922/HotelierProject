@@ -2,61 +2,602 @@
 @model List<ResultTeamDto>
 @{
     Layout = "_Layout";
-    var count =1;
+    ViewBag.Title = "Team";
+    ViewBag.BodyClass = "list-theme";
 }
 
+<style>
+@@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
 
+:root {
+    --bg:          #0b0c10;
+    --surface:     rgba(255,255,255,0.04);
+    --border:      rgba(255,255,255,0.07);
+    --border2:     rgba(255,255,255,0.13);
+    --accent:      #7c6af7;
+    --accent2:     #a78bfa;
+    --accent-glow: rgba(124,106,247,0.28);
+    --green:       #22c55e;
+    --green-dim:   rgba(34,197,94,0.12);
+    --red:         #ef4444;
+    --red-dim:     rgba(239,68,68,0.10);
+    --cyan:        #22d3ee;
+    --text:        #e8eaf0;
+    --text2:       #9ca3af;
+    --text3:       #6b7280;
+    --radius:      18px;
+    --radius-sm:   10px;
+    --shadow:      0 8px 40px rgba(0,0,0,0.5);
+    --font-d:      'Sora', sans-serif;
+    --font-b:      'DM Sans', sans-serif;
+    --tr:          0.22s cubic-bezier(.4,0,.2,1);
+}
 
-<div class="card">
-    <div class="card-body">
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        <h4 class="card-title">Çalışan Ekleme</h4>
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped verticle-middle">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Durum</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
+body.list-theme {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-b);
+    min-height: 100vh;
+    background-image:
+        radial-gradient(ellipse 70% 40% at 10% 0%,  rgba(124,106,247,0.13) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 90% 100%, rgba(124,106,247,0.07) 0%, transparent 60%);
+}
+
+.wrap { max-width: 1320px; margin: 0 auto; padding: 44px 28px 72px; }
+
+/* ─── HERO ─── */
+.hero {
+    display: flex; align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px; margin-bottom: 32px; flex-wrap: wrap;
+}
+.hero h1 {
+    font-family: var(--font-d);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 40%, var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+.hero p { color: var(--text2); font-size: .875rem; line-height: 1.6; max-width: 460px; }
+.hero-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.chip {
+    padding: 6px 16px; border-radius: 999px;
+    background: var(--surface); border: 1px solid var(--border2);
+    font-size: .74rem; font-weight: 600;
+    color: var(--accent2); letter-spacing: .05em; white-space: nowrap;
+}
+
+/* ─── GLASS CARD ─── */
+.glass-card {
+    background: rgba(255,255,255,0.025);
+    backdrop-filter: blur(24px) saturate(1.6);
+    -webkit-backdrop-filter: blur(24px) saturate(1.6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05);
+    animation: fadeUp .45s ease both;
+}
+@@keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+.card-inner { padding: 28px; }
+
+/* ─── TOOLBAR ─── */
+.list-toolbar {
+    display: flex; align-items: center;
+    gap: 14px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.search-wrap { position: relative; flex: 1; min-width: 220px; }
+.search-icon {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3); font-size: .78rem; pointer-events: none;
+}
+.input {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text); font-family: var(--font-b); font-size: .875rem;
+    padding: 10px 14px 10px 38px; outline: none;
+    transition: border-color var(--tr), box-shadow var(--tr), background var(--tr);
+}
+.input:focus {
+    border-color: var(--accent);
+    background: rgba(124,106,247,0.06);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.18);
+}
+.input::placeholder { color: var(--text3); }
+
+.filter-group {
+    display: flex; gap: 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 999px; padding: 4px;
+}
+.filter-btn {
+    padding: 5px 16px; border-radius: 999px; border: none;
+    background: transparent; color: var(--text2);
+    font-family: var(--font-b); font-size: .78rem; font-weight: 500;
+    cursor: pointer;
+    transition: background var(--tr), color var(--tr), box-shadow var(--tr);
+    white-space: nowrap;
+}
+.filter-btn:hover { color: var(--text); }
+.filter-btn.active { background: var(--accent); color: #fff; box-shadow: 0 0 14px var(--accent-glow); }
+
+/* ─── GRID ─── */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* ─── TEAM CARD ─── */
+.team-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
+    animation: cardIn .4s ease both;
+    position: relative;
+}
+.team-card::after {
+    content: '';
+    position: absolute; inset: 0; border-radius: var(--radius);
+    background: linear-gradient(135deg, rgba(124,106,247,0.07) 0%, transparent 60%);
+    opacity: 0; transition: opacity var(--tr); pointer-events: none;
+}
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(124,106,247,0.38);
+    box-shadow: 0 20px 52px rgba(0,0,0,0.45), 0 0 0 1px rgba(124,106,247,0.18);
+}
+.team-card:hover::after { opacity: 1; }
+.team-card.hidden { display: none; }
+
+@@keyframes cardIn {
+    from { opacity:0; transform:translateY(18px) scale(.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+/* ── IMAGE ── */
+.card-img-wrap {
+    position: relative;
+    width: 100%; height: 220px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #12131a, #1a1b26);
+    flex-shrink: 0;
+}
+.card-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s cubic-bezier(.4,0,.2,1), filter .5s ease;
+    filter: brightness(.85) saturate(1.1);
+}
+.team-card:hover .card-img-wrap img {
+    transform: scale(1.06);
+    filter: brightness(.98) saturate(1.2);
+}
+
+/* placeholder */
+.card-img-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    position: relative; overflow: hidden;
+}
+.placeholder-letter {
+    font-family: var(--font-d);
+    font-size: 6rem; font-weight: 800; letter-spacing: -.04em;
+    color: var(--accent); opacity: .12; user-select: none;
+    position: absolute; bottom: -10px; right: 10px; line-height: 1;
+}
+.placeholder-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(124,106,247,0.15);
+    border: 2px solid rgba(124,106,247,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-d); font-size: 1.5rem; font-weight: 700;
+    color: var(--accent2); z-index: 1;
+}
+
+/* gradient overlay */
+.img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(11,12,16,.92) 0%, rgba(11,12,16,.2) 50%, transparent 100%);
+    pointer-events: none;
+}
+
+/* status badge */
+.img-badge {
+    position: absolute; top: 12px; right: 12px;
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: .7rem; font-weight: 600; letter-spacing: .04em;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 2;
+}
+.img-badge.active-badge  { background: rgba(34,197,94,0.2);  border: 1px solid rgba(34,197,94,0.35);  color: var(--green); }
+.img-badge.inactive-badge{ background: rgba(0,0,0,0.4);       border: 1px solid rgba(255,255,255,0.12); color: var(--text2); }
+
+/* id badge */
+.img-id {
+    position: absolute; top: 12px; left: 12px; z-index: 2;
+    padding: 3px 9px; border-radius: 6px;
+    background: rgba(0,0,0,.4); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.08);
+    font-size: .67rem; color: rgba(255,255,255,.4);
+    font-family: 'Courier New', monospace;
+}
+
+/* isim + ünvan fotoğraf üstünde */
+.img-info {
+    position: absolute; bottom: 14px; left: 16px; right: 16px; z-index: 2;
+}
+.img-name {
+    font-family: var(--font-d);
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+    letter-spacing: -.02em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    text-shadow: 0 2px 12px rgba(0,0,0,.7);
+}
+.img-title {
+    font-size: .74rem; color: var(--accent2); font-weight: 500; margin-top: 3px;
+}
+
+/* ── SOCIAL BAR ── */
+.social-bar {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,.15);
+}
+.s-btn {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .85rem; text-decoration: none;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.03);
+    transition: all var(--tr);
+}
+.s-btn.x-btn   { color: #e7e9ea; }
+.s-btn.x-btn:hover   { background: rgba(231,233,234,.1);  border-color: #e7e9ea; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(231,233,234,.12); }
+.s-btn.fb-btn  { color: #1877f2; }
+.s-btn.fb-btn:hover  { background: rgba(24,119,242,.12);  border-color: #1877f2; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(24,119,242,.22); }
+.s-btn.ig-btn  { color: #e1306c; }
+.s-btn.ig-btn:hover  { background: rgba(225,48,108,.1);   border-color: #e1306c; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(225,48,108,.18); }
+.s-btn.disabled { opacity: .15; pointer-events: none; }
+.s-divider { width: 1px; height: 18px; background: var(--border); }
+
+/* ── CARD BODY ── */
+.card-body {
+    padding: 16px 18px 12px;
+    flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.card-desc {
+    font-size: .81rem; color: var(--text2); line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden; min-height: 2.3em;
+}
+.pills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 999px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    font-size: .72rem; color: var(--text2); font-weight: 500;
+}
+.pill i { font-size: .63rem; color: var(--text3); }
+.pill.accent-pill { border-color: rgba(124,106,247,0.28); color: var(--accent2); background: rgba(124,106,247,0.08); }
+
+/* ── CARD FOOTER ── */
+.card-footer {
+    padding: 10px 18px 14px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 8px;
+}
+.act-btn {
+    flex: 1; height: 34px; border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    font-size: .78rem; font-weight: 600; font-family: var(--font-b);
+    text-decoration: none; border: 1px solid var(--border);
+    cursor: pointer; transition: all var(--tr);
+}
+.act-edit {
+    background: rgba(124,106,247,0.1); color: var(--accent2);
+    border-color: rgba(124,106,247,0.2);
+}
+.act-edit:hover {
+    background: rgba(124,106,247,0.22); border-color: var(--accent);
+    box-shadow: 0 4px 14px var(--accent-glow); transform: translateY(-1px);
+    color: var(--accent2); text-decoration: none;
+}
+.act-delete {
+    flex: 0 0 34px;
+    background: var(--red-dim); color: var(--red);
+    border-color: rgba(239,68,68,0.2);
+}
+.act-delete:hover {
+    background: rgba(239,68,68,0.22); border-color: var(--red);
+    box-shadow: 0 4px 14px rgba(239,68,68,.2); transform: translateY(-1px);
+}
+
+/* DOT */
+.dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.dot.green { background: var(--green); box-shadow:0 0 5px var(--green); animation: blink 2s infinite; }
+.dot.gray  { background: var(--text3); }
+@@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ─── EMPTY ─── */
+.empty-state {
+    grid-column: 1/-1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; padding: 72px 20px;
+    color: var(--text3); text-align: center;
+}
+.empty-state i { font-size: 3rem; opacity:.22; }
+.empty-state p  { font-size: .9rem; }
+
+/* ─── FOOTER ─── */
+.list-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 26px; flex-wrap: wrap; gap: 12px;
+}
+.hint { font-size: .75rem; color: var(--text3); }
+.footer-stats { display:flex; gap:14px; }
+.stat-pill { display:flex; align-items:center; gap:6px; font-size:.78rem; color:var(--text2); }
+.stat-pill strong { color: var(--text); }
+
+/* ─── BUTTONS ─── */
+.btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 18px; border-radius: var(--radius-sm);
+    font-family: var(--font-b); font-size: .85rem; font-weight: 600;
+    cursor: pointer; border: none; transition: all var(--tr);
+    text-decoration: none; white-space: nowrap;
+}
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent), #9b84f8);
+    color: #fff; box-shadow: 0 2px 16px var(--accent-glow);
+}
+.btn-primary:hover {
+    transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow);
+    filter: brightness(1.1); color:#fff; text-decoration:none;
+}
+
+@@media (max-width: 640px) {
+    .card-inner { padding: 16px 12px; }
+    .hero h1    { font-size: 1.35rem; }
+    .list-toolbar { flex-direction: column; align-items: stretch; }
+    .filter-group { justify-content: center; }
+    .team-grid { grid-template-columns: 1fr; }
+    .card-img-wrap { height: 180px; }
+}
+</style>
+
+<div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div>
+            <h1>Team • List</h1>
+            <p>Tüm çalışanları görüntüle, düzenle veya sil. Canlı arama ve filtre desteklenir.</p>
+        </div>
+        <div class="hero-right">
+            <div class="chip">@(Model?.Count ?? 0) Çalışan</div>
+            <a asp-action="CreateTeam" asp-controller="Team" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Yeni Ekle
+            </a>
+        </div>
+    </div>
+
+    <div class="glass-card">
+        <div class="card-inner">
+
+            <!-- TOOLBAR -->
+            <div class="list-toolbar">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="searchInput" class="input" placeholder="İsim veya ünvan ara..." />
+                </div>
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">Tümü</button>
+                    <button class="filter-btn" data-filter="active">Aktif</button>
+                    <button class="filter-btn" data-filter="passive">Pasif</button>
+                </div>
+            </div>
+
+            <!-- GRID -->
+            <div class="team-grid" id="teamGrid">
+
+                @if (Model != null && Model.Count > 0)
+                {
+                    int idx = 0;
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>@(count++)</td>
-                            <td>@item.FullName</td>
-                            <td>@item.Title</td>
-                            <td>@item.Sosial1</td>
-                            <td>@item.Sosial2</td>
-                            <td>@item.Sosial3</td>
-                            
-                             <td>
-                                @(item.Status ? "Aktif" : "Pasif")
-                            <td>
-                                <span>
-                                    <a asp-action="UpdateTeam" asp-controller="Team" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Edit">
-                                        <i class="fa fa-pencil color-muted m-r-5"></i>
-                                    </a>
-                                    
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                <a asp-action="DeleteTeam" asp-controller="Team" asp-route-id="@item.Id" data-toggle="tooltip" data-placement="top" title="Delete">
-                                        <i class="fa fa-close color-danger"></i>
-                                    </a>
-                                </span>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <h4 class="card-title"><a asp-action="CreateTeam" asp-controller="Team"> + Yeni Çalışan Etke</a></h4>
+                        idx++;
+                        var hasImg   = !string.IsNullOrEmpty(item.ImageUrl);
+                        var initials = string.Join("",
+                            (item.FullName ?? "?")
+                            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                            .Take(2).Select(w => w[0])).ToUpper();
+                        var firstLetter = (item.FullName ?? "T")[0].ToString().ToUpper();
 
+                        <div class="team-card"
+                             data-status="@(item.Status ? "active" : "passive")"
+                             data-name="@item.FullName?.ToLower()"
+                             data-title="@item.Title?.ToLower()"
+                             style="animation-delay:@(idx * 55)ms">
+
+                            <!-- IMAGE -->
+                            <div class="card-img-wrap">
+                                @if (hasImg)
+                                {
+                                    <img src="@item.ImageUrl" alt="@item.FullName" loading="lazy" />
+                                }
+                                else
+                                {
+                                    <div class="card-img-placeholder">
+                                        <span class="placeholder-letter">@firstLetter</span>
+                                        <div class="placeholder-avatar">@initials</div>
+                                    </div>
+                                }
+                                <div class="img-overlay"></div>
+                                <span class="img-id">#@item.Id</span>
+                                <div class="img-badge @(item.Status ? "active-badge" : "inactive-badge")">
+                                    <span class="dot @(item.Status ? "green" : "gray")"></span>
+                                    @(item.Status ? "Aktif" : "Pasif")
+                                </div>
+                                <div class="img-info">
+                                    <div class="img-name">@(item.FullName ?? "—")</div>
+                                    <div class="img-title">@(item.Title ?? "—")</div>
+                                </div>
+                            </div>
+
+                            <!-- SOCIAL BAR -->
+                            <div class="social-bar">
+                                @if (!string.IsNullOrEmpty(item.Sosial1))
+                                { <a href="@item.Sosial1" target="_blank" rel="noopener" class="s-btn x-btn" title="X"><i class="fa-brands fa-x-twitter"></i></a> }
+                                else { <span class="s-btn x-btn disabled"><i class="fa-brands fa-x-twitter"></i></span> }
+
+                                <div class="s-divider"></div>
+
+                                @if (!string.IsNullOrEmpty(item.Sosial2))
+                                { <a href="@item.Sosial2" target="_blank" rel="noopener" class="s-btn fb-btn" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a> }
+                                else { <span class="s-btn fb-btn disabled"><i class="fa-brands fa-facebook-f"></i></span> }
+
+                                <div class="s-divider"></div>
+
+                                @if (!string.IsNullOrEmpty(item.Sosial3))
+                                { <a href="@item.Sosial3" target="_blank" rel="noopener" class="s-btn ig-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a> }
+                                else { <span class="s-btn ig-btn disabled"><i class="fa-brands fa-instagram"></i></span> }
+                            </div>
+
+                            <!-- BODY -->
+                            <div class="card-body">
+                                <div class="pills-row">
+                                    <span class="pill accent-pill">
+                                        <i class="fa-solid fa-briefcase"></i>
+                                        @(item.Title ?? "—")
+                                    </span>
+                                    <span class="pill">
+                                        <i class="fa-solid fa-hashtag"></i>
+                                        @item.Id
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- FOOTER -->
+                            <div class="card-footer">
+                                <a asp-action="UpdateTeam" asp-controller="Team" asp-route-id="@item.Id"
+                                   class="act-btn act-edit">
+                                    <i class="fa-solid fa-pen"></i> Düzenle
+                                </a>
+                                <a asp-action="DeleteTeam" asp-controller="Team" asp-route-id="@item.Id"
+                                   class="act-btn act-delete"
+                                   onclick="return confirm('Bu çalışanı silmek istediğinize emin misiniz?')">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i class="fa-solid fa-users"></i>
+                        <p>Henüz çalışan eklenmedi.</p>
+                        <a asp-action="CreateTeam" asp-controller="Team" class="btn btn-primary" style="margin-top:4px;">
+                            İlk Çalışanı Ekle
+                        </a>
+                    </div>
+                }
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="list-footer">
+                <div class="hint" id="resultCount">@(Model?.Count ?? 0) çalışan gösteriliyor.</div>
+                <div class="footer-stats">
+                    <div class="stat-pill">
+                        <span class="dot green"></span>
+                        Aktif: <strong>@(Model?.Count(x => x.Status) ?? 0)</strong>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="dot gray"></span>
+                        Pasif: <strong>@(Model?.Count(x => !x.Status) ?? 0)</strong>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
+
+<script>
+(function () {
+    "use strict";
+
+    const searchInput = document.getElementById("searchInput");
+    const filterBtns  = document.querySelectorAll(".filter-btn");
+    const cards       = document.querySelectorAll("#teamGrid .team-card");
+    const resultCount = document.getElementById("resultCount");
+    let currentFilter = "all";
+
+    searchInput?.addEventListener("input", apply);
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.filter;
+            apply();
+        });
+    });
+
+    function apply() {
+        const q = (searchInput?.value || "").toLowerCase().trim();
+        let visible = 0;
+
+        cards.forEach(card => {
+            const matchSearch =
+                !q ||
+                (card.dataset.name  || "").includes(q) ||
+                (card.dataset.title || "").includes(q);
+            const matchFilter =
+                currentFilter === "all" ||
+                (currentFilter === "active"  && card.dataset.status === "active") ||
+                (currentFilter === "passive" && card.dataset.status === "passive");
+
+            const show = matchSearch && matchFilter;
+            card.classList.toggle("hidden", !show);
+            if (show) visible++;
+        });
+
+        if (resultCount) resultCount.textContent = `${visible} çalışan gösteriliyor.`;
+
+        const ex = document.getElementById("noResult");
+        if (visible === 0 && cards.length > 0) {
+            if (!ex) {
+                const el = document.createElement("div");
+                el.id = "noResult"; el.className = "empty-state";
+                el.style.gridColumn = "1/-1";
+                el.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i>
+                                <p>Arama kriterinize uygun çalışan bulunamadı.</p>`;
+                document.getElementById("teamGrid").appendChild(el);
+            }
+        } else if (ex) { ex.remove(); }
+    }
+
+})();
+</script>

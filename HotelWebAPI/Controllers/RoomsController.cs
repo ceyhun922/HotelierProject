@@ -8,12 +8,12 @@ namespace HotelWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RoomControllers : ControllerBase
+    public class RoomsController : ControllerBase
     {
         private readonly IRoomService _roomService;
          private readonly IMapper _mapper;
 
-        public RoomControllers(IRoomService roomService, IMapper mapper)
+        public RoomsController(IRoomService roomService, IMapper mapper)
         {
             _roomService = roomService;
             _mapper = mapper;

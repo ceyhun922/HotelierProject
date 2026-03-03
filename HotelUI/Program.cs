@@ -15,7 +15,6 @@ builder.Services.AddControllersWithViews(opt =>
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddHttpClient();
-
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -25,15 +24,18 @@ builder.Services.AddSession(options =>
 });
 
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(opt =>
+
+
+builder.Services.AddAuthentication("HotelCookie") 
+    .AddCookie("HotelCookie", opt => // Buraya da aynı ismi yazıyoruz
     {
         opt.LoginPath = "/Auth/Login";
         opt.LogoutPath = "/Auth/Logout";
+        opt.AccessDeniedPath = "/Error/AccessDenied"; 
         opt.ExpireTimeSpan = TimeSpan.FromDays(7);
         opt.SlidingExpiration = true;
+        opt.Cookie.Name = "HotelAuthCookie"; // Tarayıcıdaki cookie ismi
     });
-
 builder.Services.AddAuthorization();
 
 

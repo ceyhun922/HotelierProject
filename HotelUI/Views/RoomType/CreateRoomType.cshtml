@@ -1,10 +1,7 @@
 @using DTOs.RoomTypeDTOs
 @model CreateRoomTypeDto
 
-@{
-    ViewBag.Title = "Create Room Type";
-    ViewBag.BodyClass = "create-theme";
-}
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <link rel="stylesheet" href="~/css/create-theme.css" asp-append-version="true" />
@@ -93,21 +90,16 @@
 
 <div class="wrap">
     <div class="hero">
-        <div>
-            <h1>Room Type • Create</h1>
-            <p>Type ve Description gir. Sağda canlı görünüm var. Description preview 10 karakterden sonra “…” olur.</p>
-        </div>
-        <div class="chip">Dark • Purple • Glass</div>
+        <h1>Room Type • Create</h1>
+        <p>Type ve Description gir. Sağda canlı görünüm var. Description preview 10 karakterden sonra “…” olur.</p>
     </div>
+    <div class="chip">Dark • Purple • Glass</div>
 
     <div class="glass-card">
         <div class="card-inner">
-            @using (Html.BeginForm("CreateRoomType","RoomType",FormMethod.Post, new { id="rtForm", autocomplete="off" }))
-            {
-                @Html.AntiForgeryToken()
-
+            <form id="rtForm" autocomplete="off">
                 <div class="rt-grid">
-                    <!-- LEFT -->
+                    <!-- LEFT - Form Section -->
                     <div class="section">
                         <div class="section-title">
                             <div class="ttl">Form</div>
@@ -116,27 +108,27 @@
 
                         <div class="field">
                             <div class="label">Type</div>
-                            @Html.TextBoxFor(x => x.Type, new { @class="input", id="Type", placeholder="Örn: Deluxe Room" })
+                            <input type="text" id="Type" placeholder="Örn: Deluxe Room" class="input" />
                         </div>
 
                         <div class="field">
                             <div class="label">Description</div>
-                            @Html.TextAreaFor(x => x.Description, 6, 30, new { @class="input", id="Description", placeholder="Oda tipi açıklaması..." })
+                            <textarea id="Description" placeholder="Oda tipi açıklaması..." class="input"></textarea>
                             <div class="hint">Preview’de kısa gösterim: ilk 10 karakter + “…”</div>
                         </div>
 
                         <label class="toggle">
-                            @Html.CheckBoxFor(x => x.Status, new { id="Status" })
+                            <input type="checkbox" id="Status" />
                             <span>Aktif (Status)</span>
                         </label>
 
                         <div class="actions">
-                            <button type="reset" class="btn btn-ghost" id="btnReset">Temizle</button>
+                            <button type="reset" class="btn btn-ghost">Temizle</button>
                             <button type="submit" class="btn btn-primary">Ekle</button>
                         </div>
                     </div>
 
-                    <!-- RIGHT -->
+                    <!-- RIGHT - Preview Section -->
                     <div class="section">
                         <div class="section-title">
                             <div class="ttl">Canlı Görünüm</div>
@@ -145,13 +137,12 @@
 
                         <div class="live-card">
                             <div class="rt-preview-head">
-                                <div style="min-width:0; display:flex; flex-direction:column; gap:8px;">
+                                <div>
                                     <h3 class="rt-title" id="pvType">Room Type</h3>
                                     <p class="rt-desc" id="pvDesc">Description...</p>
                                 </div>
 
                                 <div class="rt-chip">
-                                    <i class="fa-solid fa-bed"></i>
                                     <span id="pvChip">ACTIVE</span>
                                 </div>
                             </div>
@@ -167,24 +158,21 @@
                                     <div class="v" id="rowDesc">—</div>
                                 </div>
 
-                                <div class="hint" style="margin-top:6px;">Not: Preview sadece frontend.</div>
+                                <div class="hint">Not: Preview sadece frontend.</div>
                             </div>
 
-                            <div class="live-media" style="height:auto;">
+                            <div class="live-media">
                                 <div class="live-overlay">
-                                    <div></div>
                                     <div class="badge inactive" id="liveBadge">
                                         <span class="dot"></span>
                                         <span id="liveBadgeText">Pasif</span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
-            }
+            </form>
         </div>
     </div>
 </div>

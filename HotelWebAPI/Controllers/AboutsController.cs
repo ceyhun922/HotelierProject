@@ -5,16 +5,16 @@ using EntityLayer.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Service.Concrete;
 
-namespace HotelWebAPI.Controllers
+namespace HotelWebAPI.Controller
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AboutControllers : ControllerBase
+    public class AboutsController : ControllerBase
     {
         private readonly IAboutService _aboutService;
         private readonly IMapper _mapper;
 
-        public AboutControllers(IAboutService aboutService, IMapper mapper)
+        public AboutsController(IAboutService aboutService, IMapper mapper)
         {
             _aboutService = aboutService;
             _mapper = mapper;

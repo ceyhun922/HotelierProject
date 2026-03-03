@@ -1,99 +1,61 @@
 @using HotelUI.Models
 @model RoleAuthorityViewModel
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Rol Ataması - @Model.User.UserName</h4>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4><i class="fas fa-user-shield"></i> Rol Yetkilendirme: @Model.User.UserName</h4>
+        </div>
+        <div class="card-body">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Hata:</strong> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            <form asp-action="RoleAuthority" method="post">
+                <input type="hidden" name="userId" value="@Model.UserId" />
+                
+                <div class="list-group mb-3">
+                    <h6 class="mb-3 text-muted">Mevcut Rolleri Seçin veya Kaldırın:</h6>
+                    @foreach (var role in Model.Roles)
+                    {
+                        bool hasRole = Model.UserRoles.Contains(role.Name);
+                        
+                        <label class="list-group-item d-flex justify-content-between align-items-center list-group-item-action">
+                            <div>
+                                <input type="checkbox" 
+                                       name="selectedRoles" 
+                                       value="@role.Name" 
+                                       class="form-check-input me-2"
+                                       @(hasRole ? "checked" : "") /> <strong>@role.Name</strong>
+                            </div>
+                            @if (hasRole)
+                            {
+                                <span class="badge bg-success rounded-pill">Aktif</span>
+                            }
+                        </label>
+                    }
                 </div>
 
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-12">
-                            <div class="alert alert-info">
-                                <strong>Kullanıcı:</strong> @Model.User.UserName<br>
-                                <strong>Email:</strong> @Model.User.Email <br>
-                                <strong>Role:</strong>  
-                                @if (Model.UserRoles != null && Model.UserRoles.Any())
-                                {
-                                    <span>@Model.User.Roles</span>
-                                }
-                                else
-                                {
-                                    <span class="text-muted">Henüz rol atanmamış</span>
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    @using (Html.BeginForm("RoleAuthority", "RoleAssign", FormMethod.Post))
-                    {
-                         <input type="hidden" name="userId" value="@Model.UserId" />
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="mb-3">Mevcut Roller:</h5>
-                                
-                                @if (Model.Roles != null && Model.Roles.Any())
-                                {
-                                    <div class="form-group">
-                                        @foreach (var role in Model.Roles)
-                                        {
-                                            <div class="form-check mb-2">
-                                                <input type="checkbox" 
-                                                       class="form-check-input" 
-                                                       name="selectedRoles" 
-                                                       value="@role.Name" 
-                                                       id="role_@role.Id"
-                                                       @(Model.UserRoles != null && Model.UserRoles.Contains(role.Name) ? "checked" : "")
-                                                       >
-                                                <label class="form-check-label" for="role_@role.Id">
-                                                    <strong>@role.Name</strong>
-                                                </label>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                                else
-                                {
-                                    <p class="text-muted">Sistemde rol bulunamadı.</p>
-                                }
-                            </div>
-
-                            <div class="col-md-6">
-                                <h5 class="mb-3">İşlemler:</h5>
-                                
-                                <button type="submit" class="btn btn-primary btn-lg btn-block mb-2">
-                                    <i class="fa fa-save mr-2"></i> Rolleri Kaydet
-                                </button>
-                                
-                                <a asp-action="Index" asp-controller="User" class="btn btn-secondary btn-lg btn-block">
-                                    <i class="fa fa-arrow-left mr-2"></i> Geri Dön
-                                </a>
-                            </div>
-                        </div>
-                    }
-
-                    @if (TempData["Success"] != null)
-                    {
-                        <div class="alert alert-success alert-dismissible fade show mt-3">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>Başarılı!</strong> @TempData["Success"]
-                        </div>
-                    }
-                    
-                    @if (TempData["Error"] != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible fade show mt-3">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>Hata!</strong> @TempData["Error"]
-                        </div>
-                    }
-
+                <div class="d-flex gap-2 border-top pt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Değişiklikleri Kaydet
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Listeye Dön
+                    </a>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

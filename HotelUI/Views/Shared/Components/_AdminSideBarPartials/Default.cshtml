@@ -300,24 +300,29 @@
         <div class="sb-group">
             <div class="sb-group-title">Kullanıcı & Rol</div>
             <ul class="sb-menu">
+              
                 <li>
                     <a class="sb-link @IsActive("User","UserList")" asp-action="UserList" asp-controller="User">
                         <span class="sb-ico"><i class="fa-solid fa-user"></i></span>
                         <span class="sb-text">Kullanıcılar</span>
                     </a>
                 </li>
+                @if(User.IsInRole("Admin"))
+               {
                 <li>
                     <a class="sb-link @IsActive("Role","RoleList")" asp-action="RoleList" asp-controller="Role">
                         <span class="sb-ico"><i class="fa-solid fa-id-badge"></i></span>
                         <span class="sb-text">Roller</span>
                     </a>
                 </li>
+               
                 <li>
                     <a class="sb-link @IsActive("RoleAssign","Index")" asp-controller="RoleAssign" asp-action="Index">
                         <span class="sb-ico"><i class="fa-solid fa-user-shield"></i></span>
                         <span class="sb-text">Rol Atamaları</span>
                     </a>
                 </li>
+                }
                 <li>
                     <a class="sb-link @IsActive("Profile","Index")"
                        asp-action="Index" asp-controller="Profile"

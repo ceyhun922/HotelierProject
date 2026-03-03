@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/00e61dc0-58cc-42f4-ad61-be1b6000942a.jpg",
+      "PackagePath": "staticwebassets/images/00e61dc0-58cc-42f4-ad61-be1b6000942a.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/028c0ef0-e2f9-4546-bedd-5a50c162a01b.jpg",
       "PackagePath": "staticwebassets/images/028c0ef0-e2f9-4546-bedd-5a50c162a01b.jpg"
     },
@@ -25,6 +29,10 @@
       "PackagePath": "staticwebassets/images/36f7d339-26c1-42f8-838e-cca104951c7e.jpg"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/45fa60c9-84ac-471c-ab46-fa520827b890.jpg",
+      "PackagePath": "staticwebassets/images/45fa60c9-84ac-471c-ab46-fa520827b890.jpg"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/62d99af8-1679-45bc-8f59-dbc20cf440b8.jpg",
       "PackagePath": "staticwebassets/images/62d99af8-1679-45bc-8f59-dbc20cf440b8.jpg"
     },
@@ -43,6 +51,10 @@
     {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/89aafe1d-57cc-4dbd-8f29-80cdea044510.jpg",
       "PackagePath": "staticwebassets/images/89aafe1d-57cc-4dbd-8f29-80cdea044510.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/8e19f2aa-4199-4dad-880a-8edb7375f14b.jpg",
+      "PackagePath": "staticwebassets/images/8e19f2aa-4199-4dad-880a-8edb7375f14b.jpg"
     },
     {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/959a7dfd-4d4a-4721-8579-a96ac587fae5.jpg",
@@ -87,6 +99,14 @@
     {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg",
       "PackagePath": "staticwebassets/images/e9344480-ffa1-4377-b357-0b8249a21dc3.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/e9a9a5ba-c48d-4c98-a93e-39c0aec9c725.jpg",
+      "PackagePath": "staticwebassets/images/e9a9a5ba-c48d-4c98-a93e-39c0aec9c725.jpg"
+    },
+    {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelWebAPI/wwwroot/images/fabad04c-fe94-4bcf-b7d6-2abe3225767f.jpg",
+      "PackagePath": "staticwebassets/images/fabad04c-fe94-4bcf-b7d6-2abe3225767f.jpg"
     },
     {
       "Id": "obj/Debug/net6.0/staticwebassets/msbuild.HotelWebAPI.Microsoft.AspNetCore.StaticWebAssets.props",

@@ -9,12 +9,12 @@ namespace HotelUI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MessageControllers : ControllerBase
+    public class MessagesController : ControllerBase
     {
         private readonly IMessageService _messageService;
         private readonly IMapper _mapper;
 
-        public MessageControllers(IMessageService messageService, IMapper mapper)
+        public MessagesController(IMessageService messageService, IMapper mapper)
         {
             _messageService = messageService;
             _mapper = mapper;

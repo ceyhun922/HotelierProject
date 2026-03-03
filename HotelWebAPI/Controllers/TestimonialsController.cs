@@ -8,12 +8,12 @@ namespace HotelWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestimonialControllers : ControllerBase
+    public class TestimonialsController : ControllerBase
     {
         private readonly ITestimonialService _testimonialService;
         private readonly IMapper _mapper;
 
-        public TestimonialControllers(ITestimonialService testimonialService, IMapper mapper)
+        public TestimonialsController(ITestimonialService testimonialService, IMapper mapper)
         {
             _testimonialService = testimonialService;
             _mapper = mapper;

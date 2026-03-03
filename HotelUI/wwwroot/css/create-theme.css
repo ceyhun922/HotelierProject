@@ -1,390 +1,119 @@
-/* =========================
-   CREATE THEME (Glass / Purple)
-   File: create-theme.css
-   ========================= */
+/* list-theme.css */
 
-/* ====== Tokens ====== */
-:root{
-  --bg1:#07040d; --bg2:#150725;
-  --p1:#a855f7; --p2:#22d3ee; --pink:#ec4899;
-  --border: rgba(255,255,255,.14);
-  --text: rgba(255,255,255,.92);
-  --muted: rgba(255,255,255,.62);
-  --shadow: 0 20px 70px rgba(0,0,0,.55);
-  --danger:#fb7185; --ok:#34d399;
+/* Genel Stil */
+body {
+    background-color: #2E2C41;
+    color: white;
+    font-family: 'Arial', sans-serif;
 }
 
-/* ====== Scope: only Create pages ====== */
-body.create-theme{
-  background:
-    radial-gradient(1200px 600px at 15% 15%, rgba(168,85,247,.25), transparent 55%),
-    radial-gradient(900px 450px at 85% 30%, rgba(34,211,238,.16), transparent 60%),
-    radial-gradient(700px 380px at 50% 85%, rgba(236,72,153,.12), transparent 65%),
-    linear-gradient(160deg, var(--bg1), var(--bg2));
-  color: var(--text);
-  min-height: 100vh;
+/* Arama Alanı */
+.search-panel {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-start;
 }
 
-/* ====== Layout Blocks ====== */
-.create-theme .wrap{ max-width:1080px; margin:42px auto; padding:0 18px; }
-
-.create-theme .hero{
-  display:flex; align-items:flex-end; justify-content:space-between;
-  gap:18px; margin-bottom:18px;
-}
-.create-theme .hero h1{ margin:0; font-size:26px; letter-spacing:.2px; color:#fff; }
-.create-theme .hero p{
-  margin:8px 0 0; color:var(--muted); line-height:1.5; max-width:720px;
+.search-input {
+    background-color: rgba(255, 255, 255, 0.1); /* Cam etkisiyle şeffaf arka plan */
+    border: 1px solid #6c5ce7; /* Neon mavi sınır */
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    transition: background-color 0.3s ease;
 }
 
-.create-theme .chip{
-  font-size:12px; padding:7px 12px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(168,85,247,.14);
-  color: rgba(255,255,255,.88);
-  white-space:nowrap;
+.search-input:focus {
+    background-color: rgba(255, 255, 255, 0.2); /* Odaklanıldığında şeffaflık artar */
+    border-color: #6c5ce7; /* Neon mavi sınır rengi */
+    outline: none;
 }
 
-/* ====== Glass Card ====== */
-.create-theme .glass-card{
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  overflow:hidden;
-}
-.create-theme .card-inner{ padding:18px; }
-
-.create-theme .grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:16px; }
-@media (max-width: 940px){ .create-theme .grid{ grid-template-columns:1fr; } }
-
-/* ====== Sections ====== */
-.create-theme .section{
-  padding:14px;
-  border-radius:18px;
-  background: rgba(0,0,0,.18);
-  border: 1px solid rgba(255,255,255,.10);
-}
-.create-theme .section-title{
-  display:flex; align-items:center; justify-content:space-between;
-  margin:2px 0 12px;
-}
-.create-theme .section-title .ttl{ font-weight:900; }
-.create-theme .tag{
-  font-size:12px; padding:6px 10px; border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(34,211,238,.10);
-  color: rgba(255,255,255,.88);
+/* Card Yapısı - Glassmorphism */
+.card-hover {
+    background: rgba(255, 255, 255, 0.1); /* Cam efekti */
+    backdrop-filter: blur(10px); /* Arka plan bulanıklığı */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
 }
 
-/* ====== Form ====== */
-.create-theme .form-row{
-  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;
-}
-@media (max-width: 560px){ .create-theme .form-row{ grid-template-columns:1fr; } }
-
-.create-theme .field{ display:flex; flex-direction:column; gap:7px; }
-.create-theme .label{
-  font-size:12px; color: rgba(255,255,255,.72); letter-spacing:.2px;
+.card-hover:hover {
+    transform: translateY(-10px); /* Hoverda yükselme efekti */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
 }
 
-.create-theme .input{
-  width:100%;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  color: var(--text);
-  padding: 12px;
-  outline:none;
-  transition:.18s ease;
-  box-shadow: 0 10px 25px rgba(0,0,0,.18);
-}
-.create-theme .input::placeholder{ color: rgba(255,255,255,.38); }
-.create-theme .input:focus{
-  border-color: rgba(168,85,247,.55);
-  box-shadow: 0 0 0 4px rgba(168,85,247,.18), 0 16px 40px rgba(0,0,0,.25);
-  background: rgba(255,255,255,.08);
+/* Başlıklar ve Yazılar */
+.card-title {
+    color: #6c5ce7; /* Mor başlık rengi */
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.create-theme .hint{
-  font-size:12px; color: rgba(255,255,255,.52); margin-top:-2px;
-}
-.create-theme .err{ font-size:12px; color: var(--danger); display:none; }
-
-/* ====== File Input ====== */
-.create-theme .file-holder{ position:relative; }
-.create-theme .file-ui{
-  display:flex; align-items:center; gap:12px;
-  border-radius:14px;
-  border:1px dashed rgba(255,255,255,.22);
-  background: rgba(255,255,255,.05);
-  padding:12px;
-}
-.create-theme .file-btn{
-  padding:10px 12px;
-  border-radius:12px;
-  background: rgba(168,85,247,.20);
-  border:1px solid rgba(168,85,247,.35);
-  font-weight:900;
-  font-size:13px;
-  white-space:nowrap;
-}
-.create-theme .file-name{
-  color: rgba(255,255,255,.78);
-  font-size:13px;
-  overflow:hidden; text-overflow: ellipsis; white-space: nowrap; flex:1;
-}
-.create-theme .file-real{ position:absolute; inset:0; opacity:0; cursor:pointer; }
-
-/* ====== Checkbox / Toggle ====== */
-.create-theme .toggle{
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.06);
-  margin-top:12px;
-}
-.create-theme .toggle input{ width:18px; height:18px; accent-color: var(--p1); }
-.create-theme .toggle span{ color: rgba(255,255,255,.85); font-size:13px; }
-
-/* ====== Buttons ====== */
-.create-theme .actions{
-  display:flex; gap:10px; justify-content:flex-end;
-  margin-top:14px; flex-wrap:wrap;
-}
-.create-theme .btn{
-  border:0; cursor:pointer;
-  padding:12px 14px;
-  border-radius:14px;
-  color: rgba(255,255,255,.92);
-  font-weight:900;
-  letter-spacing:.2px;
-  transition: transform .12s ease, filter .12s ease;
-  user-select:none;
-}
-.create-theme .btn:active{ transform: translateY(1px); }
-
-.create-theme .btn-primary{
-  background: linear-gradient(135deg, rgba(168,85,247,.95), rgba(236,72,153,.85));
-  box-shadow: 0 14px 35px rgba(168,85,247,.26);
-}
-.create-theme .btn-primary:hover{ filter: brightness(1.05); }
-
-.create-theme .btn-ghost{
-  background: rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.14);
-}
-.create-theme .btn-ghost:hover{ filter: brightness(1.06); }
-
-/* ====== Social Inputs ====== */
-.create-theme .social-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:10px; }
-@media (max-width: 560px){ .create-theme .social-grid{ grid-template-columns:1fr; } }
-.create-theme .social-one{ margin-top:12px; }
-
-.create-theme .social-input{
-  display:flex; align-items:center; gap:10px;
-  padding:12px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.05);
-  box-shadow: 0 10px 25px rgba(0,0,0,.16);
-}
-.create-theme .sicon{
-  width:42px; height:42px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.15);
-  background: rgba(0,0,0,.22);
-  display:flex; align-items:center; justify-content:center;
-  flex:0 0 auto;
-}
-.create-theme .sicon i,
-.create-theme .pico i{
-  display:inline-block !important;
-  font-size:18px !important;
-  line-height:1 !important;
-  color: rgba(255,255,255,.92) !important;
-  opacity:1 !important;
-  visibility: visible !important;
-}
-.create-theme .sprefix{
-  color: rgba(255,255,255,.48);
-  font-size:12.5px;
-  font-weight:900;
-  white-space:nowrap;
-}
-.create-theme .social-input input{
-  border:none;
-  outline:none;
-  background: transparent;
-  color:#fff;
-  width:100%;
-  font-weight:850;
-  font-size:13px;
-}
-.create-theme .social-input input::placeholder{
-  color: rgba(255,255,255,.38);
-  font-weight:750;
+.card-text {
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
-/* ====== Live Preview Card ====== */
-.create-theme .live-card{
-  border-radius:20px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.14);
-  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-  box-shadow: 0 20px 55px rgba(0,0,0,.55);
+/* Durum Etiketleri */
+.status-badge {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 10px;
 }
 
-.create-theme .live-media{
-  height:210px;
-  position:relative;
-  background:
-    radial-gradient(700px 240px at 20% 20%, rgba(168,85,247,.25), transparent 55%),
-    radial-gradient(700px 240px at 80% 30%, rgba(34,211,238,.18), transparent 58%),
-    rgba(0,0,0,.30);
-}
-.create-theme .live-media img{
-  width:100%; height:100%;
-  object-fit: cover;
-  display:none;
-  filter:saturate(1.05) contrast(1.03);
-  transform: scale(1.02);
-}
-.create-theme .live-media .ph{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  color: rgba(255,255,255,.60);
-  font-size:13px; text-align:center;
-  padding:16px; line-height:1.4;
-}
-.create-theme .live-media::after{
-  content:"";
-  position:absolute; inset:0;
-  background: linear-gradient(180deg, rgba(0,0,0,.12), rgba(0,0,0,.55));
-  pointer-events:none;
+.active {
+    background-color: #28a745; /* Yeşil renk (Aktif) */
+    color: white;
 }
 
-.create-theme .live-overlay{
-  position:absolute; left:14px; right:14px; bottom:12px;
-  display:flex; align-items:flex-end; justify-content:space-between;
-  gap:12px; z-index:2;
-}
-.create-theme .live-left{
-  display:flex; gap:12px; align-items:flex-end;
-  min-width:0;
+.inactive {
+    background-color: #e74c3c; /* Kırmızı renk (Pasif) */
+    color: white;
 }
 
-.create-theme .avatar{
-  width:64px; height:64px;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.20);
-  background: rgba(0,0,0,.28);
-  overflow:hidden;
-  box-shadow: 0 16px 40px rgba(0,0,0,.35);
-  flex:0 0 auto;
-}
-.create-theme .avatar img{ width:100%; height:100%; object-fit:cover; display:none; }
-.create-theme .avatar .aph{
-  width:100%; height:100%;
-  display:flex; align-items:center; justify-content:center;
-  color: rgba(255,255,255,.60);
-  font-size:11px; padding:8px;
-  text-align:center; line-height:1.2;
+/* Butonlar */
+.btn-sm {
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 5px;
 }
 
-.create-theme .live-text{ min-width:0; }
-.create-theme .live-name{
-  margin:0; font-size:18px; font-weight:950;
-  line-height:1.15; color:#fff;
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
-}
-.create-theme .live-title{
-  margin:6px 0 0;
-  color: rgba(255,255,255,.72);
-  font-size:13px;
-  text-shadow: 0 10px 30px rgba(0,0,0,.55);
+.btn-primary {
+    background-color: #6c5ce7; /* Neon mor buton */
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
-/* Status Badge */
-.create-theme .badge{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:8px 12px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.25);
-  color: rgba(255,255,255,.88);
-  font-size:12px; font-weight:950;
-  width: fit-content;
-  box-shadow: 0 12px 35px rgba(0,0,0,.30);
-  white-space:nowrap;
-}
-.create-theme .dot{
-  width:8px; height:8px; border-radius:999px;
-  background: rgba(255,255,255,.55);
-  box-shadow: 0 0 0 3px rgba(255,255,255,.10);
-}
-.create-theme .badge.active{
-  border-color: rgba(52,211,153,.32);
-  background: rgba(52,211,153,.14);
-}
-.create-theme .badge.active .dot{
-  background: var(--ok);
-  box-shadow: 0 0 0 3px rgba(52,211,153,.18);
-}
-.create-theme .badge.inactive{
-  border-color: rgba(251,113,133,.32);
-  background: rgba(251,113,133,.14);
-}
-.create-theme .badge.inactive .dot{
-  background: var(--danger);
-  box-shadow: 0 0 0 3px rgba(251,113,133,.18);
+.btn-primary:hover {
+    background-color: #5a4cc8; /* Hoverda daha koyu mor */
 }
 
-/* Preview Body */
-.create-theme .live-body{ padding:14px; }
-.create-theme .live-row{
-  display:flex; justify-content:space-between; gap:10px;
-  padding:12px 14px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.18);
-  margin-bottom:10px;
-}
-.create-theme .live-row .k{
-  color: rgba(255,255,255,.55);
-  font-size:12px; font-weight:900;
-}
-.create-theme .live-row .v{
-  color: rgba(255,255,255,.90);
-  font-size:12.5px;
-  text-align:right;
-  font-weight:800;
+.btn-danger {
+    background-color: #e74c3c; /* Kırmızı (Silme butonu) */
+    border: none;
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
-/* Preview Icons */
-.create-theme .preview-socials{ display:flex; gap:10px; margin-top:10px; }
-.create-theme .pico{
-  width:38px; height:38px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.15);
-  background: rgba(0,0,0,.22);
-  display:flex; align-items:center; justify-content:center;
-  text-decoration:none;
-  box-shadow: 0 12px 30px rgba(0,0,0,.25);
-  transition: transform .12s ease, filter .12s ease, background .12s ease;
-  color: rgba(255,255,255,.92);
+.btn-danger:hover {
+    background-color: #c0392b; /* Hoverda daha koyu kırmızı */
 }
-.create-theme .pico:active{ transform: translateY(1px); }
-.create-theme .pico:hover{
-  filter: brightness(1.06);
-  background: rgba(168,85,247,.18);
-}
-.create-theme .pico.off{ opacity:.32; pointer-events:none; filter: grayscale(1); }
 
-/* ====== Small Utilities (optional) ====== */
-.create-theme .text-muted{ color: var(--muted); }
-.create-theme .mt-10{ margin-top:10px; }
-.create-theme .mb-0{ margin-bottom:0; }
+/* Yeni Oda Tipi Ekle Butonu */
+.btn-warning {
+    background-color: #f39c12; /* Sarı renk (Yeni kategori butonu) */
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #e67e22; /* Hoverda daha koyu sarı */
+}

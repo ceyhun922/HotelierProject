@@ -9,12 +9,12 @@ namespace HotelWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ContactControllers : ControllerBase
+    public class ContactsController : ControllerBase
     {
         private readonly IContactService _contactService;
         private readonly IMapper _mapper;
 
-        public ContactControllers(IContactService contactService, IMapper mapper)
+        public ContactsController(IContactService contactService, IMapper mapper)
         {
             _contactService = contactService;
             _mapper = mapper;

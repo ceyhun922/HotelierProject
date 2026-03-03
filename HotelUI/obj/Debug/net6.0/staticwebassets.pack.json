@@ -20857,6 +20857,10 @@
       "PackagePath": "staticwebassets/css/create-theme.css"
     },
     {
+      "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/list-theme.css",
+      "PackagePath": "staticwebassets/css/list-theme.css"
+    },
+    {
       "Id": "/Users/ceyhunyusif/Documents/Hotelier/HotelUI/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
